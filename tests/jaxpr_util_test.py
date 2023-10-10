@@ -12,19 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import os
 import gzip
 import json
+import os
 
 from absl.testing import absltest
 
 import jax
-from jax import jit, make_jaxpr, numpy as jnp
-from jax._src import jaxpr_util
-from jax._src.lib import xla_client
-from jax._src import test_util as jtu
 from jax import config
+from jax import jit
+from jax import make_jaxpr
+from jax import numpy as jnp
 
+from jax._src import jaxpr_util
+from jax._src import test_util as jtu
+from jax._src.lib import xla_client
 
 config.parse_flags_with_absl()
 

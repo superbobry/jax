@@ -2,7 +2,8 @@ import numpy as np
 
 import jax.numpy as jnp
 import jax.numpy.linalg as la
-from jax._src.numpy.util import check_arraylike, _wraps
+
+from jax._src.numpy.util import _wraps, check_arraylike
 
 
 def _isEmpty2d(arr):

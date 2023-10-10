@@ -22,22 +22,24 @@ import threading
 import time
 from typing import Callable, Optional
 import unittest
-from unittest import skip, SkipTest
+from unittest import skip
+from unittest import SkipTest
 
 from absl.testing import absltest
 
 import jax
 from jax import ad_checkpoint
-from jax._src import core
 from jax import config
 from jax import dtypes
-from jax.experimental import host_callback as hcb
-from jax.sharding import PartitionSpec as P
-from jax.experimental import pjit
 from jax import lax
 from jax import numpy as jnp
-from jax._src import test_util as jtu
 from jax import tree_util
+from jax.experimental import host_callback as hcb
+from jax.experimental import pjit
+from jax.sharding import PartitionSpec as P
+
+from jax._src import core
+from jax._src import test_util as jtu
 from jax._src import xla_bridge
 from jax._src.lib import xla_client
 

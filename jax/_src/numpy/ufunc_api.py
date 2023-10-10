@@ -23,16 +23,19 @@ from functools import partial
 import operator
 from typing import Any, Callable, Optional
 
+import numpy as np
+
 import jax
-from jax._src.typing import Array, ArrayLike, DTypeLike
+
 from jax._src.lax import lax as lax_internal
 from jax._src.numpy import reductions
-from jax._src.numpy.lax_numpy import _eliminate_deprecated_list_indexing, append, take
+from jax._src.numpy.lax_numpy import (
+    _eliminate_deprecated_list_indexing, append, take)
 from jax._src.numpy.reductions import _moveaxis
-from jax._src.numpy.util import _wraps, check_arraylike, _broadcast_to, _where
+from jax._src.numpy.util import _broadcast_to, _where, _wraps, check_arraylike
 from jax._src.numpy.vectorize import vectorize
+from jax._src.typing import Array, ArrayLike, DTypeLike
 from jax._src.util import canonicalize_axis, set_module
-import numpy as np
 
 
 def get_if_single_primitive(fun: Callable[..., Any], *args: Any) -> Optional[jax.core.Primitive]:

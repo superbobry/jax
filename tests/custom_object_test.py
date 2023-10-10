@@ -12,24 +12,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from absl.testing import absltest
 import math
 import unittest
 
+from absl.testing import absltest
 import numpy as np
 
-import jax.numpy as jnp
-from jax import jit, lax, make_jaxpr
 from jax import config
+from jax import jit
+from jax import lax
+from jax import make_jaxpr
 from jax.interpreters import mlir
 from jax.interpreters import xla
+import jax.numpy as jnp
 
 from jax._src import core
 from jax._src import dtypes
 from jax._src import test_util as jtu
 from jax._src import xla_bridge
-from jax._src.lib.mlir import ir
 from jax._src.lib import xla_client
+from jax._src.lib.mlir import ir
 
 xc = xla_client
 xb = xla_bridge

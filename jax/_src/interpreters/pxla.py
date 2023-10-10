@@ -15,17 +15,18 @@
 
 from __future__ import annotations
 
-import enum
-from contextlib import contextmanager
 from collections import namedtuple
-from collections.abc import Sequence, Iterable
+from collections.abc import Iterable, Sequence
+from contextlib import contextmanager
 import dataclasses
-from functools import partial, lru_cache, cached_property
+import enum
+from functools import cached_property, lru_cache, partial
 import itertools as it
 import logging
 import math
 import threading
-from typing import (Any, Callable, NamedTuple, Iterator, Optional, Union, cast, TypeVar)
+from typing import (
+    Any, Callable, cast, Iterator, NamedTuple, Optional, TypeVar, Union)
 import warnings
 
 import numpy as np
@@ -43,21 +44,20 @@ from jax._src import effects
 from jax._src import linear_util as lu
 from jax._src import mesh as mesh_lib
 from jax._src import op_shardings
-from jax._src import sharding_specs
 from jax._src import profiler
 from jax._src import sharding_impls
+from jax._src import sharding_specs
 from jax._src import source_info_util
 from jax._src import stages
 from jax._src import tree_util
 from jax._src import util
 from jax._src import xla_bridge as xb
 from jax._src.abstract_arrays import array_types
-from jax._src.core import DShapedArray
-from jax._src.core import ShapedArray
+from jax._src.core import DShapedArray, ShapedArray
 from jax._src.interpreters import ad
 from jax._src.interpreters import batching
-from jax._src.interpreters import partial_eval as pe
 from jax._src.interpreters import mlir
+from jax._src.interpreters import partial_eval as pe
 from jax._src.interpreters import xla
 from jax._src.lib import xla_client as xc
 from jax._src.lib import xla_extension_version
@@ -65,14 +65,12 @@ from jax._src.lib.mlir import ir
 from jax._src.lib.mlir.dialects import hlo
 from jax._src.partition_spec import PartitionSpec
 from jax._src.sharding_impls import (
-    ArrayMapping, ArrayMappingOrAutoOrUnspecified,
-    AUTO, UnspecifiedValue, UNSPECIFIED,
+    ArrayMapping, ArrayMappingOrAutoOrUnspecified, AUTO,
     get_array_mapping as _get_array_mapping, is_auto, is_unspecified,
-    is_unspecified_or_auto
-)
-from jax._src.util import (safe_map, safe_zip, partition_list,
-                           wrap_name, tuple_delete, distributed_debug_log,
-                           unzip2, HashableFunction, weakref_lru_cache)
+    is_unspecified_or_auto, UNSPECIFIED, UnspecifiedValue)
+from jax._src.util import (
+    distributed_debug_log, HashableFunction, partition_list, safe_map,
+    safe_zip, tuple_delete, unzip2, weakref_lru_cache, wrap_name)
 
 
 # Built in Python lists don't support weak refs but subclasses of lists do.
@@ -325,6 +323,7 @@ def _emap_impl(fun: lu.WrappedFun, *args,
                is_explicit_global_axis_size: bool,
                ):
   from jax._src import array
+
   # TODO(sharadmv,mattjj): implement these cases
   if any(d for d in donated_invars):
     raise NotImplementedError("Buffer donation not supported in eager pmap.")

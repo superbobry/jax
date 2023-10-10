@@ -15,22 +15,23 @@
 
 import contextlib
 import unittest
+
 from absl.testing import absltest
+import numpy as np
+
 import jax
 from jax import config
+from jax.experimental import topologies
+from jax.experimental.pjit import pjit
+from jax.experimental.serialize_executable import deserialize_and_load
+from jax.experimental.serialize_executable import serialize
+import jax.numpy as jnp
+from jax.sharding import PartitionSpec as P
+
 from jax._src import core
 from jax._src import test_util as jtu
 from jax._src.lib import xla_client as xc
 from jax._src.lib import xla_extension_version
-from jax.experimental import topologies
-from jax.experimental.pjit import pjit
-from jax.experimental.serialize_executable import (
-    deserialize_and_load,
-    serialize,
-)
-import jax.numpy as jnp
-from jax.sharding import PartitionSpec as P
-import numpy as np
 
 config.parse_flags_with_absl()
 

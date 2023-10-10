@@ -18,14 +18,13 @@ import pickle
 
 from absl.testing import absltest
 from absl.testing import parameterized
-
 import numpy as np
 
 import jax
-import jax._src.test_util as jtu
+from jax import config
 import jax.numpy as jnp
 
-from jax import config
+import jax._src.test_util as jtu
 
 config.parse_flags_with_absl()
 

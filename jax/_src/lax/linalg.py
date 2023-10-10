@@ -12,11 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import inspect
 import functools
 from functools import partial
+import inspect
 import math
-from typing import cast, Any, Callable, Literal, Optional, TypeVar, Union, overload
+from typing import (
+    Any, Callable, cast, Literal, Optional, overload, TypeVar, Union)
 import warnings
 
 import numpy as np
@@ -29,7 +30,8 @@ from jax._src import api
 from jax._src import dispatch
 from jax._src import dtypes
 from jax._src.core import (
-    Primitive, ShapedArray, raise_to_shaped, is_constant_dim, is_constant_shape)
+    is_constant_dim, is_constant_shape, Primitive, raise_to_shaped,
+    ShapedArray)
 from jax._src.interpreters import ad
 from jax._src.interpreters import batching
 from jax._src.interpreters import mlir
@@ -38,8 +40,8 @@ from jax._src.lax import eigh as lax_eigh
 from jax._src.lax import lax as lax_internal
 from jax._src.lax import svd as lax_svd
 from jax._src.lax.lax import (
-    standard_primitive, standard_unop, naryop_dtype_rule, _float, _complex,
-    _input_dtype)
+    _complex, _float, _input_dtype, naryop_dtype_rule, standard_primitive,
+    standard_unop)
 from jax._src.lib import gpu_linalg
 from jax._src.lib import gpu_solver
 from jax._src.lib import gpu_sparse

@@ -22,8 +22,8 @@ import types
 from typing import Any, Callable, DefaultDict, Optional
 
 from jax._src import core
-from jax._src import util
 from jax._src import source_info_util
+from jax._src import util
 from jax._src.lib import xla_client
 
 map, unsafe_map = util.safe_map, map

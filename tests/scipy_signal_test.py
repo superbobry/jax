@@ -17,17 +17,17 @@ from functools import partial
 import unittest
 
 from absl.testing import absltest
-
 import numpy as np
 import scipy.signal as osp_signal
 
+from jax import config
 from jax import lax
 import jax.numpy as jnp
-from jax._src import dtypes
-from jax._src import test_util as jtu
 import jax.scipy.signal as jsp_signal
 
-from jax import config
+from jax._src import dtypes
+from jax._src import test_util as jtu
+
 config.parse_flags_with_absl()
 
 onedim_shapes = [(1,), (2,), (5,), (10,)]

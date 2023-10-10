@@ -19,15 +19,15 @@ from __future__ import annotations
 import dataclasses
 from typing import Any, Tuple
 
+import numpy as np
+
 import jax
 from jax import core as jax_core
 from jax import tree_util
-from jax._src.interpreters import mlir
-from jax._src.util import merge_lists
-from jax._src.util import partition_list
 import jax.numpy as jnp
-import numpy as np
 
+from jax._src.interpreters import mlir
+from jax._src.util import merge_lists, partition_list
 
 # Currently, JAX doesn't have a primitive that does an equal-rank broadcast.
 # We could use `jnp.broadcast_to` but that lowers to squeezing,

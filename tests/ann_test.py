@@ -16,14 +16,13 @@ from functools import partial
 import math
 
 from absl.testing import absltest
-
 import numpy as np
 
 import jax
-from jax import lax
-from jax._src import test_util as jtu
-
 from jax import config
+from jax import lax
+
+from jax._src import test_util as jtu
 
 config.parse_flags_with_absl()
 

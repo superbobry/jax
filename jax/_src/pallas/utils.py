@@ -14,12 +14,14 @@
 
 """Pallas utility functions."""
 import math
-import numpy as np
 from typing import Tuple
 
+import numpy as np
+
 from jax import lax
-from jax._src import core as jax_core
 import jax.numpy as jnp
+
+from jax._src import core as jax_core
 
 
 def when(condition):

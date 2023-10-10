@@ -14,23 +14,26 @@
 
 import functools
 import math
+import unittest
 import warnings
+
 from absl.testing import absltest
 from absl.testing import parameterized
-import unittest
-import jax
-from jax._src import test_util as jtu
-from jax._src.lib import xla_extension_version
-import jax.numpy as jnp
-from jax.sharding import PartitionSpec as P
-from jax.ad_checkpoint import Offloadable, remat
-from jax._src.sharding_impls import (NamedSharding, PositionalSharding,
-                                     SingleDeviceSharding, GSPMDSharding,
-                                     TransferToMemoryKind,
-                                     common_devices_indices_map)
 import numpy as np
 
+import jax
 from jax import config
+from jax.ad_checkpoint import Offloadable
+from jax.ad_checkpoint import remat
+import jax.numpy as jnp
+from jax.sharding import PartitionSpec as P
+
+from jax._src import test_util as jtu
+from jax._src.lib import xla_extension_version
+from jax._src.sharding_impls import (
+    common_devices_indices_map, GSPMDSharding, NamedSharding,
+    PositionalSharding, SingleDeviceSharding, TransferToMemoryKind)
+
 config.parse_flags_with_absl()
 
 

@@ -21,17 +21,20 @@ import numpy as np
 
 from jax import jit
 from jax import lax
-from jax._src import dtypes
+
 from jax._src import core
-from jax._src.numpy.lax_numpy import (
-    arange, argmin, array, asarray, atleast_1d, concatenate, convolve,
-    diag, dot, finfo, full, ones, outer, roll, trim_zeros,
-    trim_zeros_tol, vander, zeros)
-from jax._src.numpy.ufuncs import maximum, true_divide, sqrt
-from jax._src.numpy.reductions import all
+from jax._src import dtypes
 from jax._src.numpy import linalg
+from jax._src.numpy.lax_numpy import (
+    arange, argmin, array, asarray, atleast_1d, concatenate, convolve, diag,
+    dot, finfo, full, ones, outer, roll, trim_zeros, trim_zeros_tol, vander,
+    zeros)
+from jax._src.numpy.reductions import all
+from jax._src.numpy.ufuncs import maximum
+from jax._src.numpy.ufuncs import sqrt
+from jax._src.numpy.ufuncs import true_divide
 from jax._src.numpy.util import (
-    check_arraylike, promote_dtypes, promote_dtypes_inexact, _where, _wraps)
+    _where, _wraps, check_arraylike, promote_dtypes, promote_dtypes_inexact)
 from jax._src.typing import Array, ArrayLike
 
 

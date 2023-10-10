@@ -12,13 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from functools import partial
+
 from absl.testing import absltest
 import numpy as np
-import jax
-import jax.numpy as jnp
-from jax._src import test_util as jtu
-from jax.experimental import rnn
 
+import jax
+from jax.experimental import rnn
+import jax.numpy as jnp
+
+from jax._src import test_util as jtu
 from jax._src.config import config
 
 config.parse_flags_with_absl()

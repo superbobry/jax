@@ -24,13 +24,12 @@ try:
 except ImportError:
   zstandard = None
 
-from jax._src import path as pathlib
 from jax._src import cache_key
+from jax._src import path as pathlib
 from jax._src.compilation_cache_interface import CacheInterface
 from jax._src.gfile_cache import GFileCache
 from jax._src.lib import xla_client
 from jax._src.lib.mlir import ir
-
 
 logger = logging.getLogger(__name__)
 

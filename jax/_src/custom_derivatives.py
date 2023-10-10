@@ -14,14 +14,13 @@
 
 from collections.abc import Sequence
 import dataclasses
-from functools import update_wrapper, reduce, partial
+from functools import partial, reduce, update_wrapper
 import inspect
 from typing import Any, Callable, Generic, Optional, TypeVar
 
 from jax._src import config
 from jax._src import core
 from jax._src import custom_api_util
-from jax._src.custom_transpose import custom_transpose
 from jax._src import dtypes
 from jax._src import effects
 from jax._src import linear_util as lu
@@ -30,6 +29,7 @@ from jax._src.ad_util import (
     stop_gradient_p, SymbolicZero, Zero, zeros_like_aval)
 from jax._src.api_util import argnums_partial, flatten_fun_nokwargs
 from jax._src.core import raise_to_shaped
+from jax._src.custom_transpose import custom_transpose
 from jax._src.errors import UnexpectedTracerError
 from jax._src.interpreters import ad
 from jax._src.interpreters import batching
@@ -38,11 +38,10 @@ from jax._src.interpreters import partial_eval as pe
 from jax._src.interpreters import xla
 from jax._src.interpreters.batching import not_mapped
 from jax._src.lax import lax
-from jax._src.tree_util import (tree_flatten, tree_unflatten, tree_map,
-                                treedef_is_leaf, treedef_tuple,
-                                register_pytree_node_class, tree_leaves)
-from jax._src.util import cache, safe_zip, safe_map, split_list, Unhashable
-
+from jax._src.tree_util import (
+    register_pytree_node_class, tree_flatten, tree_leaves, tree_map,
+    tree_unflatten, treedef_is_leaf, treedef_tuple)
+from jax._src.util import cache, safe_map, safe_zip, split_list, Unhashable
 
 traceback_util.register_exclusion(__file__)
 

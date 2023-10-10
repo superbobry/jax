@@ -42,9 +42,8 @@ from jax._src import traceback_util
 from jax._src import tree_util
 from jax._src import util
 from jax._src.interpreters import mlir
-from jax._src.lib.mlir import ir
 from jax._src.lib import xla_client as xc
-
+from jax._src.lib.mlir import ir
 
 source_info_util.register_exclusion(__file__)
 traceback_util.register_exclusion(__file__)

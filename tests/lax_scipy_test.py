@@ -18,24 +18,24 @@ import itertools
 import unittest
 
 from absl.testing import absltest
-
 import numpy as np
+import scipy.cluster as osp_cluster
 import scipy.integrate
 import scipy.special as osp_special
-import scipy.cluster as osp_cluster
 
 import jax
-import jax.dtypes
-from jax import numpy as jnp
-from jax import lax
-from jax import scipy as jsp
-from jax.tree_util import tree_map
-from jax._src.scipy import special as lsp_special_internal
-from jax._src import test_util as jtu
-from jax.scipy import special as lsp_special
-from jax.scipy import cluster as lsp_cluster
-
 from jax import config
+from jax import lax
+from jax import numpy as jnp
+from jax import scipy as jsp
+import jax.dtypes
+from jax.scipy import cluster as lsp_cluster
+from jax.scipy import special as lsp_special
+from jax.tree_util import tree_map
+
+from jax._src import test_util as jtu
+from jax._src.scipy import special as lsp_special_internal
+
 config.parse_flags_with_absl()
 FLAGS = config.FLAGS
 

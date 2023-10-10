@@ -12,17 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from absl.testing import absltest
-
-import operator
 from functools import reduce
-import numpy as np
+import operator
 
-from jax._src import test_util as jtu
+from absl.testing import absltest
+import numpy as np
 import scipy.interpolate as sp_interp
-import jax.scipy.interpolate as jsp_interp
 
 from jax import config
+import jax.scipy.interpolate as jsp_interp
+
+from jax._src import test_util as jtu
 
 config.parse_flags_with_absl()
 

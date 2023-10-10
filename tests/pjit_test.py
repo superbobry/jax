@@ -12,12 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from collections import OrderedDict, namedtuple
-import os
-import re
-from functools import partial, lru_cache
+from collections import namedtuple, OrderedDict
+import concurrent.futures
+from functools import lru_cache, partial
 import logging
 import math
+import os
+import re
 import threading
 import unittest
 
@@ -25,41 +26,42 @@ from absl.testing import absltest
 from absl.testing import parameterized
 import numpy as np
 
-import concurrent.futures
-
 import jax
-import jax.numpy as jnp
-from jax._src import core
-from jax._src import test_util as jtu
+from jax import config
 from jax import dtypes
+from jax import lax
 from jax import stages
 from jax.errors import JAXTypeError
-from jax import lax
-from jax.lax import with_sharding_constraint
-from jax._src import prng
-from jax.sharding import PartitionSpec as P
-from jax.experimental.maps import xmap
 from jax.experimental import multihost_utils
 from jax.experimental.custom_partitioning import custom_partitioning
-from jax._src import array
-from jax._src.sharding import Sharding, _addressable_devices_indices_map
-from jax._src import op_shardings
-from jax._src import sharding_impls
-from jax._src.sharding_impls import (
-    AUTO, UNSPECIFIED, NamedSharding, GSPMDSharding, PositionalSharding,
-    SingleDeviceSharding, parse_flatten_op_sharding)
-import jax._src.pjit as pjit_lib
-from jax._src.pjit import pjit, pjit_p
-from jax._src import mesh as mesh_lib
-from jax._src.interpreters import pxla
+from jax.experimental.maps import xmap
 from jax.interpreters import mlir
+from jax.lax import with_sharding_constraint
+import jax.numpy as jnp
+from jax.sharding import PartitionSpec as P
+
+from jax._src import array
+from jax._src import core
+from jax._src import mesh as mesh_lib
+from jax._src import op_shardings
+from jax._src import prng
+from jax._src import sharding_impls
+from jax._src import test_util as jtu
 from jax._src import xla_bridge
+from jax._src.interpreters import pxla
 from jax._src.lib import xla_client as xc
 from jax._src.lib import xla_extension
 from jax._src.lib import xla_extension_version
-from jax._src.util import curry, unzip2, safe_zip
+from jax._src.pjit import pjit
+from jax._src.pjit import pjit_p
+import jax._src.pjit as pjit_lib
+from jax._src.sharding import _addressable_devices_indices_map
+from jax._src.sharding import Sharding
+from jax._src.sharding_impls import (
+    AUTO, GSPMDSharding, NamedSharding, parse_flatten_op_sharding,
+    PositionalSharding, SingleDeviceSharding, UNSPECIFIED)
+from jax._src.util import curry, safe_zip, unzip2
 
-from jax import config
 config.parse_flags_with_absl()
 
 prev_xla_flags = None

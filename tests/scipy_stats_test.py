@@ -17,17 +17,19 @@ import itertools
 import unittest
 
 from absl.testing import absltest
-
 import numpy as np
 import scipy.stats as osp_stats
 import scipy.version
 
 import jax
-from jax._src import dtypes, test_util as jtu, tree_util
+from jax import config
 from jax.scipy import stats as lsp_stats
 from jax.scipy.special import expit
 
-from jax import config
+from jax._src import dtypes
+from jax._src import test_util as jtu
+from jax._src import tree_util
+
 config.parse_flags_with_absl()
 
 scipy_version = tuple(map(int, scipy.version.version.split('.')[:3]))

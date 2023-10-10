@@ -15,22 +15,25 @@
 
 from collections import namedtuple
 from functools import partial
-import numpy.random as npr
+import itertools as it
 
 from absl.testing import absltest
 from absl.testing import parameterized
-
-import itertools as it
-import jax.numpy as jnp
-from jax import jit, jvp, vjp
-import jax._src.test_util as jtu
+import numpy.random as npr
 
 from jax import config
+from jax import jit
+from jax import jvp
+from jax import vjp
+import jax.numpy as jnp
+
+import jax._src.test_util as jtu
+
 config.parse_flags_with_absl()
 
 npr.seed(0)
 
-from jax._src.util import unzip2, safe_zip, safe_map
+from jax._src.util import safe_map, safe_zip, unzip2
 
 map = safe_map
 zip = safe_zip

@@ -15,8 +15,10 @@
 import unittest
 
 from absl.testing import absltest
+
 import jax.numpy as jnp
 from jax.tools import jax_to_ir
+
 from jax._src import test_util as jtu
 
 try:

@@ -18,9 +18,8 @@ import abc
 import dataclasses
 import functools
 import sys
-import uuid
-
 from typing import Any, Union
+import uuid
 
 IS_COLAB_ENABLED = "google.colab" in sys.modules
 if IS_COLAB_ENABLED:
@@ -28,6 +27,7 @@ if IS_COLAB_ENABLED:
   # pytype: disable=import-error
   from google.colab import output
   from IPython import display
+
   # pytype: enable=import-error
   # pylint: enable=g-import-not-at-top
 

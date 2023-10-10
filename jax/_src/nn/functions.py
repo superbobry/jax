@@ -16,22 +16,23 @@
 
 from functools import partial
 import operator
-import warnings
-import numpy as np
 from typing import Any, Optional, Union
+import warnings
+
+import numpy as np
 
 import jax
-import jax.numpy as jnp
 from jax import custom_jvp
 from jax import lax
+import jax.numpy as jnp
+
 from jax._src import core
 from jax._src import dtypes
 from jax._src import util
 from jax._src.core import AxisName
 from jax._src.numpy import util as numpy_util
-from jax._src.typing import Array, ArrayLike
 from jax._src.ops.special import logsumexp as _logsumexp
-
+from jax._src.typing import Array, ArrayLike
 
 # activations
 

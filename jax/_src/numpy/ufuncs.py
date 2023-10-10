@@ -19,7 +19,7 @@ Implements ufuncs for jax.numpy.
 from functools import partial
 import operator
 from textwrap import dedent
-from typing import Any, Callable, Union, overload
+from typing import Any, Callable, overload, Union
 
 import numpy as np
 
@@ -28,11 +28,11 @@ from jax._src import dtypes
 from jax._src.api import jit
 from jax._src.custom_derivatives import custom_jvp
 from jax._src.lax import lax
-from jax._src.typing import Array, ArrayLike
 from jax._src.numpy.util import (
-   check_arraylike, promote_args, promote_args_inexact,
-   promote_args_numeric, promote_dtypes_inexact, promote_dtypes_numeric,
-   promote_shapes, _where, _wraps, check_no_float0s)
+    _where, _wraps, check_arraylike, check_no_float0s, promote_args,
+    promote_args_inexact, promote_args_numeric, promote_dtypes_inexact,
+    promote_dtypes_numeric, promote_shapes)
+from jax._src.typing import Array, ArrayLike
 
 _lax_const = lax._const
 

@@ -19,12 +19,13 @@ from unittest import SkipTest
 from absl.testing import absltest
 
 import jax
-import jax.numpy as jnp
+from jax import config
 from jax import lax
+import jax.numpy as jnp
+
 from jax._src import test_util as jtu
 from jax._src import xla_bridge
 
-from jax import config
 config.parse_flags_with_absl()
 
 prev_xla_flags = None

@@ -21,11 +21,12 @@ import enum
 import functools
 from typing import Any
 
+import jax.numpy as jnp
+
 from jax._src import core as jax_core
 from jax._src import state
 from jax._src import tree_util
 from jax._src import util
-import jax.numpy as jnp
 from jax._src.pallas import core as pallas_core
 
 # TODO(sharadmv): enable type checking

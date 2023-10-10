@@ -17,18 +17,20 @@ import textwrap
 import unittest
 
 from absl.testing import absltest
+import numpy as np
+
 import jax
-from jax import lax
 from jax import config
+from jax import lax
 from jax.experimental import maps
 from jax.experimental import pjit
 from jax.interpreters import pxla
+import jax.numpy as jnp
+
 from jax._src import ad_checkpoint
 from jax._src import debugging
 from jax._src import dispatch
 from jax._src import test_util as jtu
-import jax.numpy as jnp
-import numpy as np
 
 try:
   import rich

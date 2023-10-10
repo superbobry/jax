@@ -19,14 +19,18 @@ import functools
 from absl.testing import absltest
 import numpy as np
 
-import jax.numpy as jnp
-import jax._src.test_util as jtu
-from jax import jit, grad, jacfwd, jacrev
-from jax import tree_util
-from jax import lax
-from jax.example_libraries import optimizers
-
 from jax import config
+from jax import grad
+from jax import jacfwd
+from jax import jacrev
+from jax import jit
+from jax import lax
+from jax import tree_util
+from jax.example_libraries import optimizers
+import jax.numpy as jnp
+
+import jax._src.test_util as jtu
+
 config.parse_flags_with_absl()
 
 

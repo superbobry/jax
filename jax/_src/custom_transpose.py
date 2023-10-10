@@ -27,9 +27,9 @@ from jax._src.interpreters import ad
 from jax._src.interpreters import mlir
 from jax._src.interpreters import partial_eval as pe
 from jax._src.interpreters import xla
-from jax._src.tree_util import (tree_flatten, tree_leaves, tree_map,
-                                tree_structure, treedef_tuple, tree_unflatten)
-
+from jax._src.tree_util import (
+    tree_flatten, tree_leaves, tree_map, tree_structure, tree_unflatten,
+    treedef_tuple)
 
 source_info_util.register_exclusion(__file__)
 traceback_util.register_exclusion(__file__)

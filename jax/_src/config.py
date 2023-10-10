@@ -22,13 +22,14 @@ import logging
 import os
 import sys
 import threading
-from typing import Any, Callable, Generic, NamedTuple, NoReturn, Optional, TypeVar
+from typing import (
+    Any, Callable, Generic, NamedTuple, NoReturn, Optional, TypeVar)
 
 from jax._src import lib
+from jax._src import logging_config
 from jax._src.lib import jax_jit
 from jax._src.lib import transfer_guard_lib
 from jax._src.lib import xla_client
-from jax._src import logging_config
 from jax._src.lib import xla_extension_version
 
 logger = logging.getLogger(__name__)
@@ -162,8 +163,9 @@ class Config:
 
   def config_with_absl(self):
     # Run this before calling `app.run(main)` etc
+    from absl import app
+    from absl import flags as absl_flags
     import absl.flags as absl_FLAGS  # noqa: F401  # pytype: disable=import-error
-    from absl import app, flags as absl_flags  # pytype: disable=import-error
 
     self.use_absl = True
     self.absl_flags = absl_flags

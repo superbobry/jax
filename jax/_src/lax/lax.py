@@ -22,8 +22,8 @@ from functools import partial
 import itertools
 import math
 import operator
-from typing import (Any, Callable, Optional, TypeVar, Union,
-                    cast as type_cast, overload)
+from typing import (
+    Any, Callable, cast as type_cast, Optional, overload, TypeVar, Union)
 import warnings
 
 import numpy as np
@@ -45,9 +45,11 @@ from jax._src import linear_util as lu
 from jax._src import pretty_printer as pp
 from jax._src import source_info_util
 from jax._src import util
+from jax._src import xla_bridge
 from jax._src.abstract_arrays import array_types
-from jax._src.core import (Primitive, UnshapedArray, ShapedArray, ConcreteArray,
-                           raise_to_shaped, abstract_token, canonicalize_shape)
+from jax._src.core import (
+    abstract_token, canonicalize_shape, ConcreteArray, Primitive,
+    raise_to_shaped, ShapedArray, UnshapedArray)
 from jax._src.interpreters import ad
 from jax._src.interpreters import batching
 from jax._src.interpreters import mlir
@@ -57,18 +59,18 @@ from jax._src.interpreters import xla
 from jax._src.interpreters.batching import RaggedAxis
 from jax._src.lax import slicing
 from jax._src.lax.utils import (
-  _input_dtype, dtype_to_string, standard_abstract_eval,
-  standard_multi_result_abstract_eval, standard_named_shape_rule,
-  standard_primitive)
-from jax._src import xla_bridge
+    _input_dtype, dtype_to_string, standard_abstract_eval,
+    standard_multi_result_abstract_eval, standard_named_shape_rule,
+    standard_primitive)
 from jax._src.lib import xla_client
 from jax._src.lib.mlir import ir
 from jax._src.lib.mlir.dialects import chlo
 from jax._src.lib.mlir.dialects import hlo
 from jax._src.sharding_impls import PmapSharding
-from jax._src.typing import Array, ArrayLike, DuckTypedArray, DTypeLike, Shape
-from jax._src.util import (cache, safe_zip, safe_map, canonicalize_axis,
-                           split_list, NumpyComplexWarning)
+from jax._src.typing import Array, ArrayLike, DTypeLike, DuckTypedArray, Shape
+from jax._src.util import (
+    cache, canonicalize_axis, NumpyComplexWarning, safe_map, safe_zip,
+    split_list)
 
 xb = xla_bridge
 xc = xla_client

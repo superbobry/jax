@@ -16,16 +16,18 @@ import inspect
 
 from absl.testing import absltest
 from absl.testing import parameterized
-import jax
-from jax._src import core
-from jax._src import api_util
-from jax._src.interpreters import pxla
-from jax import dtypes
-from jax._src import lib as jaxlib
-from jax import numpy as jnp
-from jax._src import test_util as jtu
-from jax import config
 import numpy as np
+
+import jax
+from jax import config
+from jax import dtypes
+from jax import numpy as jnp
+
+from jax._src import api_util
+from jax._src import core
+from jax._src import lib as jaxlib
+from jax._src import test_util as jtu
+from jax._src.interpreters import pxla
 
 config.parse_flags_with_absl()
 

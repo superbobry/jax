@@ -17,6 +17,7 @@ import operator
 from typing import Callable, Optional
 
 from jax import lax
+
 from jax._src import api
 from jax._src import core
 from jax._src import custom_api_util
@@ -28,13 +29,12 @@ from jax._src import util
 from jax._src.api_util import flatten_fun_nokwargs
 from jax._src.interpreters import ad
 from jax._src.interpreters import batching
-from jax._src.interpreters.batching import not_mapped
 from jax._src.interpreters import mlir
 from jax._src.interpreters import partial_eval as pe
 from jax._src.interpreters import xla
-from jax._src.tree_util import (tree_flatten, tree_map, tree_structure,
-                                tree_unflatten, treedef_tuple)
-
+from jax._src.interpreters.batching import not_mapped
+from jax._src.tree_util import (
+    tree_flatten, tree_map, tree_structure, tree_unflatten, treedef_tuple)
 
 source_info_util.register_exclusion(__file__)
 traceback_util.register_exclusion(__file__)

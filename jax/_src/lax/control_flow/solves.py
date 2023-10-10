@@ -16,9 +16,12 @@ import collections
 from functools import partial
 import operator
 
+import numpy as np
+
 import jax
-from jax.tree_util import (tree_flatten, treedef_children, tree_leaves,
-                           tree_unflatten, treedef_tuple)
+from jax.tree_util import (
+    tree_flatten, tree_leaves, tree_unflatten, treedef_children, treedef_tuple)
+
 from jax._src import ad_util
 from jax._src import core
 from jax._src import linear_util as lu
@@ -28,15 +31,10 @@ from jax._src.interpreters import batching
 from jax._src.interpreters import mlir
 from jax._src.interpreters import xla
 from jax._src.lax import lax
-from jax._src.traceback_util import api_boundary
-from jax._src.util import split_list, safe_map
-import numpy as np
-
 from jax._src.lax.control_flow.common import (
-    _abstractify,
-    _check_tree,
-    _initial_style_jaxpr,
-    )
+    _abstractify, _check_tree, _initial_style_jaxpr)
+from jax._src.traceback_util import api_boundary
+from jax._src.util import safe_map, split_list
 
 _map = safe_map
 

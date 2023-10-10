@@ -31,15 +31,15 @@ from functools import partial
 from typing import NamedTuple
 
 import jax
-import jax._src.numpy.lax_numpy as jnp
-import jax._src.numpy.linalg as jnp_linalg
+from jax import lax
+
+from jax._src.lax import linalg as lax_linalg
+from jax._src.lax import qdwh
+from jax._src.lax.stack import Stack
 from jax._src.numpy import reductions
 from jax._src.numpy import ufuncs
-from jax import lax
-from jax._src.lax import qdwh
-from jax._src.lax import linalg as lax_linalg
-from jax._src.lax.stack import Stack
-
+import jax._src.numpy.lax_numpy as jnp
+import jax._src.numpy.linalg as jnp_linalg
 
 # QDWH-eigh is a recursive algorithm where the structure of the recursion
 # is determined by the eigenspectrum. Neither JAX nor XLA can handle this kind

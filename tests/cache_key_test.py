@@ -18,13 +18,14 @@ import random
 import sys
 import unittest
 
-import numpy as np
-
 from absl.testing import absltest
 from absl.testing import parameterized
+import numpy as np
+
 import jax
 from jax import config
 from jax import lax
+
 from jax._src import cache_key
 from jax._src import compiler
 from jax._src import test_util as jtu
@@ -32,7 +33,6 @@ from jax._src import xla_bridge
 from jax._src.config import compilation_cache_include_metadata_in_key
 from jax._src.lib import xla_client
 from jax._src.lib import xla_extension_version
-
 
 config.parse_flags_with_absl()
 FLAGS = config.FLAGS

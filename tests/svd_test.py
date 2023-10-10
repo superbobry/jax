@@ -15,16 +15,16 @@
 """Tests for the library of QDWH-based singular value decomposition."""
 import functools
 
+from absl.testing import absltest
+import numpy as np
+import scipy.linalg as osp_linalg
+
 import jax
 from jax import config
 import jax.numpy as jnp
-import numpy as np
-import scipy.linalg as osp_linalg
-from jax._src.lax import svd
+
 from jax._src import test_util as jtu
-
-from absl.testing import absltest
-
+from jax._src.lax import svd
 
 config.parse_flags_with_absl()
 _JAX_ENABLE_X64 = config.x64_enabled

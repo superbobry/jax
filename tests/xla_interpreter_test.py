@@ -15,6 +15,7 @@
 from absl.testing import absltest
 
 import jax
+
 from jax._src import test_util as jtu
 from jax._src.interpreters import pxla
 

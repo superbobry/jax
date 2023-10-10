@@ -19,8 +19,8 @@ Requires matplotlib.
 """
 
 import functools
-import re
 import os
+import re
 import unittest
 
 from absl.testing import absltest
@@ -31,9 +31,11 @@ import scipy.sparse as sps
 
 import jax
 from jax import config
-from jax._src import test_util as jtu
-from jax.experimental.sparse import linalg, bcoo
+from jax.experimental.sparse import bcoo
+from jax.experimental.sparse import linalg
 import jax.numpy as jnp
+
+from jax._src import test_util as jtu
 
 
 def _clean_matrix_name(name):

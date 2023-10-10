@@ -14,15 +14,16 @@
 
 import contextlib
 import datetime
+import re
 import unittest
 from unittest import mock
-import re
 
 from absl.testing import absltest
 
 import jax
-from jax._src.lib import check_jaxlib_version
+
 from jax._src import test_util as jtu
+from jax._src.lib import check_jaxlib_version
 
 # This is a subset of the full PEP440 pattern; for example we skip pre & post releases
 VERSION_PATTERN = re.compile(r"""

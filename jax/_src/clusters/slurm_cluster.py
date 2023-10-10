@@ -14,6 +14,7 @@
 
 import os
 from typing import Optional
+
 from jax._src import clusters
 
 _JOBID_PARAM = 'SLURM_JOB_ID'

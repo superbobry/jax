@@ -15,13 +15,13 @@ from __future__ import annotations
 
 from collections.abc import Generator, Iterable, Sequence
 from contextlib import contextmanager, ExitStack
-import inspect
-import io
 import functools
 from functools import partial
+import inspect
+import io
 import math
-import re
 import os
+import re
 import tempfile
 import textwrap
 from typing import Any, Callable, Optional
@@ -31,34 +31,35 @@ import zlib
 
 from absl.testing import absltest
 from absl.testing import parameterized
-
 import numpy as np
 import numpy.random as npr
 
 import jax
 from jax import lax
 from jax.experimental.compilation_cache import compilation_cache
-from jax._src.interpreters import mlir
-from jax.tree_util import tree_map, tree_all, tree_flatten, tree_unflatten
+from jax.tree_util import tree_all, tree_flatten, tree_map, tree_unflatten
+
 from jax._src import api
-from jax._src import pjit as pjit_lib
 from jax._src import config as jax_config
 from jax._src import core
 from jax._src import dispatch
 from jax._src import dtypes as _dtypes
 from jax._src import monitoring
+from jax._src import pjit as pjit_lib
 from jax._src import stages
-from jax._src.interpreters import pxla
-from jax._src.config import (bool_env, config,
-                             raise_persistent_cache_errors,
-                             persistent_cache_min_compile_time_secs)
-from jax._src.numpy.util import promote_dtypes, promote_dtypes_inexact
-from jax._src.util import unzip2
-from jax._src.public_test_util import (  # noqa: F401
-    _assert_numpy_allclose, _check_dtypes_match, _default_tolerance, _dtype, check_close, check_grads,
-    check_jvp, check_vjp, default_gradient_tolerance, default_tolerance, tolerance)
 from jax._src import xla_bridge
-
+from jax._src.config import (
+    bool_env, config, persistent_cache_min_compile_time_secs,
+    raise_persistent_cache_errors)
+from jax._src.interpreters import mlir
+from jax._src.interpreters import pxla
+from jax._src.numpy.util import promote_dtypes, promote_dtypes_inexact
+from jax._src.public_test_util import _assert_numpy_allclose  # noqa: F401
+from jax._src.public_test_util import (
+    _check_dtypes_match, _default_tolerance, _dtype, check_close, check_grads,
+    check_jvp, check_vjp, default_gradient_tolerance, default_tolerance,
+    tolerance)
+from jax._src.util import unzip2
 
 # This submodule includes private test utilities that are not exported to
 # jax.test_util. Functionality appearing here is for internal use only, and

@@ -22,26 +22,27 @@ import unittest
 
 from absl.testing import absltest
 from absl.testing import parameterized
-
 import numpy as np
 
 import jax
-from jax._src import core
+from jax import config
 from jax import dtypes
-from jax.errors import UnexpectedTracerError
 from jax import lax
 from jax import random
-from jax._src import test_util as jtu
 from jax import tree_util
-from jax._src.util import unzip2
+from jax.ad_checkpoint import checkpoint as new_checkpoint
+from jax.ad_checkpoint import checkpoint_policies
+from jax.errors import UnexpectedTracerError
 from jax.experimental import maps
-from jax.ad_checkpoint import checkpoint as new_checkpoint, checkpoint_policies
 import jax.numpy as jnp  # scan tests use numpy
 import jax.scipy as jsp
+
+from jax._src import core
+from jax._src import test_util as jtu
 from jax._src.lax import control_flow as lax_control_flow
 from jax._src.lax.control_flow import for_loop
+from jax._src.util import unzip2
 
-from jax import config
 config.parse_flags_with_absl()
 
 

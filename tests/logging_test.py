@@ -16,11 +16,6 @@ import contextlib
 import io
 import logging
 
-
-import jax
-from jax import config
-import jax._src.test_util as jtu
-
 # Note: importing absltest causes an extra absl root log handler to be
 # registered, which causes extra debug log messages. We don't expect users to
 # import absl logging, so it should only affect this test. We need to use
@@ -28,6 +23,12 @@ import jax._src.test_util as jtu
 # parsing to work correctly with bazel (otherwise we could avoid importing
 # absltest/absl logging altogether).
 from absl.testing import absltest
+
+import jax
+from jax import config
+
+import jax._src.test_util as jtu
+
 jax.config.parse_flags_with_absl()
 
 

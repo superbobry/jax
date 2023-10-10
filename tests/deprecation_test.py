@@ -15,8 +15,10 @@
 import warnings
 
 from absl.testing import absltest
+
 from jax._src import test_util as jtu
 from jax._src.internal_test_util import deprecation_module as m
+
 
 class DeprecationTest(absltest.TestCase):
 

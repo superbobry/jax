@@ -17,11 +17,12 @@ import numpy as np
 import scipy
 import scipy.optimize
 
-from jax import numpy as jnp
-from jax._src import test_util as jtu
-from jax import jit
 from jax import config
+from jax import jit
+from jax import numpy as jnp
 import jax.scipy.optimize
+
+from jax._src import test_util as jtu
 
 config.parse_flags_with_absl()
 

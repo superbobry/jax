@@ -15,13 +15,12 @@
 from functools import partial
 import operator
 
+import numpy as np
+
 from jax._src import api
 from jax._src import config
 from jax._src import dtypes as _dtypes
 from jax._src.tree_util import tree_map, tree_reduce
-
-import numpy as np
-
 
 # The only functions intended to be exported are these; they should be used via
 # jax.test_util. All other functionality appearing here is for internal use only,

@@ -14,18 +14,20 @@
 
 """Tests for --debug_nans."""
 
+from unittest import SkipTest
+
 from absl.testing import absltest
+import numpy as np
 
 import jax
-import numpy as np
-from unittest import SkipTest
+from jax import config
+from jax import numpy as jnp
+from jax.experimental import maps
+from jax.experimental import pjit
 
 from jax._src import api
 from jax._src import test_util as jtu
-from jax import numpy as jnp
-from jax.experimental import pjit, maps
 
-from jax import config
 config.parse_flags_with_absl()
 
 

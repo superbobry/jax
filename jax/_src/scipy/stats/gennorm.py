@@ -13,7 +13,9 @@
 # limitations under the License.
 
 import scipy.stats as osp_stats
+
 from jax import lax
+
 from jax._src.numpy.util import _wraps, promote_args_inexact
 from jax._src.typing import Array, ArrayLike
 

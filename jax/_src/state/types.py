@@ -22,8 +22,8 @@ from typing import Any, Generic, TypeVar, Union
 from jax._src import core
 from jax._src import effects
 from jax._src import pretty_printer as pp
-from jax._src.util import safe_map, safe_zip
 from jax._src.typing import Array
+from jax._src.util import safe_map, safe_zip
 
 ## JAX utilities
 
@@ -126,25 +126,29 @@ class AbstractRef(core.AbstractValue, Generic[Aval]):
   @core.aval_method
   @staticmethod
   def get(tracer, idx=()):
-    from jax._src.state.primitives import ref_get  # pytype: disable=import-error
+    from jax._src.state.primitives import (
+        ref_get)  # pytype: disable=import-error
     return ref_get(tracer, idx)
 
   @core.aval_method
   @staticmethod
   def set(tracer, value, idx=()):
-    from jax._src.state.primitives import ref_set  # pytype: disable=import-error
+    from jax._src.state.primitives import (
+        ref_set)  # pytype: disable=import-error
     return ref_set(tracer, idx, value)
 
   def _getitem(self, tracer, idx) -> Array:
     if not isinstance(idx, tuple):
       idx = idx,
-    from jax._src.state.primitives import ref_get  # pytype: disable=import-error
+    from jax._src.state.primitives import (
+        ref_get)  # pytype: disable=import-error
     return ref_get(tracer, idx)
 
   def _setitem(self, tracer, idx, value) -> None:
     if not isinstance(idx, tuple):
       idx = idx,
-    from jax._src.state.primitives import ref_set  # pytype: disable=import-error
+    from jax._src.state.primitives import (
+        ref_set)  # pytype: disable=import-error
     return ref_set(tracer, idx, value)
 
   def __repr__(self) -> str:

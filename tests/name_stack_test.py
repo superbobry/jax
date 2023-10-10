@@ -14,15 +14,17 @@
 import functools
 
 from absl.testing import absltest
+
 import jax
-import jax.numpy as jnp
-from jax._src import core
-from jax import lax
-from jax._src.pjit import pjit
-from jax._src import linear_util as lu
 from jax import config
+from jax import lax
+import jax.numpy as jnp
+
+from jax._src import core
+from jax._src import linear_util as lu
 from jax._src import test_util as jtu
 from jax._src.lib import xla_client
+from jax._src.pjit import pjit
 
 config.parse_flags_with_absl()
 

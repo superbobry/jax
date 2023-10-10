@@ -33,7 +33,6 @@ from jax._src.numpy import reductions
 from jax._src.numpy.util import check_arraylike, promote_dtypes
 from jax._src.typing import Array, ArrayLike
 
-
 if sys.version_info >= (3, 10):
     from types import EllipsisType
     SingleIndex = Union[None, int, slice, Sequence[int], Array, EllipsisType]

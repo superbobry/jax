@@ -12,14 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from collections.abc import Sequence, Iterable, Iterator, Generator
+from collections.abc import Generator, Iterable, Iterator, Sequence
 from functools import partial
 import itertools as it
 import math
 import operator as op
 import os
 from types import SimpleNamespace
-from typing import Any, NamedTuple, Callable, Optional, TypeVar, Union
+from typing import Any, Callable, NamedTuple, Optional, TypeVar, Union
 import unittest
 
 from absl.testing import absltest
@@ -27,21 +27,21 @@ from absl.testing import parameterized
 import numpy as np
 
 import jax
-from jax import lax
 from jax import config
+from jax import lax
+from jax.experimental.shard_map import shard_map
+import jax.numpy as jnp
 from jax.sharding import Mesh
 from jax.sharding import PartitionSpec as P
+
 from jax._src import core
+from jax._src import linear_util as lu
 from jax._src import test_util as jtu
+from jax._src import tree_util
 from jax._src import xla_bridge
-from jax._src.util import safe_zip, safe_map, partition_list, merge_lists
 from jax._src.interpreters import mlir
 from jax._src.interpreters import partial_eval as pe
-from jax._src import linear_util as lu
-from jax._src import tree_util
-import jax.numpy as jnp
-
-from jax.experimental.shard_map import shard_map
+from jax._src.util import merge_lists, partition_list, safe_map, safe_zip
 
 config.parse_flags_with_absl()
 

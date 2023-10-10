@@ -15,12 +15,13 @@
 # flake8: noqa: F401
 import jaxlib.mlir.dialects.builtin as builtin
 import jaxlib.mlir.dialects.chlo as chlo
-import jaxlib.mlir.dialects.mhlo as mhlo
 import jaxlib.mlir.dialects.func as func
+import jaxlib.mlir.dialects.mhlo as mhlo
 import jaxlib.mlir.dialects.ml_program as ml_program
 import jaxlib.mlir.dialects.sparse_tensor as sparse_tensor
 
 from jax._src import lib
+
 # TODO(sharadmv): remove guard when minimum jaxlib version is bumped
 if lib.version >= (0, 4, 15):
   import jaxlib.mlir.dialects.arith as arith

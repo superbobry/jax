@@ -22,11 +22,12 @@ from absl.testing import absltest
 from absl.testing import parameterized
 
 import jax
-from jax import tree_util
 from jax import flatten_util
-from jax._src import test_util as jtu
-from jax._src.tree_util import prefix_errors, flatten_one_level
+from jax import tree_util
 import jax.numpy as jnp
+
+from jax._src import test_util as jtu
+from jax._src.tree_util import flatten_one_level, prefix_errors
 
 
 def _dummy_func(*args, **kwargs):

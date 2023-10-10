@@ -16,11 +16,11 @@ import functools
 import re
 from typing import Any, Callable
 
-from jax._src import api
 from jax import lax
+
+from jax._src import api
 from jax._src.numpy import lax_numpy as jnp
 from jax._src.util import safe_map as map, safe_zip as zip
-
 
 # See http://docs.scipy.org/doc/numpy/reference/c-api.generalized-ufuncs.html
 _DIMENSION_NAME = r'\w+'

@@ -16,17 +16,17 @@
 from functools import partial
 import math
 
-import numpy as np
-
 from absl.testing import absltest
+import numpy as np
 import scipy.ndimage as osp_ndimage
 
-from jax import grad
-from jax._src import test_util as jtu
+from jax import config
 from jax import dtypes
+from jax import grad
 from jax.scipy import ndimage as lsp_ndimage
 
-from jax import config
+from jax._src import test_util as jtu
+
 config.parse_flags_with_absl()
 
 

@@ -17,7 +17,9 @@ Verify that callbacks are registered/uregistered and invoked correctly to record
 events.
 """
 from absl.testing import absltest
+
 from jax import monitoring
+
 from jax._src import monitoring as jax_src_monitoring
 
 

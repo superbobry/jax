@@ -16,14 +16,15 @@ import io
 import unittest
 
 from absl.testing import absltest
-from jax._src import test_util as jtu
 
 import jax
-from jax._src import config as jax_config
-from jax._src.lib.mlir import ir
+from jax import config
 from jax import numpy as jnp
 
-from jax import config
+from jax._src import config as jax_config
+from jax._src import test_util as jtu
+from jax._src.lib.mlir import ir
+
 config.parse_flags_with_absl()
 
 

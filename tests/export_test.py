@@ -20,6 +20,8 @@ from typing import Optional, Sequence
 import unittest
 
 from absl.testing import absltest
+import numpy as np
+
 import jax
 from jax import numpy as jnp
 from jax import tree_util
@@ -31,10 +33,7 @@ from jax._src import test_util as jtu
 from jax._src import xla_bridge as xb
 from jax._src.interpreters import mlir
 from jax._src.lib import version as jaxlib_version
-
 from jax._src.lib.mlir.dialects import hlo
-
-import numpy as np
 
 config.parse_flags_with_absl()
 

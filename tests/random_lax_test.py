@@ -18,25 +18,24 @@ from unittest import SkipTest
 
 from absl.testing import absltest
 from absl.testing import parameterized
-
 import numpy as np
 import scipy.linalg
 import scipy.special
 import scipy.stats
 
 import jax
+from jax import config
 from jax import grad
 from jax import lax
 from jax import numpy as jnp
 from jax import random
-from jax._src import core
-from jax._src import dtypes
-from jax._src import test_util as jtu
 from jax import vmap
 
+from jax._src import core
+from jax._src import dtypes
 from jax._src import prng as prng_internal
+from jax._src import test_util as jtu
 
-from jax import config
 config.parse_flags_with_absl()
 
 float_dtypes = jtu.dtypes.all_floating

@@ -16,16 +16,16 @@ import abc
 from collections.abc import Iterable
 from typing import Any, Union
 
-import jax
-from jax._src import core
-from jax._src.numpy.util import promote_dtypes
-from jax._src.numpy.lax_numpy import (
-  arange, array, concatenate, expand_dims, linspace, meshgrid, stack, transpose
-)
-from jax._src.typing import Array, ArrayLike
-
 import numpy as np
 
+import jax
+
+from jax._src import core
+from jax._src.numpy.lax_numpy import (
+    arange, array, concatenate, expand_dims, linspace, meshgrid, stack,
+    transpose)
+from jax._src.numpy.util import promote_dtypes
+from jax._src.typing import Array, ArrayLike
 
 __all__ = ["c_", "index_exp", "mgrid", "ogrid", "r_", "s_"]
 

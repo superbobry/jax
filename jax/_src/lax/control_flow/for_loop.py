@@ -18,15 +18,12 @@ import functools
 import operator
 from typing import Any, Callable, Generic, Optional, TypeVar, Union
 
-import jax.numpy as jnp
 from jax import lax
 from jax.api_util import flatten_fun_nokwargs
-from jax._src.interpreters import ad
-from jax._src.interpreters import batching
-from jax._src.interpreters import mlir
-from jax._src.interpreters import partial_eval as pe
-from jax.tree_util import (tree_flatten, tree_structure, tree_unflatten,
-                           treedef_tuple, tree_map, tree_leaves, PyTreeDef)
+import jax.numpy as jnp
+from jax.tree_util import (
+    PyTreeDef, tree_flatten, tree_leaves, tree_map, tree_structure,
+    tree_unflatten, treedef_tuple)
 
 from jax._src import ad_util
 from jax._src import core
@@ -34,16 +31,20 @@ from jax._src import dispatch
 from jax._src import dtypes
 from jax._src import linear_util as lu
 from jax._src import source_info_util
-from jax._src.state.types import (ReadEffect, AbstractRef, StateEffect)
-from jax._src.state import discharge as state_discharge
-from jax._src.state import primitives as state_primitives
-from jax._src.state import utils as state_utils
-from jax._src.state import types as state_types
-from jax._src.typing import Array
-from jax._src.util import (partition_list, merge_lists, safe_map, safe_zip,
-                           split_list, split_dict)
+from jax._src.interpreters import ad
+from jax._src.interpreters import batching
+from jax._src.interpreters import mlir
+from jax._src.interpreters import partial_eval as pe
 from jax._src.lax.control_flow import loops
 from jax._src.lax.control_flow.common import _abstractify, _initial_style_jaxpr
+from jax._src.state import discharge as state_discharge
+from jax._src.state import primitives as state_primitives
+from jax._src.state import types as state_types
+from jax._src.state import utils as state_utils
+from jax._src.state.types import AbstractRef, ReadEffect, StateEffect
+from jax._src.typing import Array
+from jax._src.util import (
+    merge_lists, partition_list, safe_map, safe_zip, split_dict, split_list)
 
 ## JAX utilities
 

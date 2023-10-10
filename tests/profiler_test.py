@@ -21,12 +21,14 @@ import tempfile
 import threading
 import time
 import unittest
+
 from absl.testing import absltest
 
 import jax
+from jax import config
 import jax.numpy as jnp
 import jax.profiler
-from jax import config
+
 import jax._src.test_util as jtu
 
 try:

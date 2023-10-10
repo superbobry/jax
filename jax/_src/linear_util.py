@@ -74,7 +74,6 @@ from jax._src import traceback_util
 from jax._src.tree_util import tree_map
 from jax._src.util import curry
 
-
 traceback_util.register_exclusion(__file__)
 
 

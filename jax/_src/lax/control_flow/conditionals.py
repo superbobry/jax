@@ -22,8 +22,11 @@ import itertools
 import operator
 from typing import Callable
 
+import numpy as np
+
 from jax import config
 from jax.tree_util import tree_flatten, tree_unflatten
+
 from jax._src import ad_util
 from jax._src import core
 from jax._src import dispatch
@@ -32,8 +35,6 @@ from jax._src import effects
 from jax._src import linear_util as lu
 from jax._src import source_info_util
 from jax._src import util
-from jax._src.state.discharge import register_discharge_rule, discharge_state
-from jax._src.state.types import AbstractRef, RefEffect
 from jax._src.core import ConcreteArray, raise_to_shaped, replace_jaxpr_effects
 from jax._src.interpreters import ad
 from jax._src.interpreters import batching
@@ -41,21 +42,17 @@ from jax._src.interpreters import mlir
 from jax._src.interpreters import partial_eval as pe
 from jax._src.interpreters import xla
 from jax._src.lax import lax
-from jax._src.traceback_util import api_boundary
-from jax._src.util import (safe_map, split_list, partition_list)
+from jax._src.lax.control_flow.common import (
+    _abstractify, _avals_short, _check_tree_and_avals,
+    _initial_style_jaxprs_with_common_consts, _make_closed_jaxpr, _prune_zeros,
+    _typecheck_param)
 from jax._src.lib.mlir import ir
 from jax._src.lib.mlir.dialects import hlo
-import numpy as np
-
-from jax._src.lax.control_flow.common import (
-    _abstractify,
-    _avals_short,
-    _check_tree_and_avals,
-    _initial_style_jaxprs_with_common_consts,
-    _make_closed_jaxpr,
-    _prune_zeros,
-    _typecheck_param,
-    )
+from jax._src.state.discharge import discharge_state
+from jax._src.state.discharge import register_discharge_rule
+from jax._src.state.types import AbstractRef, RefEffect
+from jax._src.traceback_util import api_boundary
+from jax._src.util import partition_list, safe_map, split_list
 
 map, unsafe_map = safe_map, map
 
@@ -354,7 +351,8 @@ def _cond_batching_rule(spmd_axis_name, axis_size, axis_name, main_type, args,
       branch.jaxpr.effects):
     raise NotImplementedError(
         "State effect not supported in vmap-of-cond.")
-  from jax._src.callback import _IOEffect, _OrderedIOEffect
+  from jax._src.callback import _IOEffect
+  from jax._src.callback import _OrderedIOEffect
   if any(eff in branch.effects for eff in [_IOEffect, _OrderedIOEffect]
       for branch in branches):
     raise NotImplementedError(

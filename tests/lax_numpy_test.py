@@ -29,29 +29,29 @@ import warnings
 
 from absl.testing import absltest
 from absl.testing import parameterized
-
 import numpy as np
+
 try:
   import numpy_dispatch
 except ImportError:
   numpy_dispatch = None
 
 import jax
-import jax.ops
+from jax import config
 from jax import lax
 from jax import numpy as jnp
 from jax import tree_util
+import jax.ops
 from jax.test_util import check_grads
 
+from jax._src import array
 from jax._src import core
 from jax._src import dtypes
 from jax._src import test_util as jtu
 from jax._src.lax import lax as lax_internal
-from jax._src.numpy.util import _parse_numpydoc, ParsedDoc, _wraps
-from jax._src.util import safe_zip, NumpyComplexWarning
-from jax._src import array
+from jax._src.numpy.util import _parse_numpydoc, _wraps, ParsedDoc
+from jax._src.util import NumpyComplexWarning, safe_zip
 
-from jax import config
 config.parse_flags_with_absl()
 FLAGS = config.FLAGS
 

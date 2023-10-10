@@ -23,32 +23,31 @@ from unittest import SkipTest
 
 from absl.testing import absltest
 from absl.testing import parameterized
-
 import numpy as np
 
 import jax
-from jax._src import core
+from jax import config
 from jax import lax
+from jax import tree_util
+from jax.interpreters import batching
+from jax.interpreters import xla
 import jax.numpy as jnp
 from jax.test_util import check_grads
-from jax import tree_util
 import jax.util
 
-from jax.interpreters import xla
-from jax._src.interpreters import mlir
-from jax.interpreters import batching
 from jax._src import array
+from jax._src import core
 from jax._src import dtypes
-from jax._src.interpreters import pxla
-from jax._src import test_util as jtu
 from jax._src import lax_reference
+from jax._src import test_util as jtu
+from jax._src.internal_test_util import lax_test_util
+from jax._src.interpreters import mlir
+from jax._src.interpreters import pxla
 from jax._src.lax import lax as lax_internal
 from jax._src.lib import xla_client as xc
 from jax._src.lib import xla_extension_version
-from jax._src.internal_test_util import lax_test_util
 from jax._src.util import NumpyComplexWarning
 
-from jax import config
 config.parse_flags_with_absl()
 
 

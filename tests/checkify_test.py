@@ -20,17 +20,19 @@ from absl.testing import parameterized
 import numpy as np
 
 import jax
-from jax import lax
-import jax._src.test_util as jtu
-from jax._src.lib import xla_extension
 from jax import config
+from jax import lax
 from jax.experimental import checkify
 from jax.experimental import pjit
+import jax.numpy as jnp
 from jax.sharding import NamedSharding
+
 from jax._src import array
 from jax._src import core
-from jax._src.checkify import JaxRuntimeError, FailedCheckError, ErrorEffect, OOBError
-import jax.numpy as jnp
+from jax._src.checkify import (
+    ErrorEffect, FailedCheckError, JaxRuntimeError, OOBError)
+from jax._src.lib import xla_extension
+import jax._src.test_util as jtu
 
 config.parse_flags_with_absl()
 

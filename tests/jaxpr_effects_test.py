@@ -17,23 +17,25 @@ import unittest
 import warnings
 
 from absl.testing import absltest
+import numpy as np
+
 import jax
-import jax.numpy as jnp
-from jax._src import core
-from jax import lax
-from jax._src import effects
-from jax._src import linear_util as lu
 from jax import config
+from jax import lax
 from jax.experimental import maps
 from jax.experimental import pjit
-from jax._src.interpreters import ad
-from jax._src.interpreters import partial_eval as pe
-from jax._src.interpreters import mlir
+import jax.numpy as jnp
+
 from jax._src import ad_checkpoint
+from jax._src import core
 from jax._src import dispatch
+from jax._src import effects
+from jax._src import linear_util as lu
 from jax._src import test_util as jtu
 from jax._src import util
-import numpy as np
+from jax._src.interpreters import ad
+from jax._src.interpreters import mlir
+from jax._src.interpreters import partial_eval as pe
 
 config.parse_flags_with_absl()
 

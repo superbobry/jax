@@ -12,13 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import NamedTuple, Union
 from functools import partial
+from typing import NamedTuple, Union
 
-from jax._src.numpy.util import promote_dtypes_inexact
-import jax.numpy as jnp
 import jax
 from jax import lax
+import jax.numpy as jnp
+
+from jax._src.numpy.util import promote_dtypes_inexact
 
 _dot = partial(jnp.dot, precision=lax.Precision.HIGHEST)
 

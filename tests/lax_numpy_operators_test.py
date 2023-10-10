@@ -23,18 +23,17 @@ from unittest import SkipTest
 
 from absl.testing import absltest
 from absl.testing import parameterized
-
 import numpy as np
 
 import jax
-import jax.ops
+from jax import config
 from jax import lax
 from jax import numpy as jnp
+import jax.ops
 
 from jax._src import dtypes
 from jax._src import test_util as jtu
 
-from jax import config
 config.parse_flags_with_absl()
 FLAGS = config.FLAGS
 

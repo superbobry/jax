@@ -15,30 +15,31 @@
 from collections.abc import Sequence
 import contextlib
 import functools
-import itertools as it
 from functools import partial
+import itertools as it
 from typing import Any, Callable, Optional, Union
 
 import jax
-from jax._src import linear_util as lu
-from jax._src.interpreters import partial_eval as pe
 from jax import config
-from jax.tree_util import (tree_flatten, tree_unflatten,
-                           register_pytree_node, Partial)
+from jax.tree_util import (
+    Partial, register_pytree_node, tree_flatten, tree_unflatten)
+
 from jax._src import core
+from jax._src import linear_util as lu
 from jax._src import source_info_util
 from jax._src.ad_util import (
     add_jaxvals, add_jaxvals_p, replace_internal_symbolic_zeros,
     replace_rule_output_symbolic_zeros, Zero, zeros_like_aval,
     zeros_like_jaxval, zeros_like_p)
 from jax._src.api_util import flatten_fun, flatten_fun_nokwargs
-from jax._src.core import (Trace, Tracer, get_aval, call_p, Primitive, Literal,
-                           raise_to_shaped)
-from jax._src.dtypes import dtype, float0
-from jax._src.util import (unzip2, safe_map, safe_zip, split_list, wrap_name,
-                           as_hashable_function, weakref_lru_cache,
-                           partition_list)
-
+from jax._src.core import (
+    call_p, get_aval, Literal, Primitive, raise_to_shaped, Trace, Tracer)
+from jax._src.dtypes import dtype
+from jax._src.dtypes import float0
+from jax._src.interpreters import partial_eval as pe
+from jax._src.util import (
+    as_hashable_function, partition_list, safe_map, safe_zip, split_list,
+    unzip2, weakref_lru_cache, wrap_name)
 
 zip = safe_zip
 map = safe_map

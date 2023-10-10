@@ -18,12 +18,12 @@ import enum
 from typing import Any
 
 from jax import numpy as jnp
+
 from jax._src import array
 from jax._src import xla_bridge
 from jax._src.lib import xla_client
 from jax._src.lib import xla_extension_version
 from jax._src.typing import Array
-
 
 SUPPORTED_DTYPES = frozenset({
     jnp.int8, jnp.int16, jnp.int32, jnp.int64, jnp.uint8, jnp.uint16,

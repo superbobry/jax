@@ -14,28 +14,28 @@
 
 """Module for pallas-specific JAX primitives and functions."""
 from __future__ import annotations
+
 import enum
 import functools
-
 from typing import Any
 
 import jax
 from jax import lax
 from jax import tree_util
-from jax._src import ad_util
-from jax._src import core as jax_core
-from jax._src import pretty_printer as pp
-from jax._src import state
-from jax._src.util import (safe_map, safe_zip)
-from jax._src.state import primitives as state_primitives
-from jax._src.state import discharge as state_discharge
 from jax.interpreters import ad
 from jax.interpreters import mlir
 from jax.interpreters import xla
 import jax.numpy as jnp
 
+from jax._src import ad_util
+from jax._src import core as jax_core
+from jax._src import pretty_printer as pp
+from jax._src import state
 from jax._src.pallas import core as pallas_core
 from jax._src.pallas import indexing
+from jax._src.state import discharge as state_discharge
+from jax._src.state import primitives as state_primitives
+from jax._src.util import safe_map, safe_zip
 
 # TODO(sharadmv): enable type checking
 # mypy: ignore-errors

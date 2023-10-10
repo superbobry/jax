@@ -20,30 +20,31 @@ import unittest
 
 from absl.testing import absltest
 from absl.testing import parameterized
+import numpy as np
+import scipy.sparse
 
 import jax
-import jax.random
 from jax import config
 from jax import dtypes
-from jax.experimental import sparse
-from jax.experimental.sparse import coo as sparse_coo
-from jax.experimental.sparse import csr as sparse_csr
-from jax.experimental.sparse import bcoo as sparse_bcoo
-from jax.experimental.sparse import bcsr as sparse_bcsr
-from jax.experimental.sparse import util as sparse_util
-from jax.experimental.sparse import test_util as sptu
-from jax.experimental.sparse import _lowerings
-from jax._src import xla_bridge
-from jax._src.lib import gpu_sparse
 from jax import jit
 from jax import tree_util
 from jax import vmap
-from jax._src import test_util as jtu
+from jax.experimental import sparse
+from jax.experimental.sparse import _lowerings
+from jax.experimental.sparse import bcoo as sparse_bcoo
+from jax.experimental.sparse import bcsr as sparse_bcsr
+from jax.experimental.sparse import coo as sparse_coo
+from jax.experimental.sparse import csr as sparse_csr
+from jax.experimental.sparse import test_util as sptu
+from jax.experimental.sparse import util as sparse_util
 from jax.interpreters import mlir
 import jax.numpy as jnp
+import jax.random
 from jax.util import split_list
-import numpy as np
-import scipy.sparse
+
+from jax._src import test_util as jtu
+from jax._src import xla_bridge
+from jax._src.lib import gpu_sparse
 
 config.parse_flags_with_absl()
 FLAGS = config.FLAGS

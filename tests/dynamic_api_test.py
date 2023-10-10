@@ -15,21 +15,21 @@
 from functools import partial
 import re
 import unittest
-import numpy as np
 
 from absl.testing import absltest
 from absl.testing import parameterized
+import numpy as np
 
 import jax
-import jax.numpy as jnp
-from jax import lax
 from jax import config
+from jax import lax
 from jax.interpreters import batching
+import jax.numpy as jnp
 
-import jax._src.lib
-import jax._src.util
 from jax._src import core
 from jax._src import test_util as jtu
+import jax._src.lib
+import jax._src.util
 
 config.parse_flags_with_absl()
 FLAGS = config.FLAGS

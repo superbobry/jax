@@ -1,7 +1,8 @@
 from jax import lax
 import jax.numpy as jnp
-from jax._src.typing import Array, ArrayLike
+
 from jax._src.numpy.util import promote_args_inexact
+from jax._src.typing import Array, ArrayLike
 
 # Note: for mysterious reasons, annotating this leads to very slow mypy runs.
 # def algdiv(a: ArrayLike, b: ArrayLike) -> Array:

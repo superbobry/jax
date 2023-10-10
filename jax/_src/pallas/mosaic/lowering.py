@@ -19,9 +19,14 @@ import dataclasses
 import functools
 from typing import Any, Callable, Sequence
 
+import numpy as np
+
 from jax import core as jax_core
 from jax import lax
 from jax import tree_util
+from jax.experimental.mosaic.dialects import tpu
+import jax.numpy as jnp
+
 from jax._src import custom_derivatives
 from jax._src import debugging
 from jax._src import linear_util as lu
@@ -48,13 +53,7 @@ from jax._src.pallas.mosaic import core as tpu_core
 from jax._src.pallas.mosaic import primitives as tpu_primitives
 from jax._src.state import discharge as state_discharge
 from jax._src.state import primitives as state_primitives
-from jax._src.util import safe_map
-from jax._src.util import safe_zip
-from jax._src.util import split_list
-from jax._src.util import unzip2
-from jax.experimental.mosaic.dialects import tpu
-import jax.numpy as jnp
-import numpy as np
+from jax._src.util import safe_map, safe_zip, split_list, unzip2
 
 # TODO(sharadmv): enable type checking
 # mypy: ignore-errors

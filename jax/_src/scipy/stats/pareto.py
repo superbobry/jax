@@ -17,6 +17,7 @@ import scipy.stats as osp_stats
 
 from jax import lax
 import jax.numpy as jnp
+
 from jax._src.lax.lax import _const as _lax_const
 from jax._src.numpy.util import _wraps, promote_args_inexact
 from jax._src.typing import Array, ArrayLike

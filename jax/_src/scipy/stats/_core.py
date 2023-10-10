@@ -17,16 +17,17 @@ from functools import partial
 import math
 from typing import Optional
 
+import scipy
+
 import jax
-import jax.numpy as jnp
 from jax import jit
+import jax.numpy as jnp
+
 from jax._src import dtypes
 from jax._src.api import vmap
-from jax._src.numpy.util import check_arraylike, _wraps
-from jax._src.typing import ArrayLike, Array
+from jax._src.numpy.util import _wraps, check_arraylike
+from jax._src.typing import Array, ArrayLike
 from jax._src.util import canonicalize_axis
-
-import scipy
 
 ModeResult = namedtuple('ModeResult', ('mode', 'count'))
 

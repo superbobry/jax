@@ -16,7 +16,7 @@ from functools import partial
 import math
 import operator
 from textwrap import dedent as _dedent
-from typing import Optional, Union, cast
+from typing import cast, Optional, Union
 
 import numpy as np
 
@@ -27,14 +27,12 @@ from jax._src import core
 from jax._src import dtypes
 from jax._src.lax import lax as lax_internal
 from jax._src.numpy.lax_numpy import (
-    append, arange, array, asarray, concatenate, diff,
-    empty, full_like, lexsort, moveaxis, nonzero, ones, ravel,
-    sort, where, zeros)
+    append, arange, array, asarray, concatenate, diff, empty, full_like,
+    lexsort, moveaxis, nonzero, ones, ravel, sort, where, zeros)
 from jax._src.numpy.reductions import any, cumsum
 from jax._src.numpy.ufuncs import isnan
-from jax._src.numpy.util import check_arraylike, _wraps
+from jax._src.numpy.util import _wraps, check_arraylike
 from jax._src.typing import Array, ArrayLike
-
 
 _lax_const = lax_internal._const
 

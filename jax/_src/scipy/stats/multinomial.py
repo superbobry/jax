@@ -14,9 +14,12 @@
 
 
 import scipy.stats as osp_stats
+
 from jax import lax
 import jax.numpy as jnp
-from jax._src.numpy.util import _wraps, promote_args_inexact, promote_args_numeric
+
+from jax._src.numpy.util import (
+    _wraps, promote_args_inexact, promote_args_numeric)
 from jax._src.scipy.special import gammaln, xlogy
 from jax._src.typing import Array, ArrayLike
 

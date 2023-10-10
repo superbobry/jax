@@ -13,19 +13,18 @@
 # limitations under the License.
 
 from absl.testing import absltest
+import numpy as onp
+from scipy.spatial.transform import Rotation as osp_Rotation
+from scipy.spatial.transform import Slerp as osp_Slerp
+import scipy.version
 
 import jax
-
-import scipy.version
-from jax._src import test_util as jtu
-from jax.scipy.spatial.transform import Rotation as jsp_Rotation
-from scipy.spatial.transform import Rotation as osp_Rotation
-from jax.scipy.spatial.transform import Slerp as jsp_Slerp
-from scipy.spatial.transform import Slerp as osp_Slerp
-
-import jax.numpy as jnp
-import numpy as onp
 from jax.config import config
+import jax.numpy as jnp
+from jax.scipy.spatial.transform import Rotation as jsp_Rotation
+from jax.scipy.spatial.transform import Slerp as jsp_Slerp
+
+from jax._src import test_util as jtu
 
 config.parse_flags_with_absl()
 

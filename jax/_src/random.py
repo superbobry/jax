@@ -22,26 +22,29 @@ import warnings
 
 import numpy as np
 
-import jax.numpy as jnp
 from jax import lax
-from jax.numpy.linalg import cholesky, svd, eigh
+import jax.numpy as jnp
+from jax.numpy.linalg import cholesky
+from jax.numpy.linalg import eigh
+from jax.numpy.linalg import svd
 
 from jax._src import config
 from jax._src import core
 from jax._src import dtypes
 from jax._src import prng
 from jax._src import xla_bridge
-from jax._src.api import jit, vmap
+from jax._src.api import jit
+from jax._src.api import vmap
 from jax._src.core import NamedShape
 from jax._src.interpreters import ad
 from jax._src.interpreters import batching
 from jax._src.interpreters import mlir
 from jax._src.lax import lax as lax_internal
 from jax._src.numpy.lax_numpy import _convert_and_clip_integer
-from jax._src.numpy.util import _arraylike, check_arraylike, promote_dtypes_inexact
+from jax._src.numpy.util import (
+    _arraylike, check_arraylike, promote_dtypes_inexact)
 from jax._src.typing import Array, ArrayLike, DTypeLike
 from jax._src.util import canonicalize_axis
-
 
 RealArray = ArrayLike
 IntegerArray = ArrayLike

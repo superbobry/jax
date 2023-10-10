@@ -21,6 +21,8 @@ import enum
 from typing import Any, Callable
 
 import jax
+import jax.numpy as jnp
+
 from jax._src import api_util
 from jax._src import core as jax_core
 from jax._src import effects
@@ -29,12 +31,11 @@ from jax._src import pretty_printer as pp
 from jax._src import state
 from jax._src import tree_util
 from jax._src import util
-from jax._src.state import primitives as state_primitives
 from jax._src.interpreters import mlir
 from jax._src.interpreters import partial_eval as pe
 from jax._src.pallas import indexing
 from jax._src.pallas.mosaic import core as tpu_core
-import jax.numpy as jnp
+from jax._src.state import primitives as state_primitives
 
 map, unsafe_map = util.safe_map, map
 zip, unsafe_zip = util.safe_zip, zip

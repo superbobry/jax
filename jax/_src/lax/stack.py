@@ -26,6 +26,7 @@ import jax
 from jax import lax
 import jax.numpy as jnp
 
+
 class Stack:
   """A bounded functional stack implementation. Elements may be pytrees."""
   def __init__(self, size, data):

@@ -20,19 +20,20 @@ from typing import Callable, Optional, Union
 import warnings
 
 import numpy as np
-import scipy.signal as osp_signal
 from scipy.fft import next_fast_len as osp_fft_next_fast_len
+import scipy.signal as osp_signal
 
 import jax
-import jax.numpy.fft
-import jax.numpy as jnp
 from jax import lax
-from jax._src.api_util import _ensure_index_tuple
+import jax.numpy as jnp
+import jax.numpy.fft
+
 from jax._src import dtypes
+from jax._src.api_util import _ensure_index_tuple
 from jax._src.lax.lax import PrecisionLike
 from jax._src.numpy import linalg
 from jax._src.numpy.util import (
-    check_arraylike, _wraps, promote_dtypes_inexact, promote_dtypes_complex)
+    _wraps, check_arraylike, promote_dtypes_complex, promote_dtypes_inexact)
 from jax._src.third_party.scipy import signal_helper
 from jax._src.typing import Array, ArrayLike
 from jax._src.util import canonicalize_axis, tuple_delete, tuple_insert

@@ -26,11 +26,10 @@ from typing import Any, NamedTuple
 import numpy as np
 
 from jax._src import config as jax_config
-from jax._src import xla_bridge as xb
 from jax._src import util
+from jax._src import xla_bridge as xb
 from jax._src.lib import xla_client as xc
 from jax._src.lib import xla_extension_version
-
 
 MeshAxisName = Any
 ResourceAxisName = Hashable

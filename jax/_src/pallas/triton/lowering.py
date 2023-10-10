@@ -21,9 +21,21 @@ import operator
 from typing import Any, Dict, Sequence, Tuple
 import zlib
 
+from jax_triton import triton_lib
+from jax_triton.triton_lib import compile_ttir_to_ptx_inplace
+from jax_triton.triton_lib import get_triton_type
+import numpy as np
+from triton._C.libtriton.triton import ir as tl_ir
+from triton.compiler import code_generator as code_gen
+import triton.language as tl
+
 import jax
 from jax import lax
 from jax import tree_util
+from jax.interpreters import mlir
+from jax.interpreters import partial_eval as pe
+import jax.numpy as jnp
+
 from jax._src import ad_checkpoint
 from jax._src import ad_util
 from jax._src import api_util
@@ -45,20 +57,8 @@ from jax._src.pallas.pallas_call import pallas_call_p
 from jax._src.state import AbstractRef
 from jax._src.state import discharge
 from jax._src.state import primitives as sp
-from jax._src.util import merge_lists
-from jax._src.util import partition_list
-from jax._src.util import split_list
-from jax._src.util import weakref_lru_cache
-from jax.interpreters import mlir
-from jax.interpreters import partial_eval as pe
-import jax.numpy as jnp
-from jax_triton import triton_lib
-from jax_triton.triton_lib import compile_ttir_to_ptx_inplace
-from jax_triton.triton_lib import get_triton_type
-import numpy as np
-from triton._C.libtriton.triton import ir as tl_ir
-from triton.compiler import code_generator as code_gen
-import triton.language as tl
+from jax._src.util import (
+    merge_lists, partition_list, split_list, weakref_lru_cache)
 
 # TODO(sharadmv): enable type checking
 # mypy: ignore-errors

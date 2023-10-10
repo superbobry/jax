@@ -17,10 +17,13 @@ import sys
 import textwrap
 from typing import Optional, Union
 
+import numpy as np
+
 from jax import version
+
 from jax._src import lib
 from jax._src import xla_bridge
-import numpy as np
+
 
 def try_nvidia_smi() -> Optional[str]:
   try:

@@ -24,73 +24,67 @@ from __future__ import annotations
 
 import collections
 from collections.abc import Generator, Hashable, Iterable, Sequence
+from contextlib import contextmanager, ExitStack
 from functools import partial
 import inspect
 import math
 import typing
-from typing import (Any, Callable, Literal,
-                    NamedTuple, Optional, TypeVar, Union,
-                    overload, cast)
+from typing import (
+    Any, Callable, cast, Literal, NamedTuple, Optional, overload, TypeVar,
+    Union)
 import weakref
 
 import numpy as np
-from contextlib import contextmanager, ExitStack
 
-from jax._src import linear_util as lu
-from jax._src import stages
-from jax._src.tree_util import (
-    tree_map, tree_flatten, tree_unflatten, tree_structure, tree_transpose,
-    tree_leaves, Partial, PyTreeDef, all_leaves, keystr, broadcast_prefix,
-    prefix_errors, generate_key_paths)
+from jax._src import array
 from jax._src import core
 from jax._src import dispatch
-from jax._src import effects
-from jax._src import array
 from jax._src import dtypes
+from jax._src import effects
+from jax._src import linear_util as lu
+from jax._src import pjit
 from jax._src import sharding_impls
 from jax._src import sharding_specs
 from jax._src import source_info_util
+from jax._src import stages
 from jax._src import traceback_util
-from jax._src import pjit
-from jax._src import xla_bridge as xb
-from jax._src.core import eval_jaxpr
-from jax._src.api_util import (
-    flatten_fun, apply_flat_fun, flatten_fun_nokwargs, flatten_fun_nokwargs2,
-    argnums_partial, argnums_partial_except, flatten_axes, donation_vector,
-    rebase_donate_argnums, _ensure_index, _ensure_index_tuple,
-    shaped_abstractify, _ensure_str_tuple, apply_flat_fun_nokwargs,
-    check_callable, debug_info, result_paths, flat_out_axes, debug_info_final)
-from jax._src.lax import lax as lax_internal
-from jax._src.lib import jax_jit
-from jax._src.lib import xla_client as xc
-from jax._src.lib import xla_extension_version
-from jax._src.lib import pmap_lib
-from jax._src.sharding import Sharding
-from jax._src.sharding_impls import (PmapSharding, TransferToMemoryKind,
-                                     XLACompatibleSharding)
-from jax._src.traceback_util import api_boundary
 from jax._src import tree_util
-from jax._src.util import unzip2, safe_map, safe_zip, wrap_name, wraps
 from jax._src import util
-
-
-from jax._src.interpreters import partial_eval as pe
-from jax._src.interpreters import mlir
-from jax._src.interpreters import xla
-
+from jax._src import xla_bridge as xb
+from jax._src.api_util import (
+    _ensure_index, _ensure_index_tuple, _ensure_str_tuple, apply_flat_fun,
+    apply_flat_fun_nokwargs, argnums_partial, argnums_partial_except,
+    check_callable, debug_info, debug_info_final, donation_vector,
+    flat_out_axes, flatten_axes, flatten_fun, flatten_fun_nokwargs,
+    flatten_fun_nokwargs2, rebase_donate_argnums, result_paths,
+    shaped_abstractify)
 from jax._src.config import (
-    config,
+    _thread_local_state as config_thread_local_state, config,
+    debug_infs as config_debug_infs, debug_nans as config_debug_nans,
     disable_jit as _disable_jit,
-    debug_nans as config_debug_nans,
-    debug_infs as config_debug_infs,
-    _thread_local_state as config_thread_local_state,
-    explicit_device_put_scope as config_explicit_device_put_scope,
-    explicit_device_get_scope as config_explicit_device_get_scope)
-from jax._src.core import ShapedArray
+    explicit_device_get_scope as config_explicit_device_get_scope,
+    explicit_device_put_scope as config_explicit_device_put_scope)
+from jax._src.core import eval_jaxpr, ShapedArray
 from jax._src.interpreters import ad
 from jax._src.interpreters import batching
+from jax._src.interpreters import mlir
+from jax._src.interpreters import partial_eval as pe
 from jax._src.interpreters import pxla
-
+from jax._src.interpreters import xla
+from jax._src.lax import lax as lax_internal
+from jax._src.lib import jax_jit
+from jax._src.lib import pmap_lib
+from jax._src.lib import xla_client as xc
+from jax._src.lib import xla_extension_version
+from jax._src.sharding import Sharding
+from jax._src.sharding_impls import (
+    PmapSharding, TransferToMemoryKind, XLACompatibleSharding)
+from jax._src.traceback_util import api_boundary
+from jax._src.tree_util import (
+    all_leaves, broadcast_prefix, generate_key_paths, keystr, Partial,
+    prefix_errors, PyTreeDef, tree_flatten, tree_leaves, tree_map,
+    tree_structure, tree_transpose, tree_unflatten)
+from jax._src.util import safe_map, safe_zip, unzip2, wrap_name, wraps
 
 traceback_util.register_exclusion(__file__)
 

@@ -23,9 +23,10 @@ from typing import Any, Literal, Protocol, Union
 
 import numpy as np
 
-import jax.numpy as jnp
 from jax import lax
 from jax import random
+import jax.numpy as jnp
+
 from jax._src import core
 from jax._src import dtypes
 from jax._src.typing import Array, ArrayLike

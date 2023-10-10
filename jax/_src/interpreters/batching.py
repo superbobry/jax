@@ -23,21 +23,22 @@ import numpy as np
 
 import jax
 from jax import config
-from jax._src import core
-from jax._src import source_info_util
-from jax._src import linear_util as lu
-from jax._src.ad_util import (add_jaxvals, add_jaxvals_p, zeros_like_jaxval,
-                              zeros_like_p, Zero, SymbolicZero,
-                              replace_rule_output_symbolic_zeros, instantiate)
-from jax._src.core import raise_to_shaped, Trace, Tracer, AxisName
-from jax._src.interpreters import partial_eval as pe
-from jax._src.tree_util import (tree_unflatten, tree_flatten,
-                                register_pytree_node)
-from jax._src.typing import Array
-from jax._src.util import (unzip2, unzip3, safe_map, safe_zip, split_list,
-                           canonicalize_axis, moveaxis, as_hashable_function,
-                           curry, memoize, weakref_lru_cache)
 
+from jax._src import core
+from jax._src import linear_util as lu
+from jax._src import source_info_util
+from jax._src.ad_util import (
+    add_jaxvals, add_jaxvals_p, instantiate,
+    replace_rule_output_symbolic_zeros, SymbolicZero, Zero, zeros_like_jaxval,
+    zeros_like_p)
+from jax._src.core import AxisName, raise_to_shaped, Trace, Tracer
+from jax._src.interpreters import partial_eval as pe
+from jax._src.tree_util import (
+    register_pytree_node, tree_flatten, tree_unflatten)
+from jax._src.typing import Array
+from jax._src.util import (
+    as_hashable_function, canonicalize_axis, curry, memoize, moveaxis,
+    safe_map, safe_zip, split_list, unzip2, unzip3, weakref_lru_cache)
 
 map, unsafe_map = safe_map, map
 zip, unsafe_zip = safe_zip, zip

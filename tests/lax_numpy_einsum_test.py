@@ -17,17 +17,18 @@ from collections import defaultdict
 from functools import partial
 import itertools
 
-import numpy as np
 from absl.testing import absltest
 from absl.testing import parameterized
+import numpy as np
 
 import jax
+from jax import config
 from jax import dtypes
 from jax import lax
 import jax.numpy as jnp
+
 import jax._src.test_util as jtu
 
-from jax import config
 config.parse_flags_with_absl()
 
 

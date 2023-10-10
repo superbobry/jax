@@ -17,12 +17,11 @@ import os
 import sys
 import traceback
 import types
-from typing import Any, Callable, Optional, TypeVar, cast
+from typing import Any, Callable, cast, Optional, TypeVar
 
 from jax._src import config
 from jax._src import util
 from jax._src.lib import xla_extension
-
 
 C = TypeVar("C", bound=Callable[..., Any])
 

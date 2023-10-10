@@ -21,6 +21,8 @@ import dataclasses
 import functools
 from typing import Any, Callable, Iterator
 
+import jax.numpy as jnp
+
 from jax._src import api_util
 from jax._src import core as jax_core
 from jax._src import linear_util as lu
@@ -29,7 +31,6 @@ from jax._src import tree_util
 from jax._src import util
 from jax._src.interpreters import partial_eval as pe
 from jax._src.state import discharge as state_discharge
-import jax.numpy as jnp
 
 # TODO(sharadmv): enable type checking
 # mypy: ignore-errors

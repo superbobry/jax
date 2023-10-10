@@ -19,11 +19,16 @@ from typing import Any
 import numpy as np
 import scipy.stats as osp_stats
 
+from jax import jit
+from jax import lax
+from jax import random
+from jax import vmap
 import jax.numpy as jnp
-from jax import jit, lax, random, vmap
-from jax._src.numpy.util import check_arraylike, promote_dtypes_inexact, _wraps
+from jax.scipy import linalg
+from jax.scipy import special
+
+from jax._src.numpy.util import _wraps, check_arraylike, promote_dtypes_inexact
 from jax._src.tree_util import register_pytree_node_class
-from jax.scipy import linalg, special
 
 
 @_wraps(osp_stats.gaussian_kde, update_doc=False)

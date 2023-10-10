@@ -19,16 +19,17 @@
 
 import collections
 import itertools
-from typing import Optional, cast
-
-from jax import lax
-from jax._src import dtypes
-from jax._src import test_util
-from jax._src.util import safe_map, safe_zip
+from typing import cast, Optional
 
 import numpy as np
 
 from jax import config
+from jax import lax
+
+from jax._src import dtypes
+from jax._src import test_util
+from jax._src.util import safe_map, safe_zip
+
 config.parse_flags_with_absl()
 
 map, unsafe_map = safe_map, map

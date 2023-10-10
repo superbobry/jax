@@ -23,23 +23,24 @@ from absl.testing import parameterized
 import numpy as np
 
 import jax
+from jax import config
+from jax.experimental import multihost_utils
+from jax.experimental.pjit import pjit
 import jax.numpy as jnp
+from jax.sharding import PartitionSpec as P
+
+from jax._src import array
 from jax._src import core
 from jax._src import dispatch
 from jax._src import op_shardings
+from jax._src import prng
 from jax._src import test_util as jtu
 from jax._src import xla_bridge as xb
 from jax._src.lib import xla_client as xc
+from jax._src.sharding_impls import (
+    _op_sharding_to_pos_sharding, pmap_sharding_devices_indices_map)
 from jax._src.util import safe_zip
-from jax._src.sharding_impls import (_op_sharding_to_pos_sharding,
-                                     pmap_sharding_devices_indices_map)
-from jax.experimental.pjit import pjit
-from jax.experimental import multihost_utils
-from jax.sharding import PartitionSpec as P
-from jax._src import array
-from jax._src import prng
 
-from jax import config
 config.parse_flags_with_absl()
 
 

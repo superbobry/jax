@@ -21,12 +21,13 @@ from typing import Callable
 
 import scipy.ndimage
 
-from jax._src import api
-from jax._src import util
 from jax import lax
 import jax.numpy as jnp
+
+from jax._src import api
+from jax._src import util
 from jax._src.numpy.util import _wraps
-from jax._src.typing import ArrayLike, Array
+from jax._src.typing import Array, ArrayLike
 from jax._src.util import safe_zip as zip
 
 

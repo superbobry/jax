@@ -14,18 +14,18 @@
 
 
 from functools import partial
-
-from absl.testing import absltest
-
-import numpy as np
-import numpy.random as npr
 from unittest import SkipTest
 
+from absl.testing import absltest
+import numpy as np
+import numpy.random as npr
+
 import jax
-from jax._src import test_util as jtu
+from jax import config
 from jax import numpy as jnp
 
-from jax import config
+from jax._src import test_util as jtu
+
 config.parse_flags_with_absl()
 FLAGS = config.FLAGS
 npr.seed(0)

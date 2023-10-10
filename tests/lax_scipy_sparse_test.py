@@ -20,17 +20,17 @@ import numpy as np
 import scipy.sparse.linalg
 
 import jax
-import jax.numpy as jnp
-import jax.scipy.sparse.linalg
+from jax import config
 from jax import jit
 from jax import lax
+import jax.numpy as jnp
+import jax.scipy.sparse.linalg
 from jax.tree_util import register_pytree_node_class
 
-import jax._src.scipy.sparse.linalg as sp_linalg
 from jax._src import dtypes
 from jax._src import test_util as jtu
+import jax._src.scipy.sparse.linalg as sp_linalg
 
-from jax import config
 config.parse_flags_with_absl()
 
 

@@ -24,14 +24,15 @@ try:
 except ImportError:
   cloudpickle = None
 
+import numpy as np
+
 import jax
-from jax import numpy as jnp
 from jax import config
+from jax import numpy as jnp
 from jax.interpreters import pxla
+
 from jax._src import test_util as jtu
 from jax._src.lib import xla_client as xc
-
-import numpy as np
 
 config.parse_flags_with_absl()
 

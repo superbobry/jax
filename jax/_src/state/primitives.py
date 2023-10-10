@@ -13,11 +13,9 @@
 # limitations under the License.
 """Module for state primitives."""
 from functools import partial
-
 from typing import Any, Union
 
 import numpy as np
-
 
 from jax._src import ad_util
 from jax._src import core
@@ -26,11 +24,10 @@ from jax._src.interpreters import ad
 from jax._src.interpreters import batching
 from jax._src.interpreters import partial_eval as pe
 from jax._src.lax import lax
+from jax._src.state.types import (
+    AbstractRef, AccumEffect, ReadEffect, WriteEffect)
 from jax._src.typing import Array
-from jax._src.state.types import (AbstractRef, ReadEffect, WriteEffect,
-                                  AccumEffect)
 from jax._src.util import safe_map, safe_zip, tuple_insert
-
 
 ## General utilities
 

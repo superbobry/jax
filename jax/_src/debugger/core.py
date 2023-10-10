@@ -21,6 +21,7 @@ from typing import Any, Protocol
 
 import jax
 from jax import tree_util
+
 from jax._src import core
 from jax._src import debugging
 from jax._src import traceback_util

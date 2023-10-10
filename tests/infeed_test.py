@@ -17,15 +17,18 @@ import threading
 from unittest import SkipTest
 
 from absl.testing import absltest
+import numpy as np
+
 import jax
-from jax import lax, numpy as jnp
 from jax import config
+from jax import lax
+from jax import numpy as jnp
 from jax.experimental import host_callback as hcb
+
 from jax._src import core
 from jax._src import xla_bridge
 from jax._src.lib import xla_client
 import jax._src.test_util as jtu
-import numpy as np
 
 config.parse_flags_with_absl()
 

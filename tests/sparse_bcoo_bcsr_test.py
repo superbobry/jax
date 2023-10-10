@@ -21,15 +21,13 @@ import random
 import unittest
 
 from absl.testing import absltest
+import numpy as np
+
 import jax
 from jax import config
 from jax import jit
 from jax import lax
 from jax import vmap
-from jax._src import test_util as jtu
-from jax._src import xla_bridge
-from jax._src.lax.lax import remaining
-from jax._src.util import unzip2
 from jax.experimental import sparse
 from jax.experimental.sparse import bcoo as sparse_bcoo
 from jax.experimental.sparse import bcsr as sparse_bcsr
@@ -38,7 +36,11 @@ from jax.experimental.sparse import util as sparse_util
 import jax.numpy as jnp
 import jax.random
 from jax.util import split_list
-import numpy as np
+
+from jax._src import test_util as jtu
+from jax._src import xla_bridge
+from jax._src.lax.lax import remaining
+from jax._src.util import unzip2
 
 config.parse_flags_with_absl()
 FLAGS = config.FLAGS

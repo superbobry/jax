@@ -15,16 +15,15 @@
 from functools import partial
 import unittest
 
+from absl.testing import absltest
 import numpy as np
 
-from absl.testing import absltest
-
 import jax
+from jax import config
 from jax import image
 from jax import numpy as jnp
-from jax._src import test_util as jtu
 
-from jax import config
+from jax._src import test_util as jtu
 
 # We use TensorFlow and PIL as reference implementations.
 try:

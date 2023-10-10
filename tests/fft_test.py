@@ -15,19 +15,19 @@
 
 import itertools
 
-import numpy as np
-
 from absl.testing import absltest
 from absl.testing import parameterized
+import numpy as np
 
 import jax
+from jax import config
 from jax import lax
 from jax import numpy as jnp
+
 from jax._src import dtypes
 from jax._src import test_util as jtu
 from jax._src.numpy.util import promote_dtypes_complex
 
-from jax import config
 config.parse_flags_with_absl()
 
 FFT_NORMS = [None, "ortho", "forward", "backward"]

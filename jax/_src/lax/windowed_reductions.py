@@ -26,12 +26,12 @@ from jax._src import core
 from jax._src import dispatch
 from jax._src import dtypes
 from jax._src import util
-from jax._src.core import ShapedArray, ConcreteArray
+from jax._src.core import ConcreteArray, ShapedArray
 from jax._src.interpreters import ad
 from jax._src.interpreters import batching
 from jax._src.interpreters import mlir
-from jax._src.lax import lax
 from jax._src.lax import convolution
+from jax._src.lax import lax
 from jax._src.lax import slicing
 from jax._src.lib.mlir import ir
 from jax._src.lib.mlir.dialects import hlo

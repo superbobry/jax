@@ -13,13 +13,14 @@
 # limitations under the License.
 
 import unittest
+
 from absl.testing import absltest
 
 import jax
-import jax._src.xla_bridge as xla_bridge
 from jax import config
-import jax._src.test_util as jtu
 
+import jax._src.test_util as jtu
+import jax._src.xla_bridge as xla_bridge
 
 config.parse_flags_with_absl()
 

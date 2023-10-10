@@ -13,9 +13,9 @@
 # limitations under the License.
 
 from collections.abc import Iterable, Sequence
+from functools import partial
 import inspect
 import operator
-from functools import partial
 from typing import Any, Callable, Optional, Union
 import warnings
 
@@ -23,18 +23,18 @@ import numpy as np
 
 from jax._src import core
 from jax._src import dtypes
+from jax._src import linear_util as lu
+from jax._src import traceback_util
 from jax._src.abstract_arrays import numpy_scalar_types
 from jax._src.core import ShapedArray
-from jax._src.tree_util import (
-    PyTreeDef, tree_flatten, tree_unflatten, tree_map, tree_structure,
-    treedef_children, generate_key_paths, keystr, broadcast_prefix,
-    prefix_errors)
-from jax._src.tree_util import _replace_nones
-from jax._src import linear_util as lu
 from jax._src.linear_util import TracingDebugInfo
-from jax._src.util import (safe_map, WrapKwArgs, Hashable, HashableFunction,
-                           Unhashable)
-from jax._src import traceback_util
+from jax._src.tree_util import (
+    _replace_nones, broadcast_prefix, generate_key_paths, keystr,
+    prefix_errors, PyTreeDef, tree_flatten, tree_map, tree_structure,
+    tree_unflatten, treedef_children)
+from jax._src.util import (
+    Hashable, HashableFunction, safe_map, Unhashable, WrapKwArgs)
+
 traceback_util.register_exclusion(__file__)
 
 map = safe_map

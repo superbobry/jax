@@ -14,23 +14,25 @@
 
 
 from functools import partial
+import operator
+import textwrap
+from typing import cast, Literal, Optional, overload, Union
 
 import numpy as np
-import textwrap
-import operator
-from typing import Literal, Optional, Union, cast, overload
 
 import jax
-from jax import jit, custom_jvp
+from jax import custom_jvp
+from jax import jit
 from jax import lax
 
 from jax._src.lax import lax as lax_internal
 from jax._src.lax import linalg as lax_linalg
 from jax._src.numpy import lax_numpy as jnp
-from jax._src.numpy import reductions, ufuncs
-from jax._src.numpy.util import _wraps, promote_dtypes_inexact, check_arraylike
+from jax._src.numpy import reductions
+from jax._src.numpy import ufuncs
+from jax._src.numpy.util import _wraps, check_arraylike, promote_dtypes_inexact
+from jax._src.typing import Array, ArrayLike
 from jax._src.util import canonicalize_axis
-from jax._src.typing import ArrayLike, Array
 
 
 def _H(x: ArrayLike) -> Array:

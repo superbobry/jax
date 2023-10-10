@@ -14,9 +14,11 @@
 
 # Helpers for writing JAX filecheck tests.
 
+import numpy as np
+
 import jax
 import jax.tree_util as tree_util
-import numpy as np
+
 
 def print_ir(*prototypes):
   def lower(f):

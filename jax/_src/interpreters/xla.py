@@ -28,15 +28,13 @@ import numpy as np
 from jax._src import core
 from jax._src import dtypes
 from jax._src import source_info_util
+from jax._src import xla_bridge as xb
 from jax._src.abstract_arrays import numpy_scalar_types
 from jax._src.core import ConcreteArray, ShapedArray
-from jax._src.sharding_impls import AxisEnv
-from jax._src.util import safe_zip, safe_map
-
-from jax._src.typing import Shape
-
-from jax._src import xla_bridge as xb
 from jax._src.lib import xla_client as xc
+from jax._src.sharding_impls import AxisEnv
+from jax._src.typing import Shape
+from jax._src.util import safe_map, safe_zip
 
 map, unsafe_map = safe_map, map
 zip, unsafe_zip = safe_zip, zip

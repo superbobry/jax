@@ -38,18 +38,46 @@ import warnings
 import weakref
 
 from absl import logging
-from absl.testing import absltest, parameterized
+from absl.testing import absltest
+from absl.testing import parameterized
+import numpy as np
+
 import jax
 from jax import config
 from jax import custom_derivatives as custom_derivatives_public
-from jax import device_put, float0, grad, hessian, jacfwd, jacrev, jit
+from jax import device_put
+from jax import float0
+from jax import grad
+from jax import hessian
+from jax import jacfwd
+from jax import jacrev
+from jax import jit
 from jax import lax
 from jax import tree_util
-from jax._src import api, api_util, dtypes, lib
+from jax.ad_checkpoint import checkpoint as new_checkpoint
+from jax.ad_checkpoint import checkpoint_name
+import jax.custom_batching
+import jax.custom_derivatives
+import jax.custom_transpose
+from jax.errors import ConcretizationTypeError
+from jax.errors import TracerBoolConversionError
+from jax.errors import TracerIntegerConversionError
+from jax.errors import UnexpectedTracerError
+from jax.experimental import pjit
+from jax.interpreters import ad
+from jax.interpreters import batching
+from jax.interpreters import xla
+import jax.numpy as jnp
+from jax.sharding import PartitionSpec as P
+
+from jax._src import api
+from jax._src import api_util
 from jax._src import array
 from jax._src import config as config_internal
 from jax._src import core
 from jax._src import custom_derivatives
+from jax._src import dtypes
+from jax._src import lib
 from jax._src import linear_util as lu
 from jax._src import prng
 from jax._src import test_util as jtu
@@ -61,19 +89,6 @@ from jax._src.lib import xla_client
 from jax._src.lib import xla_extension
 from jax._src.lib import xla_extension_version
 import jax._src.util as jax_util
-from jax.ad_checkpoint import checkpoint_name, checkpoint as new_checkpoint
-import jax.custom_batching
-import jax.custom_derivatives
-import jax.custom_transpose
-from jax.errors import (UnexpectedTracerError, TracerIntegerConversionError,
-                        ConcretizationTypeError, TracerBoolConversionError)
-from jax.experimental import pjit
-from jax.interpreters import ad
-from jax.interpreters import batching
-from jax.interpreters import xla
-import jax.numpy as jnp
-from jax.sharding import PartitionSpec as P
-import numpy as np
 
 config.parse_flags_with_absl()
 FLAGS = config.FLAGS

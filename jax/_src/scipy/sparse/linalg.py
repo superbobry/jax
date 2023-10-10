@@ -19,17 +19,16 @@ import operator
 import numpy as np
 
 import jax
-import jax.numpy as jnp
 from jax import device_put
 from jax import lax
 from jax import scipy as jsp
-from jax.tree_util import (tree_leaves, tree_map, tree_structure,
-                           tree_reduce, Partial)
+import jax.numpy as jnp
+from jax.tree_util import (
+    Partial, tree_leaves, tree_map, tree_reduce, tree_structure)
 
 from jax._src import dtypes
 from jax._src.lax import lax as lax_internal
 from jax._src.util import safe_map as map
-
 
 _dot = partial(jnp.dot, precision=lax.Precision.HIGHEST)
 _vdot = partial(jnp.vdot, precision=lax.Precision.HIGHEST)

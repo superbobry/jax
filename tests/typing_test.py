@@ -19,17 +19,17 @@ so it should be checked with pytype/mypy as well as being run with pytest.
 """
 from typing import Any, Optional, Union
 
+from absl.testing import absltest
+import numpy as np
+
 import jax
-from jax._src import core
-from jax._src import test_util as jtu
-from jax._src import typing
 from jax import lax
 import jax.numpy as jnp
 
+from jax._src import core
+from jax._src import test_util as jtu
+from jax._src import typing
 from jax._src.array import ArrayImpl
-
-from absl.testing import absltest
-import numpy as np
 
 
 # DTypeLike is meant to annotate inputs to np.dtype that return

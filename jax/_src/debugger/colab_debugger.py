@@ -17,12 +17,11 @@ from __future__ import annotations
 import html
 import inspect
 import traceback
-
 import uuid
 
+from jax._src.debugger import cli_debugger
 from jax._src.debugger import colab_lib
 from jax._src.debugger import core as debugger_core
-from jax._src.debugger import cli_debugger
 
 # pylint: disable=g-import-not-at-top
 # pytype: disable=import-error

@@ -21,39 +21,39 @@ import contextlib
 import dataclasses
 from functools import partial
 import itertools
-import time
-from typing import Any, Callable, NamedTuple
 import logging
 import threading
+import time
+from typing import Any, Callable, NamedTuple
 
 import numpy as np
 
 import jax
+
+from jax._src import api_util
 from jax._src import basearray
 from jax._src import config
 from jax._src import core
 from jax._src import dtypes
 from jax._src import linear_util as lu
-from jax._src import api_util
-from jax._src import tree_util
 from jax._src import source_info_util
 from jax._src import traceback_util
+from jax._src import tree_util
 from jax._src import util
 from jax._src import xla_bridge as xb
 from jax._src.interpreters import ad
 from jax._src.interpreters import batching
 from jax._src.interpreters import mlir
-from jax._src.interpreters import xla
 from jax._src.interpreters import pxla
+from jax._src.interpreters import xla
 from jax._src.lib import xla_client as xc
 from jax._src.lib import xla_extension_version
 from jax._src.monitoring import record_event_duration_secs
 from jax._src.partition_spec import PartitionSpec
 from jax._src.sharding import Sharding
 from jax._src.sharding_impls import (
-    PmapSharding, SingleDeviceSharding, NamedSharding, XLACompatibleSharding,
-    UNSPECIFIED, GSPMDSharding, TransferToMemoryKind)
-
+    GSPMDSharding, NamedSharding, PmapSharding, SingleDeviceSharding,
+    TransferToMemoryKind, UNSPECIFIED, XLACompatibleSharding)
 
 # TODO(b/300274285): Remove when performance of non-tuple and tuple args
 # is matched within each supported backend.
@@ -305,8 +305,9 @@ class SourceInfo(NamedTuple):
 def jaxpr_shardings(
     jaxpr: core.Jaxpr,
 ) -> Iterator[tuple[XLACompatibleSharding, SourceInfo]]:
-  from jax._src import pjit
   from jax.experimental import shard_map
+
+  from jax._src import pjit
 
   for eqn in jaxpr.eqns:
     if eqn.primitive is pjit.sharding_constraint_p:
@@ -423,7 +424,8 @@ def _identity_fn(x):
   return x
 
 def _mcjax_reshard(x, target_sharding):
-  from jax._src import api, array
+  from jax._src import api
+  from jax._src import array
 
   inp_sharding = x.sharding
 

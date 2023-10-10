@@ -18,11 +18,14 @@ import math
 from typing import Optional
 
 import scipy.fft as osp_fft
+
 from jax import lax
 import jax.numpy as jnp
-from jax._src.util import canonicalize_axis
+
 from jax._src.numpy.util import _wraps, promote_dtypes_complex
 from jax._src.typing import Array
+from jax._src.util import canonicalize_axis
+
 
 def _W4(N: int, k: Array) -> Array:
   N_arr, k = promote_dtypes_complex(N, k)

@@ -20,17 +20,19 @@ from typing import Any, Callable, NamedTuple, Optional, Union
 from absl.testing import absltest
 from absl.testing import parameterized
 import numpy as np
+
 import jax
-from jax import random
+from jax import config
 from jax import lax
+from jax import random
+import jax.numpy as jnp
+
 from jax._src import core
 from jax._src import linear_util as lu
-from jax import config
-from jax._src.interpreters import partial_eval as pe
 from jax._src import test_util as jtu
-from jax._src.util import tuple_insert
-import jax.numpy as jnp
+from jax._src.interpreters import partial_eval as pe
 from jax._src.lax.control_flow import for_loop
+from jax._src.util import tuple_insert
 
 try:
   import hypothesis as hp
@@ -40,13 +42,18 @@ try:
 except (ModuleNotFoundError, ImportError):
   CAN_USE_HYPOTHESIS = False
 
-from jax._src.state.discharge import (run_state, run_state_reference,
-                                      discharge_state)
-from jax._src.state.primitives import (get_p, swap_p, addupdate_p,
-                                       ref_addupdate, ref_get, ref_set,
-                                       ref_swap)
-from jax._src.state.types import (shaped_array_ref, ReadEffect, WriteEffect,
-                                  AccumEffect, AbstractRef)
+from jax._src.state.discharge import discharge_state
+from jax._src.state.discharge import run_state
+from jax._src.state.discharge import run_state_reference
+from jax._src.state.primitives import addupdate_p
+from jax._src.state.primitives import get_p
+from jax._src.state.primitives import ref_addupdate
+from jax._src.state.primitives import ref_get
+from jax._src.state.primitives import ref_set
+from jax._src.state.primitives import ref_swap
+from jax._src.state.primitives import swap_p
+from jax._src.state.types import (
+    AbstractRef, AccumEffect, ReadEffect, shaped_array_ref, WriteEffect)
 
 config.parse_flags_with_absl()
 

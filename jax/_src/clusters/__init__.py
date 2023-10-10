@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from .cloud_tpu_cluster import TpuCluster
 from .cluster import ClusterEnv
-
 # Order of declaration of the cluster environments
 # will dictate the order in which they will be checked.
 # Therefore, if multiple environments are available and
@@ -22,4 +22,3 @@ from .cluster import ClusterEnv
 # available one from the list will be picked.
 from .ompi_cluster import OmpiCluster
 from .slurm_cluster import SlurmCluster
-from .cloud_tpu_cluster import TpuCluster

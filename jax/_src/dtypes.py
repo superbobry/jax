@@ -24,16 +24,16 @@ from __future__ import annotations
 import abc
 import builtins
 import functools
-from typing import cast, overload, Any, Literal, Optional, Union
+from typing import Any, cast, Literal, Optional, overload, Union
 import warnings
 
 import ml_dtypes
 import numpy as np
 
 from jax._src import config
+from jax._src import traceback_util
 from jax._src.typing import DType, DTypeLike
 
-from jax._src import traceback_util
 traceback_util.register_exclusion(__file__)
 
 try:

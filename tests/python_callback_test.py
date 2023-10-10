@@ -21,16 +21,11 @@ import unittest
 
 from absl.testing import absltest
 from absl.testing import parameterized
+import numpy as np
+
 import jax
 from jax import config
 from jax import lax
-from jax._src import core
-from jax._src import dispatch
-from jax._src import test_util as jtu
-from jax._src import util
-from jax._src import xla_bridge
-from jax._src.lib import xla_client
-from jax._src.lib import xla_extension_version
 from jax.experimental import io_callback
 from jax.experimental import maps
 from jax.experimental import pjit
@@ -38,7 +33,14 @@ from jax.experimental.maps import xmap
 from jax.experimental.shard_map import shard_map
 import jax.numpy as jnp
 from jax.sharding import Mesh
-import numpy as np
+
+from jax._src import core
+from jax._src import dispatch
+from jax._src import test_util as jtu
+from jax._src import util
+from jax._src import xla_bridge
+from jax._src.lib import xla_client
+from jax._src.lib import xla_extension_version
 
 config.parse_flags_with_absl()
 

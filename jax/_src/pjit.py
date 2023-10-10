@@ -12,65 +12,64 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from collections.abc import Sequence, Iterable
+from collections.abc import Iterable, Sequence
 import dataclasses
-from functools import partial, lru_cache
+from functools import lru_cache, partial
 import inspect
 import itertools as it
 import logging
-import weakref
-from typing import Callable, Union, cast, Optional, NamedTuple, Any
 import threading
+from typing import Any, Callable, cast, NamedTuple, Optional, Union
 import warnings
+import weakref
 
 import numpy as np
 
+from jax._src import api
 from jax._src import config
 from jax._src import core
-from jax._src import stages
 from jax._src import dispatch
-from jax._src import mesh as mesh_lib
 from jax._src import linear_util as lu
+from jax._src import mesh as mesh_lib
 from jax._src import op_shardings
 from jax._src import sharding_impls
 from jax._src import source_info_util
-from jax._src import tree_util
+from jax._src import stages
 from jax._src import traceback_util
-from jax._src import api
+from jax._src import tree_util
 from jax._src import xla_bridge as xb
 from jax._src.api_util import (
-    argnums_partial_except, flatten_axes, flatten_fun, flatten_fun_nokwargs,
-    donation_vector, shaped_abstractify, check_callable, resolve_argnums,
-    argnames_partial_except, debug_info, result_paths, jaxpr_debug_info)
+    argnames_partial_except, argnums_partial_except, check_callable,
+    debug_info, donation_vector, flatten_axes, flatten_fun,
+    flatten_fun_nokwargs, jaxpr_debug_info, resolve_argnums, result_paths,
+    shaped_abstractify)
 from jax._src.errors import JAXTypeError
-from jax._src.interpreters import partial_eval as pe
-from jax._src.partition_spec import PartitionSpec
-from jax._src.interpreters import xla
-
 from jax._src.interpreters import ad
 from jax._src.interpreters import batching
 from jax._src.interpreters import mlir
+from jax._src.interpreters import partial_eval as pe
 from jax._src.interpreters import pxla
-from jax._src.lib.mlir import ir
-from jax._src.lib.mlir.dialects import func as func_dialect
+from jax._src.interpreters import xla
 from jax._src.lib import xla_client as xc
 from jax._src.lib import xla_extension_version
+from jax._src.lib.mlir import ir
+from jax._src.lib.mlir.dialects import func as func_dialect
+from jax._src.partition_spec import PartitionSpec
 from jax._src.sharding_impls import (
-    NamedSharding, XLACompatibleSharding, GSPMDSharding,
-    XLADeviceAssignment, SingleDeviceSharding, PmapSharding,
-    AUTO, UNSPECIFIED, UnspecifiedValue,
-    ParsedPartitionSpec, SpecSync, get_single_pspec, is_auto, is_unspecified,
-    is_unspecified_or_auto, prepare_axis_resources, parse_flatten_op_sharding)
+    AUTO, get_single_pspec, GSPMDSharding, is_auto, is_unspecified,
+    is_unspecified_or_auto, NamedSharding, parse_flatten_op_sharding,
+    ParsedPartitionSpec, PmapSharding, prepare_axis_resources,
+    SingleDeviceSharding, SpecSync, UNSPECIFIED, UnspecifiedValue,
+    XLACompatibleSharding, XLADeviceAssignment)
 from jax._src.state import discharge as state_discharge
 from jax._src.traceback_util import api_boundary
 from jax._src.tree_util import (
-    tree_map, tree_flatten, tree_unflatten, treedef_is_leaf, tree_structure,
-    treedef_tuple, broadcast_prefix, all_leaves,
-    prefix_errors, generate_key_paths)
+    all_leaves, broadcast_prefix, generate_key_paths, prefix_errors,
+    tree_flatten, tree_map, tree_structure, tree_unflatten, treedef_is_leaf,
+    treedef_tuple)
 from jax._src.util import (
-    HashableFunction, safe_map, safe_zip, wraps,
-    distributed_debug_log, split_list, weakref_lru_cache,
-    merge_lists, flatten, unflatten)
+    distributed_debug_log, flatten, HashableFunction, merge_lists, safe_map,
+    safe_zip, split_list, unflatten, weakref_lru_cache, wraps)
 
 map, unsafe_map = safe_map, map
 zip, unsafe_zip = safe_zip, zip

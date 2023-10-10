@@ -20,6 +20,8 @@ import os
 import struct
 import sys
 
+import numpy as np
+
 from jax._src import config
 from jax._src.lib import version as jaxlib_version
 from jax._src.lib import version_str as jaxlib_version_str
@@ -27,7 +29,6 @@ from jax._src.lib import xla_client
 from jax._src.lib import xla_extension_version as xla_extension_version
 from jax._src.lib.mlir import ir
 from jax._src.lib.mlir import passmanager as pm
-import numpy as np
 
 if jaxlib_version < (0, 4, 14):
   import jaxlib.mlir.jax as mlir_jax  # pytype: disable=import-error

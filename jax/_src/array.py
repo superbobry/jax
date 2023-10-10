@@ -15,13 +15,14 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from collections.abc import Sequence
 import enum
+import functools
 import math
 import operator as op
-import numpy as np
-import functools
 from typing import Any, Callable, cast, TYPE_CHECKING
-from collections.abc import Sequence
+
+import numpy as np
 
 from jax._src import abstract_arrays
 from jax._src import api
@@ -34,14 +35,14 @@ from jax._src import dtypes
 from jax._src import profiler
 from jax._src import tree_util
 from jax._src import xla_bridge
-from jax._src.lib import xla_client as xc
 from jax._src.interpreters import mlir
 from jax._src.interpreters import pxla
 from jax._src.interpreters import xla
+from jax._src.lib import xla_client as xc
 from jax._src.sharding import Sharding
 from jax._src.sharding_impls import (
-    SingleDeviceSharding, XLACompatibleSharding, PmapSharding,
-    device_replica_id_map, hashed_index)
+    device_replica_id_map, hashed_index, PmapSharding, SingleDeviceSharding,
+    XLACompatibleSharding)
 from jax._src.typing import ArrayLike
 from jax._src.util import safe_zip, unzip3, use_cpp_class, use_cpp_method
 
@@ -379,14 +380,16 @@ class ArrayImpl(basearray.Array):
   def __dlpack__(self, *, stream: int | Any | None = None):
     if len(self._arrays) != 1:
       raise ValueError("__dlpack__ only supported for unsharded arrays.")
-    from jax._src.dlpack import to_dlpack  # pylint: disable=g-import-not-at-top
+    from jax._src.dlpack import (
+        to_dlpack)  # pylint: disable=g-import-not-at-top
     return to_dlpack(self, stream=stream)
 
   def __dlpack_device__(self) -> tuple[enum.Enum, int]:
     if len(self._arrays) != 1:
       raise ValueError("__dlpack__ only supported for unsharded arrays.")
 
-    from jax._src.dlpack import DLDeviceType  # pylint: disable=g-import-not-at-top
+    from jax._src.dlpack import (
+        DLDeviceType)  # pylint: disable=g-import-not-at-top
 
     if self.platform() == "cpu":
       return DLDeviceType.kDLCPU, 0

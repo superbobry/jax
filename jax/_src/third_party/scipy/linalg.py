@@ -4,12 +4,15 @@ from typing import Callable
 
 import scipy.linalg
 
-from jax import jit, lax
+from jax import jit
+from jax import lax
 import jax.numpy as jnp
+
 from jax._src.numpy.linalg import norm
 from jax._src.numpy.util import _wraps
-from jax._src.scipy.linalg import rsf2csf, schur
-from jax._src.typing import ArrayLike, Array
+from jax._src.scipy.linalg import rsf2csf
+from jax._src.scipy.linalg import schur
+from jax._src.typing import Array, ArrayLike
 
 
 @jit

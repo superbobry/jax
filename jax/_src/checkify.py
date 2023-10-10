@@ -17,20 +17,20 @@ from collections.abc import Sequence
 import dataclasses
 import functools
 import itertools as it
-from typing import Union, Callable, TypeVar, Any
+from typing import Any, Callable, TypeVar, Union
 
 import numpy as np
 
-import jax.numpy as jnp
 from jax import dtypes
 from jax import lax
+import jax.numpy as jnp
 
 from jax._src import api
-from jax._src import linear_util as lu
 from jax._src import config
 from jax._src import core
 from jax._src import custom_derivatives
 from jax._src import effects
+from jax._src import linear_util as lu
 from jax._src import pjit
 from jax._src import sharding_impls
 from jax._src import source_info_util
@@ -42,12 +42,11 @@ from jax._src.interpreters import ad
 from jax._src.interpreters import batching
 from jax._src.interpreters import mlir
 from jax._src.interpreters import partial_eval as pe
-from jax._src.tree_util import tree_flatten
-from jax._src.tree_util import tree_map
-from jax._src.tree_util import tree_unflatten
+from jax._src.tree_util import tree_flatten, tree_map, tree_unflatten
 from jax._src.typing import Array
-from jax._src.util import (as_hashable_function, split_list, safe_map, safe_zip,
-                           unzip3, weakref_lru_cache, HashableWrapper)
+from jax._src.util import (
+    as_hashable_function, HashableWrapper, safe_map, safe_zip, split_list,
+    unzip3, weakref_lru_cache)
 
 source_info_util.register_exclusion(__file__)
 traceback_util.register_exclusion(__file__)

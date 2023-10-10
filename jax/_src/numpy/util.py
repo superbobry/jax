@@ -17,18 +17,17 @@ from functools import partial
 import re
 import textwrap
 from typing import Any, Callable, NamedTuple, Optional, TypeVar
-
 import warnings
+
+import numpy as np
 
 from jax._src import api
 from jax._src import config
 from jax._src import core
 from jax._src import dtypes
 from jax._src.lax import lax
-from jax._src.util import safe_zip, safe_map
 from jax._src.typing import Array, ArrayLike, DType, DTypeLike, Shape
-
-import numpy as np
+from jax._src.util import safe_map, safe_zip
 
 zip, unsafe_zip = safe_zip, zip
 map, unsafe_map = safe_map, map

@@ -17,14 +17,15 @@
 from functools import partial
 
 from absl.testing import absltest
-
 import numpy as np
+
 import jax
+from jax import config
 import jax.numpy as jnp
+
 from jax._src import test_util as jtu
 from jax._src.numpy.ufunc_api import get_if_single_primitive
 
-from jax import config
 config.parse_flags_with_absl()
 FLAGS = config.FLAGS
 

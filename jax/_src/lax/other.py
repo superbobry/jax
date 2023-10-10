@@ -14,12 +14,13 @@
 
 from collections.abc import Sequence
 import math
-from typing import Any, Optional, Union, cast as type_cast
+from typing import Any, cast as type_cast, Optional, Union
 
 import jax
-from jax._src.numpy import lax_numpy as jnp
-from jax._src.lax import lax
+
 from jax._src.lax import convolution
+from jax._src.lax import lax
+from jax._src.numpy import lax_numpy as jnp
 
 DType = Any
 

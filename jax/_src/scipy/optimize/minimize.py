@@ -13,13 +13,13 @@
 # limitations under the License.
 
 from collections.abc import Mapping
-from typing import Any, Callable, Optional, Union
+from typing import Any, Callable, NamedTuple, Optional, Union
 
 import jax
-from jax._src.scipy.optimize.bfgs import minimize_bfgs
-from jax._src.scipy.optimize._lbfgs import _minimize_lbfgs
-from typing import NamedTuple
 import jax.numpy as jnp
+
+from jax._src.scipy.optimize._lbfgs import _minimize_lbfgs
+from jax._src.scipy.optimize.bfgs import minimize_bfgs
 
 
 class OptimizeResults(NamedTuple):

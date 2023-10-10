@@ -21,7 +21,7 @@ import jax.numpy as jnp
 
 from jax._src import dtypes
 from jax._src.tree_util import tree_flatten, tree_unflatten
-from jax._src.util import safe_zip, unzip2, HashablePartial
+from jax._src.util import HashablePartial, safe_zip, unzip2
 
 zip = safe_zip
 

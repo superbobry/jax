@@ -14,16 +14,17 @@
 
 from functools import partial
 
-import numpy as np
-from scipy.sparse import csgraph, csr_matrix
-
 from absl.testing import absltest
-
-from jax._src import dtypes
-from jax import numpy as jnp
-from jax._src import test_util as jtu
+import numpy as np
+from scipy.sparse import csgraph
+from scipy.sparse import csr_matrix
 
 from jax import config
+from jax import numpy as jnp
+
+from jax._src import dtypes
+from jax._src import test_util as jtu
+
 config.parse_flags_with_absl()
 
 

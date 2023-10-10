@@ -19,25 +19,29 @@ import inspect
 import itertools
 import operator
 from typing import Any, Callable, Optional, TypeVar
+import weakref
+
+import numpy as np
 
 import jax
-import weakref
-from jax._src import core
-from jax._src import linear_util as lu
 from jax import config  # type: ignore[no-redef]
-from jax._src.core import ConcreteArray, ShapedArray, raise_to_shaped
-from jax.tree_util import (tree_flatten, tree_unflatten, treedef_is_leaf,
-                           tree_map, tree_flatten_with_path, keystr)
-from jax._src.api_util import shaped_abstractify
-from jax._src.tree_util import equality_errors
+from jax.tree_util import (
+    keystr, tree_flatten, tree_flatten_with_path, tree_map, tree_unflatten,
+    treedef_is_leaf)
+
 from jax._src import ad_checkpoint
 from jax._src import ad_util
 from jax._src import api
+from jax._src import core
 from jax._src import dispatch
 from jax._src import dtypes
 from jax._src import effects
+from jax._src import linear_util as lu
 from jax._src import source_info_util
+from jax._src import state
 from jax._src import util
+from jax._src.api_util import shaped_abstractify
+from jax._src.core import ConcreteArray, raise_to_shaped, ShapedArray
 from jax._src.interpreters import ad
 from jax._src.interpreters import batching
 from jax._src.interpreters import mlir
@@ -46,20 +50,19 @@ from jax._src.interpreters import xla
 from jax._src.lax import lax
 from jax._src.lax import slicing
 from jax._src.lax import windowed_reductions
-from jax._src.lib.mlir import ir
-from jax._src.lib.mlir.dialects import hlo
-from jax._src import state
-from jax._src.state import discharge as state_discharge
-from jax._src.numpy.ufuncs import logaddexp
-from jax._src.traceback_util import api_boundary
-from jax._src.typing import Array
-from jax._src.util import (partition_list, safe_map, safe_zip, split_list,
-                           unzip2, weakref_lru_cache, merge_lists)
-import numpy as np
-
 from jax._src.lax.control_flow.common import (
     _abstractify, _avals_short, _check_tree_and_avals, _initial_style_jaxpr,
     _make_closed_jaxpr, _prune_zeros, _typecheck_param)
+from jax._src.lib.mlir import ir
+from jax._src.lib.mlir.dialects import hlo
+from jax._src.numpy.ufuncs import logaddexp
+from jax._src.state import discharge as state_discharge
+from jax._src.traceback_util import api_boundary
+from jax._src.tree_util import equality_errors
+from jax._src.typing import Array
+from jax._src.util import (
+    merge_lists, partition_list, safe_map, safe_zip, split_list, unzip2,
+    weakref_lru_cache)
 
 _map = safe_map
 zip = safe_zip
@@ -1278,7 +1281,8 @@ def _while_loop_abstract_eval(*avals, cond_jaxpr, body_jaxpr, body_nconsts,
 def _while_loop_batching_rule(spmd_axis_name, axis_size, axis_name, main_type,
                               args, dims, cond_nconsts, cond_jaxpr,
                               body_nconsts, body_jaxpr):
-  from jax._src.callback import _IOEffect, _OrderedIOEffect
+  from jax._src.callback import _IOEffect
+  from jax._src.callback import _OrderedIOEffect
   if any(eff in branch.effects for eff in [_IOEffect, _OrderedIOEffect]
       for branch in [body_jaxpr, cond_jaxpr]):
     raise NotImplementedError(

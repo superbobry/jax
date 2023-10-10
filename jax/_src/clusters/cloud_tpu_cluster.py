@@ -14,14 +14,17 @@
 
 import os
 from typing import Optional
-from jax._src import xla_bridge
+
 from jax._src import clusters
+from jax._src import xla_bridge
 from jax._src.cloud_tpu_init import running_in_cloud_tpu_vm
 
 
 def get_metadata(key):
-  import requests  # pytype: disable=import-error
   import time  # pytype: disable=import-error
+
+  import requests  # pytype: disable=import-error
+
   # Based on https://github.com/tensorflow/tensorflow/pull/40317
   gce_metadata_endpoint = 'http://' + os.environ.get(
       'GCE_METADATA_IP', 'metadata.google.internal')

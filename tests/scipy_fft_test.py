@@ -14,12 +14,12 @@
 import itertools
 
 from absl.testing import absltest
-
-from jax._src import test_util as jtu
-import jax.scipy.fft as jsp_fft
 import scipy.fft as osp_fft
 
 from jax import config
+import jax.scipy.fft as jsp_fft
+
+from jax._src import test_util as jtu
 
 config.parse_flags_with_absl()
 

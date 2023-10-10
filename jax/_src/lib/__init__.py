@@ -31,6 +31,7 @@ except ModuleNotFoundError as err:
 
 import jax.version
 from jax.version import _minimum_jaxlib_version as _minimum_jaxlib_version_str
+
 try:
   import jaxlib.version
 except Exception as err:
@@ -80,17 +81,17 @@ version = check_jaxlib_version(
 # feature guard module to verify that jaxlib was compiled in a way that only
 # uses instructions that are present on this machine.
 import jaxlib.cpu_feature_guard as cpu_feature_guard
+
 cpu_feature_guard.check_cpu_features()
 
 try:
   import jaxlib.cuda_plugin_extension as cuda_plugin_extension  # pytype: disable=import-error
 except ModuleNotFoundError:
   cuda_plugin_extension = None
+import jaxlib.ducc_fft as ducc_fft
+import jaxlib.lapack as lapack
 import jaxlib.utils as utils
 import jaxlib.xla_client as xla_client
-import jaxlib.lapack as lapack
-
-import jaxlib.ducc_fft as ducc_fft
 
 xla_extension = xla_client._xla
 pytree = xla_client._xla.pytree
@@ -107,10 +108,10 @@ try:
 except ImportError:
   cuda_versions = None
 
+import jaxlib.gpu_linalg as gpu_linalg  # pytype: disable=import-error
+import jaxlib.gpu_prng as gpu_prng  # pytype: disable=import-error
 import jaxlib.gpu_solver as gpu_solver  # pytype: disable=import-error
 import jaxlib.gpu_sparse as gpu_sparse  # pytype: disable=import-error
-import jaxlib.gpu_prng as gpu_prng  # pytype: disable=import-error
-import jaxlib.gpu_linalg as gpu_linalg  # pytype: disable=import-error
 import jaxlib.hlo_helpers as hlo_helpers  # pytype: disable=import-error
 
 # Jaxlib code is split between the Jax and the Tensorflow repositories.
@@ -120,10 +121,10 @@ import jaxlib.hlo_helpers as hlo_helpers  # pytype: disable=import-error
 xla_extension_version: int = getattr(xla_client, '_version', 0)
 
 import jaxlib.gpu_rnn as gpu_rnn  # pytype: disable=import-error
-import jaxlib.gpu_triton as gpu_triton # pytype: disable=import-error
+import jaxlib.gpu_triton as gpu_triton  # pytype: disable=import-error
 
 if version >= (0, 4, 14):
-  import jaxlib.tpu_mosaic as tpu_mosaic # pytype: disable=import-error
+  import jaxlib.tpu_mosaic as tpu_mosaic  # pytype: disable=import-error
 else:
   # Jaxlib doesn't contain Mosaic bindings
   tpu_mosaic = None  # type: ignore

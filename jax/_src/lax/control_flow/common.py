@@ -14,22 +14,23 @@
 """Module for the common control flow utilities."""
 
 from collections.abc import Sequence
-import os
 from functools import partial
+import os
 from typing import Any, Callable, Optional
 
-from jax._src import core
-from jax._src import linear_util as lu
-from jax._src.lax import lax
-from jax._src import effects
+from jax.api_util import flatten_fun_nokwargs
+from jax.tree_util import tree_map, tree_unflatten
+
 from jax._src import ad_util
+from jax._src import core
+from jax._src import effects
+from jax._src import linear_util as lu
 from jax._src import state
 from jax._src import util
-from jax._src.util import (cache, weakref_lru_cache, safe_map, unzip3,
-                           partition_list)
-from jax.api_util import flatten_fun_nokwargs
 from jax._src.interpreters import partial_eval as pe
-from jax.tree_util import tree_map, tree_unflatten
+from jax._src.lax import lax
+from jax._src.util import (
+    cache, partition_list, safe_map, unzip3, weakref_lru_cache)
 
 map, unsafe_map = safe_map, map
 

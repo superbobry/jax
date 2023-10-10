@@ -22,10 +22,10 @@ import warnings
 
 from absl.testing import absltest
 from absl.testing import parameterized
-
 import numpy as np
 
 import jax
+from jax import config
 from jax import lax
 from jax import numpy as jnp
 from jax import ops
@@ -33,10 +33,9 @@ from jax import ops
 from jax._src import dtypes
 from jax._src import test_util as jtu
 from jax._src import util
-from jax._src.util import NumpyComplexWarning
 from jax._src.lax import lax as lax_internal
+from jax._src.util import NumpyComplexWarning
 
-from jax import config
 config.parse_flags_with_absl()
 
 # We disable the whitespace continuation check in this file because otherwise it

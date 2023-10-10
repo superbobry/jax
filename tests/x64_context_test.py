@@ -22,11 +22,13 @@ from absl.testing import absltest
 import numpy as np
 
 import jax
+from jax import config
 from jax import lax
 from jax import random
-from jax import config
-from jax.experimental import enable_x64, disable_x64
+from jax.experimental import disable_x64
+from jax.experimental import enable_x64
 import jax.numpy as jnp
+
 import jax._src.test_util as jtu
 
 config.parse_flags_with_absl()

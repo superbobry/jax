@@ -14,23 +14,23 @@
 
 from functools import partial
 import operator
-from typing import cast, Any, Optional
+from typing import Any, cast, Optional
 
 import numpy as np
 import scipy.special as osp_special
 
-import jax.numpy as jnp
 from jax import jit
 from jax import jvp
-from jax import vmap
 from jax import lax
+from jax import vmap
+import jax.numpy as jnp
 
 from jax._src import core
 from jax._src import custom_derivatives
 from jax._src import dtypes
 from jax._src.lax.lax import _const as _lax_const
-from jax._src.numpy.util import promote_args_inexact, promote_dtypes_inexact
-from jax._src.numpy.util import _wraps
+from jax._src.numpy.util import (
+    _wraps, promote_args_inexact, promote_dtypes_inexact)
 from jax._src.ops import special as ops_special
 from jax._src.third_party.scipy.betaln import betaln as _betaln_impl
 from jax._src.typing import Array, ArrayLike

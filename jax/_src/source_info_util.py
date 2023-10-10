@@ -21,12 +21,13 @@ import os.path
 import sysconfig
 import threading
 import types
-from typing import Optional, NamedTuple, Union
+from typing import NamedTuple, Optional, Union
 
 import jax.version
-from jax._src.lib import xla_client
 
 from jax._src import traceback_util
+from jax._src.lib import xla_client
+
 traceback_util.register_exclusion(__file__)
 
 

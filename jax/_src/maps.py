@@ -12,14 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from collections import OrderedDict, abc
-from collections.abc import Iterable, Sequence, Mapping
+from collections import abc, OrderedDict
+from collections.abc import Iterable, Mapping, Sequence
 import contextlib
-from functools import wraps, partial, partialmethod, lru_cache
+from functools import lru_cache, partial, partialmethod, wraps
 import itertools as it
 import math
-from typing import (Callable, Optional, Any,
-                    NamedTuple, Union)
+from typing import Any, Callable, NamedTuple, Optional, Union
 
 import numpy as np
 
@@ -29,39 +28,41 @@ from jax import numpy as jnp
 from jax._src import core
 from jax._src import dispatch
 from jax._src import effects
-from jax._src import mesh as mesh_lib
 from jax._src import linear_util as lu
+from jax._src import mesh as mesh_lib
 from jax._src import op_shardings
 from jax._src import sharding_impls
 from jax._src import source_info_util
 from jax._src import stages
 from jax._src import traceback_util
-from jax._src.api_util import (flatten_fun_nokwargs, flatten_axes,
-                               _ensure_index_tuple, donation_vector,
-                               shaped_abstractify, check_callable)
+from jax._src.api_util import (
+    _ensure_index_tuple, check_callable, donation_vector, flatten_axes,
+    flatten_fun_nokwargs, shaped_abstractify)
 from jax._src.array import ArrayImpl
 from jax._src.config import config
 from jax._src.errors import JAXTypeError
 from jax._src.interpreters import ad
 from jax._src.interpreters import batching
 from jax._src.interpreters import mlir
-from jax._src.interpreters import xla
 from jax._src.interpreters import partial_eval as pe
-from jax._src.interpreters.partial_eval import (
-  trace_to_subjaxpr_dynamic, DynamicJaxprTracer,
-  convert_constvars_jaxpr, new_jaxpr_eqn)
 from jax._src.interpreters import pxla
-from jax._src.pjit import (sharding_constraint_p, get_unconstrained_dims,
-                           GSPMDSharding)
+from jax._src.interpreters import xla
+from jax._src.interpreters.partial_eval import convert_constvars_jaxpr
+from jax._src.interpreters.partial_eval import DynamicJaxprTracer
+from jax._src.interpreters.partial_eval import new_jaxpr_eqn
+from jax._src.interpreters.partial_eval import trace_to_subjaxpr_dynamic
+from jax._src.pjit import get_unconstrained_dims
+from jax._src.pjit import GSPMDSharding
+from jax._src.pjit import sharding_constraint_p
 from jax._src.sharding_impls import (
-    ArrayMapping, NamedSharding, ParsedPartitionSpec,
-    array_mapping_to_axis_resources)
-from jax._src.tree_util import (tree_flatten, tree_unflatten, all_leaves,
-                                tree_map, treedef_tuple)
-from jax._src.util import (safe_map, safe_zip, HashableFunction, unzip2, unzip3,
-                           as_hashable_function, distributed_debug_log,
-                           tuple_insert, moveaxis, split_list, wrap_name,
-                           merge_lists, partition_list)
+    array_mapping_to_axis_resources, ArrayMapping, NamedSharding,
+    ParsedPartitionSpec)
+from jax._src.tree_util import (
+    all_leaves, tree_flatten, tree_map, tree_unflatten, treedef_tuple)
+from jax._src.util import (
+    as_hashable_function, distributed_debug_log, HashableFunction, merge_lists,
+    moveaxis, partition_list, safe_map, safe_zip, split_list, tuple_insert,
+    unzip2, unzip3, wrap_name)
 
 source_info_util.register_exclusion(__file__)
 traceback_util.register_exclusion(__file__)

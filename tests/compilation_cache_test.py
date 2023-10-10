@@ -12,35 +12,36 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from collections import Counter
 from functools import partial
 import math
 import os
 import tempfile
-from collections import Counter
 from unittest import mock
 from unittest import SkipTest
 import warnings
 
 from absl.testing import absltest
+import numpy as np
+
 import jax
 from jax import config
 from jax import jit
 from jax import lax
 from jax import pmap
+from jax.experimental.maps import xmap
+from jax.experimental.pjit import pjit
+from jax.sharding import PartitionSpec as P
+
 from jax._src import compilation_cache as cc
 from jax._src import compiler
 from jax._src import monitoring
 from jax._src import test_util as jtu
 from jax._src import xla_bridge
-from jax._src.config import persistent_cache_min_compile_time_secs
-from jax._src.config import raise_persistent_cache_errors
-from jax._src.config import use_original_compilation_cache_key_generation
+from jax._src.config import (
+    persistent_cache_min_compile_time_secs, raise_persistent_cache_errors,
+    use_original_compilation_cache_key_generation)
 from jax._src.lib import xla_client
-from jax.experimental.maps import xmap
-from jax.experimental.pjit import pjit
-from jax.sharding import PartitionSpec as P
-import numpy as np
-
 
 config.parse_flags_with_absl()
 FLAGS = config.FLAGS

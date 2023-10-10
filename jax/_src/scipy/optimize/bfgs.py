@@ -16,8 +16,9 @@ from functools import partial
 from typing import Callable, NamedTuple, Optional, Union
 
 import jax
-import jax.numpy as jnp
 from jax import lax
+import jax.numpy as jnp
+
 from jax._src.scipy.optimize.line_search import line_search
 
 

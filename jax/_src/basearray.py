@@ -15,8 +15,10 @@
 # Note that type annotations for this file are defined in basearray.pyi
 
 import abc
-import numpy as np
 from typing import Union
+
+import numpy as np
+
 
 # Array is a type annotation for standard JAX arrays and tracers produced by
 # core functions in jax.lax and jax.numpy; it is not meant to include

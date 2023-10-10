@@ -14,9 +14,9 @@
 
 from collections.abc import Sequence
 import enum
-import operator
 from functools import partial
 import math
+import operator
 from typing import Callable, NamedTuple, Optional, Union
 import weakref
 
@@ -36,10 +36,7 @@ from jax._src.interpreters import mlir
 from jax._src.interpreters import partial_eval as pe
 from jax._src.lax import lax
 from jax._src.lax.utils import (
-    _argnum_weak_type,
-    _input_dtype,
-    standard_primitive,
-)
+    _argnum_weak_type, _input_dtype, standard_primitive)
 from jax._src.lib.mlir import ir
 from jax._src.lib.mlir.dialects import hlo
 from jax._src.typing import Array, ArrayLike, Shape

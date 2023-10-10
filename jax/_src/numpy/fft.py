@@ -15,16 +15,19 @@
 from collections.abc import Sequence
 import operator
 from typing import Optional, Union
+
 import numpy as np
 
 from jax import dtypes
 from jax import lax
+
 from jax._src.lib import xla_client
-from jax._src.util import safe_zip
-from jax._src.numpy.util import check_arraylike, _wraps
 from jax._src.numpy import lax_numpy as jnp
-from jax._src.numpy import ufuncs, reductions
+from jax._src.numpy import reductions
+from jax._src.numpy import ufuncs
+from jax._src.numpy.util import _wraps, check_arraylike
 from jax._src.typing import Array, ArrayLike
+from jax._src.util import safe_zip
 
 Shape = Sequence[int]
 

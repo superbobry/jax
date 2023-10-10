@@ -12,9 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from absl.testing import absltest
-from jax._src import test_util as jtu
 
 from jax.config import config
+
+from jax._src import test_util as jtu
 
 config.parse_flags_with_absl()
 

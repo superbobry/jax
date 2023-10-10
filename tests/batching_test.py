@@ -15,29 +15,37 @@
 from contextlib import contextmanager
 from functools import partial
 import itertools as it
+from typing import Any, Callable, Optional, TypeVar, Union
 import unittest
-from typing import Any, Optional, Callable, Union, TypeVar
 
-import numpy as np
 from absl.testing import absltest
 from absl.testing import parameterized
+import numpy as np
 
 import jax
+from jax import config
+from jax import grad
+from jax import hessian
+from jax import jacfwd
+from jax import jacrev
+from jax import jit
+from jax import jvp
+from jax import lax
+from jax import make_jaxpr
+from jax import random
+from jax import vjp
+from jax import vmap
+from jax.interpreters import batching
 import jax.numpy as jnp
 import jax.scipy as jsp
+from jax.tree_util import register_pytree_node
+
 from jax._src import core
 from jax._src import dtypes
 from jax._src import test_util as jtu
-from jax import lax
 from jax._src.lax import parallel
 from jax._src.lib import version as jaxlib_version
-from jax import random
-from jax import jit, grad, jvp, vjp, make_jaxpr, jacfwd, jacrev, hessian
-from jax import vmap
-from jax.interpreters import batching
-from jax.tree_util import register_pytree_node
 
-from jax import config
 config.parse_flags_with_absl()
 
 

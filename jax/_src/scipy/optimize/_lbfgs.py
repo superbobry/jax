@@ -12,15 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """The Limited-Memory Broyden-Fletcher-Goldfarb-Shanno minimization algorithm."""
-from typing import Callable, NamedTuple, Optional, Union
 from functools import partial
+from typing import Callable, NamedTuple, Optional, Union
 
 import jax
-import jax.numpy as jnp
 from jax import lax
+import jax.numpy as jnp
+
 from jax._src.scipy.optimize.line_search import line_search
 from jax._src.typing import Array
-
 
 _dot = partial(jnp.dot, precision=lax.Precision.HIGHEST)
 

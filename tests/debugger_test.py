@@ -20,13 +20,15 @@ from typing import IO
 import unittest
 
 from absl.testing import absltest
+import numpy as np
+
 import jax
 from jax import config
 from jax.experimental import pjit
+import jax.numpy as jnp
+
 from jax._src import debugger
 from jax._src import test_util as jtu
-import jax.numpy as jnp
-import numpy as np
 
 config.parse_flags_with_absl()
 

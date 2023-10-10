@@ -19,26 +19,25 @@ from __future__ import annotations
 from collections.abc import Sequence
 import io
 import itertools
-import time
-from typing import Any
 import logging
 import os
 import re
+import time
+from typing import Any
 import warnings
 
 import numpy as np
 
-from jax._src import lib
 from jax._src import compilation_cache
 from jax._src import config as config
+from jax._src import lib
 from jax._src import monitoring
 from jax._src import path
 from jax._src import profiler
 from jax._src import traceback_util
-from jax._src.lib.mlir import ir
 from jax._src.lib import xla_client as xc
 from jax._src.lib import xla_extension_version
-
+from jax._src.lib.mlir import ir
 
 _DISABLE_MOST_OPTIMIZATIONS = config.DEFINE_bool(
     'jax_disable_most_optimizations',

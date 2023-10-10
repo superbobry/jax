@@ -30,7 +30,7 @@ from jax._src import core
 from jax._src import dtypes
 from jax._src import sharding_impls
 from jax._src import util
-from jax._src.core import ShapedArray, AxisName, raise_to_shaped
+from jax._src.core import AxisName, raise_to_shaped, ShapedArray
 from jax._src.interpreters import ad
 from jax._src.interpreters import batching
 from jax._src.interpreters import mlir
@@ -41,7 +41,7 @@ from jax._src.lib.mlir import ir
 from jax._src.lib.mlir.dialects import hlo
 from jax._src.numpy import lax_numpy
 from jax._src.util import (
-    unzip2, canonicalize_axis, safe_map, safe_zip, moveaxis)
+    canonicalize_axis, moveaxis, safe_map, safe_zip, unzip2)
 
 unsafe_map, map = map, safe_map  # type: ignore
 

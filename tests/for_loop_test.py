@@ -15,16 +15,16 @@ from functools import partial
 
 from absl.testing import absltest
 from absl.testing import parameterized
-
 import numpy as np
 
 import jax
+from jax import config
 from jax import random
-from jax._src import test_util as jtu
-from jax._src.lax.control_flow import for_loop
 import jax.numpy as jnp
 
-from jax import config
+from jax._src import test_util as jtu
+from jax._src.lax.control_flow import for_loop
+
 config.parse_flags_with_absl()
 
 def remat_of_for_loop(nsteps, body, state, **kwargs):

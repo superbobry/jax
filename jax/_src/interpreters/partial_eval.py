@@ -14,14 +14,13 @@
 from __future__ import annotations
 
 from collections import namedtuple
-from collections.abc import Sequence, Hashable
-from contextlib import contextmanager, AbstractContextManager
+from collections.abc import Hashable, Sequence
+from contextlib import AbstractContextManager, contextmanager
 from functools import partial
 import inspect
 import itertools as it
 import operator as op
-from typing import (Any, Callable, NamedTuple, Optional,
-                    Union)
+from typing import Any, Callable, NamedTuple, Optional, Union
 from weakref import ref
 
 import numpy as np
@@ -35,21 +34,20 @@ from jax._src import effects
 from jax._src import linear_util as lu
 from jax._src import profiler
 from jax._src import source_info_util
-from jax._src.api_util import (flattened_fun_in_tree, flatten_fun_nokwargs,
-                               fun_sourceinfo)
-from jax._src.core import (Trace, Tracer, Jaxpr, Literal, get_aval,
-                           AbstractValue, ClosedJaxpr, new_jaxpr_eqn,
-                           ConcreteArray, Var, DropVar, raise_to_shaped, Atom,
-                           JaxprEqn, Primitive, ShapedArray, DShapedArray,
-                           mapped_aval, unmapped_aval, DBIdx, InDBIdx, OutDBIdx,
-                           InputType, OutputType, get_referent)
+from jax._src.api_util import (
+    flatten_fun_nokwargs, flattened_fun_in_tree, fun_sourceinfo)
+from jax._src.core import (
+    AbstractValue, Atom, ClosedJaxpr, ConcreteArray, DBIdx, DropVar,
+    DShapedArray, get_aval, get_referent, InDBIdx, InputType, Jaxpr, JaxprEqn,
+    Literal, mapped_aval, new_jaxpr_eqn, OutDBIdx, OutputType, Primitive,
+    raise_to_shaped, ShapedArray, Trace, Tracer, unmapped_aval, Var)
 from jax._src.state.types import AbstractRef
-from jax._src.tree_util import (PyTreeDef, treedef_tuple, tree_unflatten,
-                                KeyPath, generate_key_paths, keystr)
-from jax._src.util import (unzip2, safe_zip, safe_map, toposort, split_list,
-                           merge_lists, partition_list, OrderedSet,
-                           as_hashable_function, weakref_lru_cache)
-
+from jax._src.tree_util import (
+    generate_key_paths, KeyPath, keystr, PyTreeDef, tree_unflatten,
+    treedef_tuple)
+from jax._src.util import (
+    as_hashable_function, merge_lists, OrderedSet, partition_list, safe_map,
+    safe_zip, split_list, toposort, unzip2, weakref_lru_cache)
 
 map, unsafe_map = safe_map, map
 zip, unsafe_zip = safe_zip, zip
@@ -1215,7 +1213,8 @@ def _partial_eval_jaxpr_custom_cached(
       if eqn.effects or isinstance(policy, SaveableType):
         map(partial(write, False, False), eqn.outvars)
       elif isinstance(policy, Offloadable):
-        from jax._src.dispatch import device_put_p, TransferToMemoryKind  # type: ignore
+        from jax._src.dispatch import device_put_p  # type: ignore
+        from jax._src.dispatch import TransferToMemoryKind
         resvars = [newvar(v.aval) for v in eqn.outvars]
         offload_eqn = core.JaxprEqn(
             eqn.outvars, resvars, device_put_p,

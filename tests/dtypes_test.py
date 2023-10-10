@@ -20,17 +20,16 @@ import operator
 
 from absl.testing import absltest
 from absl.testing import parameterized
-
 import numpy as np
 
 import jax
-from jax._src import dtypes
 from jax import numpy as jnp
 
+from jax._src import dtypes
 from jax._src import test_util as jtu
+from jax._src.config import config
 from jax._src.lax import lax as lax_internal
 
-from jax._src.config import config
 config.parse_flags_with_absl()
 
 FLAGS = config.FLAGS

@@ -13,23 +13,27 @@
 # limitations under the License.
 
 
-from functools import reduce, partial
+from functools import partial, reduce
+import unittest
 
 from absl.testing import absltest
 import numpy as np
-import unittest
 
 import jax
-from jax._src import test_util as jtu
+from jax import config
+from jax import jacfwd
+from jax import jit
+from jax import lax
+from jax import random
+from jax.example_libraries import stax
+from jax.experimental.jet import fact
+from jax.experimental.jet import jet
+from jax.experimental.jet import zero_series
 import jax.numpy as jnp
 import jax.scipy.special
-from jax import random
-from jax import jacfwd, jit
-from jax.example_libraries import stax
-from jax.experimental.jet import jet, fact, zero_series
-from jax import lax
 
-from jax import config
+from jax._src import test_util as jtu
+
 config.parse_flags_with_absl()
 
 def jvp_taylor(fun, primals, series):
@@ -416,7 +420,8 @@ class JetTest(jtu.JaxTestCase):
       return (x0**5 + x1**5).sum()
 
     def h(eps):
-      from jax import jacfwd, grad
+      from jax import grad
+      from jax import jacfwd
 
       x = jnp.array([1., 1.])
       μ = eps * x

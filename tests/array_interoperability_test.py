@@ -15,15 +15,15 @@
 import unittest
 
 from absl.testing import absltest
+import numpy as np
 
 import jax
 from jax import config
 import jax.dlpack
 import jax.numpy as jnp
+
 from jax._src import test_util as jtu
 from jax._src.lib import xla_extension_version
-
-import numpy as np
 
 numpy_version = jtu.numpy_version()
 

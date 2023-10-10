@@ -19,13 +19,13 @@
 from functools import partial
 import operator
 
+import numpy as np
+
 from jax._src import core
 from jax._src import dispatch
 from jax._src import dtypes
-from jax._src.util import safe_zip
 from jax._src.lib import xla_client
-
-import numpy as np
+from jax._src.util import safe_zip
 
 xops = xla_client.ops
 

@@ -30,8 +30,8 @@ from jax._src import util
 from jax._src.interpreters import ad
 from jax._src.interpreters import batching
 from jax._src.interpreters import mlir
-from jax._src.lib import xla_client as xc
 from jax._src.lax.control_flow.loops import map as lax_map
+from jax._src.lib import xla_client as xc
 from jax._src.sharding_impls import SingleDeviceSharding
 
 # `pure_callback_p` is the main primitive for staging out Python pure callbacks.

@@ -16,8 +16,8 @@ from collections.abc import Sequence
 import functools
 from functools import partial
 import logging
-from typing import Any, Callable, Optional, Union
 import types
+from typing import Any, Callable, Optional, Union
 
 import numpy as np
 
@@ -26,8 +26,8 @@ from jax._src import api
 from jax._src import config
 from jax._src import core
 from jax._src import dispatch
-from jax._src import linear_util as lu
 from jax._src import effects
+from jax._src import linear_util as lu
 from jax._src import source_info_util
 from jax._src import traceback_util
 from jax._src import util
@@ -36,13 +36,15 @@ from jax._src.interpreters import ad
 from jax._src.interpreters import batching
 from jax._src.interpreters import mlir
 from jax._src.interpreters import partial_eval as pe
-from jax._src.lax import lax as lax_internal
 from jax._src.lax import convolution as lax_convolution
+from jax._src.lax import lax as lax_internal
 from jax._src.lib.mlir.dialects import hlo
 from jax._src.traceback_util import api_boundary
-from jax._src.tree_util import tree_flatten, tree_unflatten, tree_structure, keystr
-from jax._src.util import (unzip2, wraps, split_list, partition_list, safe_map,
-                           safe_zip, merge_lists, weakref_lru_cache)
+from jax._src.tree_util import (
+    keystr, tree_flatten, tree_structure, tree_unflatten)
+from jax._src.util import (
+    merge_lists, partition_list, safe_map, safe_zip, split_list, unzip2,
+    weakref_lru_cache, wraps)
 
 source_info_util.register_exclusion(__file__)
 traceback_util.register_exclusion(__file__)

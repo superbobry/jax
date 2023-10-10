@@ -18,15 +18,15 @@ import itertools
 
 from absl.testing import absltest
 from absl.testing import parameterized
-
 import numpy as np
 import scipy.special as osp_special
 
 import jax
-from jax._src import test_util as jtu
+from jax import config
 from jax.scipy import special as lsp_special
 
-from jax import config
+from jax._src import test_util as jtu
+
 config.parse_flags_with_absl()
 FLAGS = config.FLAGS
 

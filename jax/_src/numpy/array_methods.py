@@ -26,8 +26,10 @@ from functools import partial, wraps
 from typing import Any, Optional, Union
 
 import numpy as np
+
 import jax
 from jax import lax
+
 from jax._src import core
 from jax._src import dtypes
 from jax._src.api_util import _ensure_index_tuple
@@ -39,7 +41,7 @@ from jax._src.numpy import ufuncs
 from jax._src.numpy import util
 from jax._src.ops import scatter
 from jax._src.typing import Array, ArrayLike, DimSize, DTypeLike, Shape
-from jax._src.util import safe_zip, safe_map
+from jax._src.util import safe_map, safe_zip
 
 map, unsafe_map = safe_map, map
 zip, unsafe_zip = safe_zip, zip

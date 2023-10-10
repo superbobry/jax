@@ -1,10 +1,12 @@
 """Utility functions adopted from scipy.signal."""
 
-import scipy.signal as osp_signal
 from typing import Any, Optional, Union
 import warnings
 
+import scipy.signal as osp_signal
+
 import jax.numpy as jnp
+
 from jax._src.typing import Array, ArrayLike, DTypeLike
 
 

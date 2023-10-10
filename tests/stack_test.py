@@ -17,12 +17,12 @@
 
 from absl.testing import absltest
 
-import jax.numpy as jnp
-from jax._src.lax.stack import Stack
-from jax._src import test_util as jtu
-
-
 from jax import config
+import jax.numpy as jnp
+
+from jax._src import test_util as jtu
+from jax._src.lax.stack import Stack
+
 config.parse_flags_with_absl()
 
 

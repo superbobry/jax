@@ -17,10 +17,12 @@ import scipy.stats as osp_stats
 
 from jax import lax
 import jax.numpy as jnp
+from jax.scipy.special import gammainc
+from jax.scipy.special import gammaincc
+
 from jax._src.lax.lax import _const as _lax_const
 from jax._src.numpy.util import _wraps, promote_args_inexact
 from jax._src.typing import Array, ArrayLike
-from jax.scipy.special import gammainc, gammaincc
 
 
 @_wraps(osp_stats.chi2.logpdf, update_doc=False)

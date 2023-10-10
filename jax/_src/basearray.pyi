@@ -13,10 +13,11 @@
 # limitations under the License.
 import abc
 from typing import Any, Callable, Optional, Sequence, Union
+
 import numpy as np
 
-from jax._src.sharding import Sharding
 from jax._src import lib
+from jax._src.sharding import Sharding
 
 Shard = Any
 

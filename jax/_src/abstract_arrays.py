@@ -21,8 +21,8 @@ import numpy as np
 from jax._src import ad_util
 from jax._src import core
 from jax._src import dtypes
-
 from jax._src import traceback_util
+
 traceback_util.register_exclusion(__file__)
 
 UnshapedArray = core.UnshapedArray

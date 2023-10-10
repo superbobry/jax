@@ -18,14 +18,15 @@ from functools import partial
 import itertools as it
 import logging
 import operator
-from typing import (Any, Callable, Generic, Optional, TypeVar, overload, TYPE_CHECKING, cast)
+from typing import (
+    Any, Callable, cast, Generic, Optional, overload, TYPE_CHECKING, TypeVar)
 import weakref
 
 import numpy as np
 
 from jax._src import config
-from jax._src.lib import xla_client as xc
 from jax._src.lib import utils as jaxlib_utils
+from jax._src.lib import xla_client as xc
 
 logger = logging.getLogger(__name__)
 

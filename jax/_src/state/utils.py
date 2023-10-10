@@ -14,12 +14,13 @@
 """Utilities for tracing stateful functions."""
 
 from jax.interpreters import partial_eval as pe
+
 from jax._src import core
 from jax._src import linear_util as lu
 from jax._src.state import AbstractRef
-from jax._src.util import (partition_list, merge_lists, split_list, safe_map,
-                           safe_zip)
 from jax._src.state.primitives import ref_get
+from jax._src.util import (
+    merge_lists, partition_list, safe_map, safe_zip, split_list)
 
 map, unsafe_map = safe_map, map
 zip, unsafe_zip = safe_zip, zip

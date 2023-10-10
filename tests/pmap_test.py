@@ -15,47 +15,54 @@
 
 from concurrent.futures import ThreadPoolExecutor
 from functools import partial
-import itertools as it
 import gc
+import itertools as it
 import math
 import os
 from random import shuffle
 import re
-from typing import Optional, cast
+from typing import cast, Optional
 import unittest
 from unittest import SkipTest
 import warnings
 import weakref
 
-import numpy as np
 from absl.testing import absltest
 from absl.testing import parameterized
+import numpy as np
 
 import jax
-import jax.numpy as jnp
-from jax._src import test_util as jtu
-from jax import tree_util
+from jax import config
+from jax import device_put
+from jax import grad
+from jax import jit
+from jax import jvp
 from jax import lax
-from jax._src.lax import parallel
-from jax._src import api as src_api
+from jax import linearize
+from jax import make_jaxpr
+from jax import pmap
 from jax import random
-from jax._src import core
-from jax._src.lib import xla_extension_version
-from jax import (pmap, jit, vmap, jvp, grad, make_jaxpr,
-                 linearize, device_put)
+from jax import tree_util
+from jax import vmap
+from jax.ad_checkpoint import checkpoint as new_checkpoint
+import jax.numpy as jnp
+
+from jax._src import api as src_api
+from jax._src import array
 from jax._src import config as jax_config
+from jax._src import core
 from jax._src import sharding_impls
 from jax._src import sharding_specs
+from jax._src import test_util as jtu
 from jax._src import xla_bridge
-from jax._src.lib import xla_extension
-from jax._src.util import safe_map, safe_zip
 from jax._src.interpreters import mlir
 from jax._src.interpreters import pxla
-from jax._src import array
+from jax._src.lax import parallel
+from jax._src.lib import xla_extension
+from jax._src.lib import xla_extension_version
 from jax._src.sharding_impls import PmapSharding
-from jax.ad_checkpoint import checkpoint as new_checkpoint
+from jax._src.util import safe_map, safe_zip
 
-from jax import config
 config.parse_flags_with_absl()
 
 prev_xla_flags = None

@@ -19,9 +19,11 @@ from functools import partial
 import scipy.integrate
 
 from jax import jit
+import jax.numpy as jnp
+
 from jax._src.numpy import util
 from jax._src.typing import Array, ArrayLike
-import jax.numpy as jnp
+
 
 @util._wraps(scipy.integrate.trapezoid)
 @partial(jit, static_argnames=('axis',))

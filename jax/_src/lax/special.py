@@ -18,24 +18,23 @@ LAX decompositions for special functions into their StableHLO counterparts.
 """
 
 from enum import Enum
-import numpy as np
 from functools import partial
 
-from jax._src.lax.lax import (add, bitwise_and, bitwise_not, bitwise_or,
-                              broadcast_in_dim, broadcast_shapes,
-                              convert_element_type, div, eq, exp, full_like, ge,
-                              gt, le, log, log1p, lt, mul, ne, neg, reciprocal,
-                              reduce, select, sign, sqrt, square,
-                              standard_naryop, standard_unop, sub,
-                              _const, _dtype,
-                              _float, _nary_lower_hlo, _ones, _isnan, _reduce)
-from jax._src.lax.control_flow import while_loop
+import numpy as np
 
 from jax._src import dtypes
 from jax._src.interpreters import ad
 from jax._src.interpreters import mlir
+from jax._src.lax.control_flow import while_loop
+from jax._src.lax.lax import (
+    _const, _dtype, _float, _isnan, _nary_lower_hlo, _ones, _reduce, add,
+    bitwise_and, bitwise_not, bitwise_or, broadcast_in_dim, broadcast_shapes,
+    convert_element_type, div, eq, exp, full_like, ge, gt, le, log, log1p, lt,
+    mul, ne, neg, reciprocal, reduce, select, sign, sqrt, square,
+    standard_naryop, standard_unop, sub)
 from jax._src.lib.mlir.dialects import chlo
 from jax._src.typing import Array, ArrayLike
+
 
 def betainc(a: ArrayLike, b: ArrayLike, x: ArrayLike) -> Array:
   r"""Elementwise regularized incomplete beta integral."""

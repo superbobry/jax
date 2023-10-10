@@ -17,16 +17,16 @@ import itertools
 
 from absl.testing import absltest
 from absl.testing import parameterized
-
 import numpy as np
+
 import jax
+from jax import config
 from jax import lax
 
 from jax._src import test_util as jtu
-from jax._src.internal_test_util import lax_test_util
 from jax._src import util
+from jax._src.internal_test_util import lax_test_util
 
-from jax import config
 config.parse_flags_with_absl()
 
 FLAGS = config.FLAGS

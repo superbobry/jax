@@ -22,24 +22,24 @@ import enum
 import functools
 import itertools
 import math
-from typing import Any, NamedTuple, Union, cast, Optional
+from typing import Any, cast, NamedTuple, Optional, Union
+
+import numpy as np
 
 from jax._src import mesh as mesh_lib
-from jax._src.op_shardings import (
-    is_op_sharding_replicated, are_op_shardings_equal, get_num_ways_dim_sharded,
-    op_sharding_to_indices)
 from jax._src import sharding
 from jax._src import sharding_specs
 from jax._src import tree_util
 from jax._src import util
 from jax._src import xla_bridge
-from jax._src.util import safe_map, safe_zip, use_cpp_class, use_cpp_method
 from jax._src.lib import xla_client as xc
 from jax._src.lib import xla_extension_version
+from jax._src.op_shardings import are_op_shardings_equal
+from jax._src.op_shardings import get_num_ways_dim_sharded
+from jax._src.op_shardings import is_op_sharding_replicated
+from jax._src.op_shardings import op_sharding_to_indices
 from jax._src.partition_spec import PartitionSpec
-
-import numpy as np
-
+from jax._src.util import safe_map, safe_zip, use_cpp_class, use_cpp_method
 
 Shape = tuple[int, ...]
 Device = xc.Device

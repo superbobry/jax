@@ -21,13 +21,11 @@ import functools
 from functools import partial
 import operator as op
 import textwrap
-from typing import Any, Callable, NamedTuple, Type, TypeVar, Union, overload
+from typing import Any, Callable, NamedTuple, overload, Type, TypeVar, Union
 
 from jax._src import traceback_util
 from jax._src.lib import pytree
-from jax._src.util import safe_zip
-from jax._src.util import unzip2
-
+from jax._src.util import safe_zip, unzip2
 
 traceback_util.register_exclusion(__file__)
 

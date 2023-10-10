@@ -22,8 +22,8 @@ import weakref
 
 import numpy as np
 
-import jax.numpy as jnp
 from jax import lax
+import jax.numpy as jnp
 
 from jax._src import core
 from jax._src import effects
@@ -40,8 +40,8 @@ from jax._src.lib import xla_client as xc
 from jax._src.lib.mlir import ir
 from jax._src.lib.mlir.dialects import hlo
 from jax._src.sharding import Sharding
-from jax._src.sharding_impls import (GSPMDSharding, NamedSharding,
-                                     parse_flatten_op_sharding)
+from jax._src.sharding_impls import (
+    GSPMDSharding, NamedSharding, parse_flatten_op_sharding)
 
 # pytype: disable=import-error
 try:

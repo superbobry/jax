@@ -14,25 +14,27 @@
 
 
 from functools import partial
+import textwrap
+from typing import Any, cast, Literal, Optional, overload, Union
+import warnings
 
 import numpy as np
 import scipy.linalg
-import textwrap
-import warnings
-from typing import cast, overload, Any, Literal, Optional, Union
 
 import jax
-import jax.numpy as jnp
-from jax import jit, vmap, jvp
+from jax import jit
+from jax import jvp
 from jax import lax
+from jax import vmap
+import jax.numpy as jnp
+
 from jax._src import dtypes
 from jax._src.lax import linalg as lax_linalg
 from jax._src.lax import qdwh
 from jax._src.numpy.util import (
-    check_arraylike, _wraps, promote_dtypes, promote_dtypes_inexact,
-    promote_dtypes_complex)
+    _wraps, check_arraylike, promote_dtypes, promote_dtypes_complex,
+    promote_dtypes_inexact)
 from jax._src.typing import Array, ArrayLike
-
 
 _no_chkfinite_doc = textwrap.dedent("""
 Does not support the Scipy argument ``check_finite=True``,

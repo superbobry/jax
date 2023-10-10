@@ -38,8 +38,9 @@ import functools
 from typing import Any, Union
 
 import jax
-import jax.numpy as jnp
 from jax import lax
+import jax.numpy as jnp
+
 from jax._src import core
 
 

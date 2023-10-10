@@ -25,18 +25,20 @@ import functools
 import io
 from typing import Any, Callable
 
+import numpy as np
+
 import jax
 from jax import core
-from jax._src import config
-from jax._src.lib import tpu_mosaic
-from jax._src.lib import xla_client
 from jax.interpreters import mlir
 from jax.interpreters import xla
 from jaxlib.mlir import ir
 from jaxlib.mlir.dialects import mhlo
 from jaxlib.mlir.dialects import stablehlo
 from jaxlib.mlir.passmanager import PassManager
-import numpy as np
+
+from jax._src import config
+from jax._src.lib import tpu_mosaic
+from jax._src.lib import xla_client
 
 mosaic_use_cpp_passes = config.config.define_bool_state(
     name="mosaic_use_cpp_passes",

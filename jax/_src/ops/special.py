@@ -12,15 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import overload, Literal, Optional, Union
+from typing import Literal, Optional, overload, Union
+
+import numpy as np
 
 import jax
 from jax import lax
 from jax import numpy as jnp
+
 from jax._src.numpy.reductions import _reduction_dims, Axis
 from jax._src.numpy.util import promote_args_inexact
 from jax._src.typing import Array, ArrayLike
-import numpy as np
 
 # The definition of logsumexp is shared between jax.nn and jax.scipy, and
 # although it matches scipy's definition, we put it here to avoid having

@@ -31,20 +31,21 @@ from collections.abc import Sequence
 from functools import partial
 import math
 import operator
-import types
-from typing import (overload, Any, Callable, Literal, NamedTuple, Optional,
-                    Protocol, TypeVar, Union)
 from textwrap import dedent as _dedent
+import types
+from typing import (
+    Any, Callable, Literal, NamedTuple, Optional, overload, Protocol, TypeVar,
+    Union)
 import warnings
 
 import numpy as np
 import opt_einsum
 
 import jax
-from jax import jit
 from jax import errors
+from jax import jit
 from jax import lax
-from jax.tree_util import tree_leaves, tree_flatten, tree_map
+from jax.tree_util import tree_flatten, tree_leaves, tree_map
 
 from jax._src import api_util
 from jax._src import core
@@ -52,20 +53,20 @@ from jax._src import dispatch
 from jax._src import dtypes
 from jax._src.api_util import _ensure_index_tuple
 from jax._src.array import ArrayImpl
-from jax._src.core import ShapedArray, ConcreteArray
-from jax._src.lax.lax import (_array_copy, _sort_lt_comparator,
-                              _sort_le_comparator, PrecisionLike)
+from jax._src.core import ConcreteArray, ShapedArray
 from jax._src.lax import lax as lax_internal
+from jax._src.lax.lax import (
+    _array_copy, _sort_le_comparator, _sort_lt_comparator, PrecisionLike)
 from jax._src.lib import xla_client
 from jax._src.numpy import reductions
 from jax._src.numpy import ufuncs
 from jax._src.numpy import util
 from jax._src.numpy.vectorize import vectorize
-from jax._src.typing import Array, ArrayLike, DimSize, DuckTypedArray, DType, DTypeLike, Shape
-from jax._src.util import (unzip2, subvals, safe_zip,
-                           ceil_of_ratio, partition_list,
-                           canonicalize_axis as _canonicalize_axis,
-                           NumpyComplexWarning)
+from jax._src.typing import (
+    Array, ArrayLike, DimSize, DType, DTypeLike, DuckTypedArray, Shape)
+from jax._src.util import (
+    canonicalize_axis as _canonicalize_axis, ceil_of_ratio,
+    NumpyComplexWarning, partition_list, safe_zip, subvals, unzip2)
 
 newaxis = None
 T = TypeVar('T')

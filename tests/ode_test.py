@@ -16,16 +16,16 @@ from functools import partial
 
 from absl.testing import absltest
 import numpy as np
-
-import jax
-from jax._src import test_util as jtu
-import jax.numpy as jnp
-from jax.experimental.ode import odeint
-from jax.tree_util import tree_map
-
 import scipy.integrate as osp_integrate
 
+import jax
 from jax import config
+from jax.experimental.ode import odeint
+import jax.numpy as jnp
+from jax.tree_util import tree_map
+
+from jax._src import test_util as jtu
+
 config.parse_flags_with_absl()
 
 

@@ -39,7 +39,8 @@ from jax._src import pretty_printer as pp
 from jax._src import sharding_specs
 from jax._src import tree_util as tree_util_internal
 from jax._src import typing
-from jax._src.api import jit, vmap
+from jax._src.api import jit
+from jax._src.api import vmap
 from jax._src.dtypes import float0
 from jax._src.interpreters import ad
 from jax._src.interpreters import batching
@@ -48,15 +49,16 @@ from jax._src.interpreters import pxla
 from jax._src.interpreters import xla
 from jax._src.lax import lax as lax_internal
 from jax._src.lax import utils as lax_utils
-from jax._src.lib.mlir import ir
 from jax._src.lib import gpu_prng
 from jax._src.lib import xla_client as xc
+from jax._src.lib.mlir import ir
 from jax._src.lib.mlir.dialects import hlo
-from jax._src.numpy.array_methods import (
-    _array_operators, _set_array_base_attributes, _IndexUpdateHelper)
+from jax._src.numpy.array_methods import _array_operators
+from jax._src.numpy.array_methods import _IndexUpdateHelper
+from jax._src.numpy.array_methods import _set_array_base_attributes
 from jax._src.partition_spec import PartitionSpec
 from jax._src.sharding_impls import (
-    NamedSharding, PmapSharding, GSPMDSharding, XLACompatibleSharding)
+    GSPMDSharding, NamedSharding, PmapSharding, XLACompatibleSharding)
 from jax._src.typing import Array
 from jax._src.util import safe_map, safe_zip
 

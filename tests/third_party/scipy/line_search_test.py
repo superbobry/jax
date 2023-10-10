@@ -2,12 +2,12 @@ from absl.testing import absltest
 import scipy.optimize
 
 import jax
-from jax import grad
 from jax import config
+from jax import grad
 import jax.numpy as jnp
-import jax._src.test_util as jtu
-from jax._src.scipy.optimize.line_search import line_search
 
+from jax._src.scipy.optimize.line_search import line_search
+import jax._src.test_util as jtu
 
 config.parse_flags_with_absl()
 

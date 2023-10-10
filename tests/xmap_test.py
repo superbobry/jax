@@ -14,45 +14,49 @@
 
 from collections.abc import Generator, Iterator
 import functools
+from functools import partial
+from itertools import permutations
+from itertools import product
 import itertools as it
 import math
 import os
 import re
-from itertools import product, permutations
-from typing import Union, Optional
+from typing import Optional, Union
 from unittest import SkipTest
 
-import numpy as np
 from absl.testing import absltest
 from absl.testing import parameterized
-from functools import partial
+import numpy as np
 
 import jax
+from jax import config
+from jax import lax
+from jax import vmap
+from jax.ad_checkpoint import checkpoint
+from jax.errors import JAXTypeError
+from jax.experimental import maps
+from jax.experimental.maps import serial_loop
+from jax.experimental.maps import SerialLoop
+from jax.experimental.maps import xmap
+from jax.experimental.pjit import pjit
+from jax.interpreters import batching
 import jax.numpy as jnp
 import jax.scipy as jscipy
-from jax._src import test_util as jtu
-from jax import vmap
-from jax import lax
-from jax._src import core
-from jax._src.core import NamedShape
-from jax.experimental import maps
-from jax._src import array
-from jax._src.sharding_impls import NamedSharding
-from jax.experimental.pjit import pjit
 from jax.sharding import PartitionSpec as P
-from jax.experimental.maps import xmap, serial_loop, SerialLoop
-from jax.errors import JAXTypeError
-from jax._src.nn import initializers as nn_initializers
+
+from jax._src import array
+from jax._src import core
+from jax._src import test_util as jtu
 from jax._src import xla_bridge
-from jax._src.lib import xla_client
-from jax._src.lib import xla_extension_version
-from jax._src.util import unzip2
+from jax._src.core import NamedShape
 from jax._src.lax import parallel as lax_parallel
 from jax._src.lax.parallel import pgather
-from jax.interpreters import batching
-from jax.ad_checkpoint import checkpoint
+from jax._src.lib import xla_client
+from jax._src.lib import xla_extension_version
+from jax._src.nn import initializers as nn_initializers
+from jax._src.sharding_impls import NamedSharding
+from jax._src.util import unzip2
 
-from jax import config
 config.parse_flags_with_absl()
 
 

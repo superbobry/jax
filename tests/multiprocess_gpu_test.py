@@ -13,13 +13,13 @@
 # limitations under the License.
 
 import contextlib
+import functools
 import os
 import shutil
 import subprocess
 import sys
 import threading
 import unittest
-import functools
 
 from absl.testing import absltest
 from absl.testing import parameterized
@@ -27,12 +27,13 @@ import numpy as np
 
 import jax
 from jax import config
+from jax.experimental import pjit
+import jax.numpy as jnp
+
 from jax._src import core
 from jax._src import distributed
-import jax.numpy as jnp
 from jax._src import test_util as jtu
 from jax._src import util
-from jax.experimental import pjit
 
 try:
   import portpicker

@@ -21,19 +21,19 @@ import unittest
 
 from absl.testing import absltest
 from absl.testing import parameterized
-
 import scipy.stats
 
-from jax._src import core
-from jax._src import test_util as jtu
-from jax._src import ad_checkpoint
-from jax.test_util import check_grads
+import jax
+from jax import config
 from jax import nn
 from jax import random
-import jax
 import jax.numpy as jnp
+from jax.test_util import check_grads
 
-from jax import config
+from jax._src import ad_checkpoint
+from jax._src import core
+from jax._src import test_util as jtu
+
 config.parse_flags_with_absl()
 
 

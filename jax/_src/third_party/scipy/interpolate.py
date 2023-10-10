@@ -1,10 +1,13 @@
 from itertools import product
+
 import scipy.interpolate as osp_interpolate
 
-from jax.numpy import (asarray, broadcast_arrays, can_cast,
-                       empty, nan, searchsorted, where, zeros)
+from jax.numpy import (
+    asarray, broadcast_arrays, can_cast, empty, nan, searchsorted, where,
+    zeros)
+
+from jax._src.numpy.util import _wraps, check_arraylike, promote_dtypes_inexact
 from jax._src.tree_util import register_pytree_node
-from jax._src.numpy.util import check_arraylike, promote_dtypes_inexact, _wraps
 
 
 def _ndim_coords_from_arrays(points, ndim=None):

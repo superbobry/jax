@@ -18,18 +18,18 @@ import unittest
 
 from absl.testing import absltest
 from absl.testing import parameterized
-
 import numpy as np
 
 import jax
+from jax import config
 from jax import lax
-from jax.ad_checkpoint import checkpoint
-from jax._src import test_util as jtu
 from jax import tree_util
+from jax.ad_checkpoint import checkpoint
 import jax.numpy as jnp  # scan tests use numpy
 import jax.scipy as jsp
 
-from jax import config
+from jax._src import test_util as jtu
+
 config.parse_flags_with_absl()
 
 

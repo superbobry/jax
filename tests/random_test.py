@@ -16,30 +16,29 @@ import copy
 import enum
 from functools import partial
 import math
-from unittest import skipIf
 from typing import Any, NamedTuple, Optional
+from unittest import skipIf
 import zlib
 
 from absl.testing import absltest
 from absl.testing import parameterized
-
 import numpy as np
 
 import jax
+from jax import config
 from jax import lax
 from jax import numpy as jnp
 from jax import random
 from jax import tree_util
-from jax._src import core
-from jax._src import dtypes
-from jax._src import test_util as jtu
 from jax import vmap
 from jax.interpreters import xla
 
-from jax._src import random as jax_random
+from jax._src import core
+from jax._src import dtypes
 from jax._src import prng as prng_internal
+from jax._src import random as jax_random
+from jax._src import test_util as jtu
 
-from jax import config
 config.parse_flags_with_absl()
 
 

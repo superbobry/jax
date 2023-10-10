@@ -28,31 +28,33 @@ import operator
 from operator import attrgetter
 import threading
 import types
-from typing import (Any, Callable, ClassVar, DefaultDict, Generic, NamedTuple,
-                    TypeVar, Union, cast, overload)
+from typing import (
+    Any, Callable, cast, ClassVar, DefaultDict, Generic, NamedTuple, overload,
+    TypeVar, Union)
 import warnings
 from weakref import ref
 
 import numpy as np
 
-from jax._src import dtypes
 from jax._src import config
+from jax._src import dtypes
 from jax._src import effects
-from jax._src.errors import (
-    ConcretizationTypeError, TracerArrayConversionError, TracerBoolConversionError,
-    TracerIntegerConversionError, UnexpectedTracerError)
 from jax._src import linear_util as lu
-
 from jax._src import source_info_util
-from jax._src.util import (safe_zip, safe_map, curry, tuple_insert,
-                           tuple_delete, as_hashable_function,
-                           HashableFunction, HashableWrapper, weakref_lru_cache,
-                           partition_list)
-import jax._src.pretty_printer as pp
-from jax._src.lib import jax_jit
 from jax._src import traceback_util
-from jax._src.typing import Array, DimSize, Shape
 from jax._src import typing
+from jax._src.errors import (
+    ConcretizationTypeError, TracerArrayConversionError,
+    TracerBoolConversionError, TracerIntegerConversionError,
+    UnexpectedTracerError)
+from jax._src.lib import jax_jit
+import jax._src.pretty_printer as pp
+from jax._src.typing import Array, DimSize, Shape
+from jax._src.util import (
+    as_hashable_function, curry, HashableFunction, HashableWrapper,
+    partition_list, safe_map, safe_zip, tuple_delete, tuple_insert,
+    weakref_lru_cache)
+
 traceback_util.register_exclusion(__file__)
 
 zip, unsafe_zip = safe_zip, zip

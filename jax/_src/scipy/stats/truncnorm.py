@@ -17,9 +17,10 @@ import scipy.stats as osp_stats
 
 from jax import lax
 import jax.numpy as jnp
+
 from jax._src.numpy.util import _wraps, promote_args_inexact
+from jax._src.scipy.special import log_ndtr, logsumexp, ndtr
 from jax._src.scipy.stats import norm
-from jax._src.scipy.special import logsumexp, log_ndtr, ndtr
 
 
 def _log_diff(x, y):

@@ -17,23 +17,26 @@
 from functools import partial
 import itertools
 
+from absl.testing import absltest
 import numpy as np
 import scipy
-import scipy.linalg
 import scipy as osp
-
-from absl.testing import absltest
+import scipy.linalg
 
 import jax
-from jax import jit, grad, jvp, vmap
+from jax import config
+from jax import grad
+from jax import jit
+from jax import jvp
 from jax import lax
 from jax import numpy as jnp
 from jax import scipy as jsp
-from jax._src.numpy.util import promote_dtypes_inexact
+from jax import vmap
+
 from jax._src import test_util as jtu
 from jax._src import xla_bridge
+from jax._src.numpy.util import promote_dtypes_inexact
 
-from jax import config
 config.parse_flags_with_absl()
 FLAGS = config.FLAGS
 

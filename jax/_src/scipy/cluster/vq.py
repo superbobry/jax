@@ -13,14 +13,14 @@
 # limitations under the License.
 
 import operator
+import textwrap
 
 import scipy.cluster.vq
-import textwrap
 
 from jax import vmap
 import jax.numpy as jnp
-from jax._src.numpy.util import _wraps, check_arraylike, promote_dtypes_inexact
 
+from jax._src.numpy.util import _wraps, check_arraylike, promote_dtypes_inexact
 
 _no_chkfinite_doc = textwrap.dedent("""
 Does not support the Scipy argument ``check_finite=True``,

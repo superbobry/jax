@@ -22,10 +22,10 @@ import logging
 import os
 import socketserver
 import threading
-
 from typing import Callable, Optional
 
 from jax._src import traceback_util
+
 traceback_util.register_exclusion(__file__)
 
 from jax._src import xla_bridge

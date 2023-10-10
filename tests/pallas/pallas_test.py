@@ -25,26 +25,28 @@ from absl.testing import parameterized
 import jax
 from jax import lax
 from jax import random
-from jax._src import linear_util as lu
-from jax._src import test_util as jtu
-from jax._src import state
-from jax._src.lax.control_flow.for_loop import for_loop
-from jax._src.pallas.pallas_call import _trace_to_jaxpr
 from jax.config import config
-from jax.interpreters import partial_eval as pe
-import jax.numpy as jnp
 from jax.experimental import pallas as pl
 from jax.experimental.pallas.ops import attention
 from jax.experimental.pallas.ops import layer_norm
 from jax.experimental.pallas.ops import rms_norm
 from jax.experimental.pallas.ops import softmax
+from jax.interpreters import partial_eval as pe
+import jax.numpy as jnp
+
+from jax._src import linear_util as lu
+from jax._src import state
+from jax._src import test_util as jtu
+from jax._src.lax.control_flow.for_loop import for_loop
+from jax._src.pallas.pallas_call import _trace_to_jaxpr
+
 try:
-  from jax._src.pallas.triton.lowering import compile_jaxpr
   from jax.experimental.pallas import gpu as plgpu
+
+  from jax._src.pallas.triton.lowering import compile_jaxpr
 except ModuleNotFoundError:
   compile_jaxpr = None
 import numpy as np
-
 
 # TODO(sharadmv): Update signatures of pallas_call to correct inputs/outputs.
 # pylint: disable=no-value-for-parameter

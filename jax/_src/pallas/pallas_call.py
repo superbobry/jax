@@ -17,30 +17,30 @@ from __future__ import annotations
 
 from functools import partial
 import itertools as it
-
 from typing import Any, Callable, Dict, Sequence, Tuple
+
+import numpy as np
 
 import jax
 from jax import api_util
-from jax import tree_util
 from jax import lax
-from jax._src import state
+from jax import tree_util
 from jax.interpreters import ad
 from jax.interpreters import batching
 from jax.interpreters import partial_eval as pe
 from jax.interpreters import xla
+import jax.numpy as jnp
+
 from jax._src import ad_util
 from jax._src import core as jax_core
-from jax._src.state import primitives as sp
 from jax._src import linear_util as lu
-from jax._src.state import discharge as state_discharge
-from jax._src.util import (
-    split_list, safe_map, safe_zip, weakref_lru_cache,
-    tuple_insert, partition_list, merge_lists)
-import jax.numpy as jnp
-import numpy as np
-
+from jax._src import state
 from jax._src.pallas import core as pallas_core
+from jax._src.state import discharge as state_discharge
+from jax._src.state import primitives as sp
+from jax._src.util import (
+    merge_lists, partition_list, safe_map, safe_zip, split_list, tuple_insert,
+    weakref_lru_cache)
 
 map, unsafe_map = safe_map, map
 zip, unsafe_zip = safe_zip, zip

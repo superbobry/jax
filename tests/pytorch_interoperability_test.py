@@ -19,11 +19,12 @@ from absl.testing import absltest
 import jax
 from jax import config
 import jax.dlpack
+import jax.numpy as jnp
+
+from jax._src import test_util as jtu
 from jax._src import xla_bridge
 from jax._src.lib import xla_client
 from jax._src.lib import xla_extension_version
-import jax.numpy as jnp
-from jax._src import test_util as jtu
 
 config.parse_flags_with_absl()
 

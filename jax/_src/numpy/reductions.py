@@ -17,25 +17,25 @@ from collections.abc import Sequence
 from functools import partial
 import math
 import operator
-from typing import overload, Any, Callable, Literal, Optional, Protocol, Union
+from typing import Any, Callable, Literal, Optional, overload, Protocol, Union
 import warnings
 
 import numpy as np
 
 from jax import lax
+
 from jax._src import api
 from jax._src import core
 from jax._src import dtypes
+from jax._src.lax import lax as lax_internal
 from jax._src.numpy import ufuncs
 from jax._src.numpy.util import (
-    _broadcast_to, check_arraylike, _complex_elem_type,
-    promote_dtypes_inexact, promote_dtypes_numeric, _where, _wraps)
-from jax._src.lax import lax as lax_internal
+    _broadcast_to, _complex_elem_type, _where, _wraps, check_arraylike,
+    promote_dtypes_inexact, promote_dtypes_numeric)
 from jax._src.typing import Array, ArrayLike, DType, DTypeLike
 from jax._src.util import (
     canonicalize_axis as _canonicalize_axis, maybe_named_axis,
     NumpyComplexWarning)
-
 
 _all = builtins.all
 _lax_const = lax_internal._const

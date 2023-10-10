@@ -22,8 +22,8 @@ from typing import Any, Callable, Protocol
 
 import numpy as np
 
-from jax._src import api_util
 from jax._src import ad_util
+from jax._src import api_util
 from jax._src import config
 from jax._src import core
 from jax._src import linear_util as lu
@@ -34,11 +34,14 @@ from jax._src.interpreters import mlir
 from jax._src.interpreters import partial_eval as pe
 from jax._src.lax import lax
 from jax._src.lax import slicing as lax_slicing
+from jax._src.state.primitives import addupdate_p
+from jax._src.state.primitives import get_p
+from jax._src.state.primitives import swap_p
 from jax._src.state.types import AbstractRef, RefEffect
-from jax._src.state.primitives import get_p, swap_p, addupdate_p
 from jax._src.state.utils import hoist_consts_to_refs
-from jax._src.util import (safe_map, safe_zip, split_list, weakref_lru_cache,
-                           partition_list, merge_lists, split_dict)
+from jax._src.util import (
+    merge_lists, partition_list, safe_map, safe_zip, split_dict, split_list,
+    weakref_lru_cache)
 
 ## JAX utilities
 

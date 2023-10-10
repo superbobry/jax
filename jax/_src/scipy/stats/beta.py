@@ -16,10 +16,14 @@ import scipy.stats as osp_stats
 
 from jax import lax
 import jax.numpy as jnp
+from jax.scipy.special import betainc
+from jax.scipy.special import betaln
+from jax.scipy.special import xlog1py
+from jax.scipy.special import xlogy
+
 from jax._src.lax.lax import _const as _lax_const
 from jax._src.numpy.util import _wraps, promote_args_inexact
 from jax._src.typing import Array, ArrayLike
-from jax.scipy.special import betaln, betainc, xlogy, xlog1py
 
 
 @_wraps(osp_stats.beta.logpdf, update_doc=False)

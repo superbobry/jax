@@ -16,17 +16,17 @@
 from functools import partial
 import itertools
 import math
-from typing import Optional, cast
+from typing import cast, Optional
 import unittest
 
 from absl.testing import absltest
-
 import numpy as np
 
 import jax
-import jax.numpy as jnp
+from jax import config
 from jax import dtypes
 from jax import lax
+import jax.numpy as jnp
 
 from jax._src import test_util as jtu
 from jax._src.internal_test_util import lax_test_util
@@ -34,7 +34,6 @@ from jax._src.lax import windowed_reductions as lax_windowed_reductions
 from jax._src.lib import xla_client
 from jax._src.util import safe_map, safe_zip
 
-from jax import config
 config.parse_flags_with_absl()
 FLAGS = config.FLAGS
 

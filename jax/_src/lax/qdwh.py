@@ -28,8 +28,9 @@ import functools
 from typing import Optional
 
 import jax
-import jax.numpy as jnp
 from jax import lax
+import jax.numpy as jnp
+
 from jax._src import core
 from jax._src.lax import linalg as lax_linalg
 

@@ -17,14 +17,14 @@
 # RUN: %PYTHON %s | FileCheck %s
 
 from absl import app
+import numpy as np
 
 import jax
 from jax import numpy as jnp
 from jax.interpreters import mlir
-from jax._src.lib.mlir import ir
-import numpy as np
-
 from jax.tests.filecheck.jax_filecheck_helpers import print_ir
+
+from jax._src.lib.mlir import ir
 
 jax.config.update("jax_enable_x64", True)
 

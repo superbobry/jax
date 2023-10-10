@@ -15,15 +15,15 @@
 """Tests for Stax library."""
 
 from absl.testing import absltest
-
 import numpy as np
 
-from jax._src import test_util as jtu
+from jax import config
+from jax import dtypes
 from jax import random
 from jax.example_libraries import stax
-from jax import dtypes
 
-from jax import config
+from jax._src import test_util as jtu
+
 config.parse_flags_with_absl()
 
 

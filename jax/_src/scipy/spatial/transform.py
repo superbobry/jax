@@ -20,6 +20,7 @@ import scipy.spatial.transform
 
 import jax
 import jax.numpy as jnp
+
 from jax._src.numpy.util import _wraps
 
 

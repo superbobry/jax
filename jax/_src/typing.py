@@ -28,12 +28,11 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from typing import Any, Protocol, Union
+
 import numpy as np
 
-from jax._src.basearray import (
-    Array as Array,
-    ArrayLike as ArrayLike,
-)
+from jax._src.basearray import Array as Array
+from jax._src.basearray import ArrayLike as ArrayLike
 
 DType = np.dtype
 

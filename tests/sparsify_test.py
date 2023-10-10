@@ -18,18 +18,27 @@ import operator
 
 from absl.testing import absltest
 from absl.testing import parameterized
-
 import numpy as np
 
 import jax
-from jax import config, jit, lax
-import jax.numpy as jnp
-import jax._src.test_util as jtu
-from jax.experimental.sparse import BCOO, BCSR, sparsify, todense, SparseTracer
-from jax.experimental.sparse.transform import (
-  arrays_to_spvalues, spvalues_to_arrays, sparsify_raw, SparsifyValue, SparsifyEnv)
-from jax.experimental.sparse.util import CuSparseEfficiencyWarning
+from jax import config
+from jax import jit
+from jax import lax
+from jax.experimental.sparse import BCOO
+from jax.experimental.sparse import BCSR
+from jax.experimental.sparse import SparseTracer
+from jax.experimental.sparse import sparsify
 from jax.experimental.sparse import test_util as sptu
+from jax.experimental.sparse import todense
+from jax.experimental.sparse.transform import arrays_to_spvalues
+from jax.experimental.sparse.transform import sparsify_raw
+from jax.experimental.sparse.transform import SparsifyEnv
+from jax.experimental.sparse.transform import SparsifyValue
+from jax.experimental.sparse.transform import spvalues_to_arrays
+from jax.experimental.sparse.util import CuSparseEfficiencyWarning
+import jax.numpy as jnp
+
+import jax._src.test_util as jtu
 
 config.parse_flags_with_absl()
 
