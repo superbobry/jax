@@ -105,3 +105,48 @@ enable = "c-extension-no-member"
 
 [tool.pylint.format]
 indent-string=" "
+
+[tool.isort]
+profile = "google"
+
+combine_as_imports = true
+known_first_party = ["jax", "jaxlib"]
+known_local_folder = ["jax._src"]
+known_third_party = ["numpy", "scipy"]
+multi_line_output = 4
+src_paths = ["jax/_src", "tests"]
+single_line_exclusions = [
+    "collections",
+    "collections.abc",
+    "contextlib",
+    "functools",
+    "typing",
+
+    "jax._src.ad_util",
+    "jax._src.api_util",
+    "jax._src.checkify",
+    "jax._src.config",
+    "jax._src.core",
+    "jax._src.errors",
+    "jax._src.lax.control_flow.common",
+    "jax._src.lax.control_flow.conditionals",
+    "jax._src.lax.control_flow.loops",
+    "jax._src.lax.control_flow.solves",
+    "jax._src.lax.lax",
+    "jax._src.lax.utils",
+    "jax._src.numpy.lax_numpy",
+    "jax._src.numpy.reductions",
+    "jax._src.numpy.util",
+    "jax._src.public_test_util",
+    "jax._src.scipy.special",
+    "jax._src.sharding_impls",
+    "jax._src.state.types",
+    "jax._src.tree_util",
+    "jax._src.typing",
+    "jax._src.util",
+
+    # TODO(slebedev): Update the code and remove these.
+    "jax.numpy",
+    "jax.tree_util",
+]
+use_parentheses = true
