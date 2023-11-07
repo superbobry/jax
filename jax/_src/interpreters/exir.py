@@ -30,10 +30,9 @@ from torch.utils import dlpack as torch_dlpack
 
 import jax
 import jax.numpy as jnp
-from jax._src import ad_util, dtypes
+from jax._src import ad_util
 from jax._src import core
 from jax._src import dlpack as jax_dlpack
-from jax._src import prng
 from jax._src.lax import lax
 from jax._src.typing import ArrayLike, DTypeLike
 
@@ -158,28 +157,6 @@ def _dot_general_torch_impl(
   return torch.einsum(spec, lhs, rhs)
 
 
-@register_torch_impl(prng.random_wrap_p)
-def _random_wrap_torch_impl(ctx: Context, in_val, *, impl):
-  del g, impl  # Unused.
-  return in_val
-
-
-@register_torch_impl(prng.random_unwrap_p)
-def _random_wrap_torch_impl(ctx: Context, in_val):
-  del g  # Unused.
-  return in_val
-
-
-@register_torch_impl(prng.random_fold_in_p)
-def _random_fold_in_torch_impl(
-    ctx: Context,
-    keys: torch.Tensor,
-    msgs: torch.Tensor,
-) -> torch.Tensor:
-  # TODO(slebedev): How to call into prng.random_fold_in_impl_base here?
-  return keys
-
-
 @register_torch_impl(ad_util.stop_gradient_p)
 def _stop_gradient_torch_impl(ctx: Context, in_val: torch.Tensor):
   return in_val.detach()
@@ -200,10 +177,7 @@ def _convert_element_type_torch_impl(ctx: Context, in_val, new_dtype, weak_type)
 
 def to_torch_tensor(x: ArrayLike) -> torch.Tensor:
   arr = jnp.asarray(x)
-  if dtypes.issubdtype(arr.dtype, dtypes.prng_key):
-    # TODO(slebedev): Find a way to support PRNG keys.
-    return torch.tensor(0xDEADC0DE)
-  elif not arr.shape:
+  if not arr.shape:
     # Let PyTorch choose the dtype for scalars.
     # See https://github.com/pytorch/pytorch/issues/58734.
     return torch.as_tensor(arr.item())
@@ -265,11 +239,12 @@ def interpret_closed_jaxpr(
 
 def closed_jaxpr_to_exir(
     closed_jaxpr: core.ClosedJaxpr,
-    *args: jax.Array,
+    *args: Any,
 ) -> exir.ExecutorchProgramManager:
   gm = torch.fx.symbolic_trace(interpret_closed_jaxpr(closed_jaxpr))
-  torch_args = tuple(to_torch_tensor(jnp.ones_like(arg)) for arg in args)
-  aten_program = export.export(gm, torch_args)
+  flat_args, _ = jax.tree_util.tree_flatten(args)
+  flat_args = tuple(to_torch_tensor(jnp.ones_like(arg)) for arg in flat_args)
+  aten_program = export.export(gm, flat_args)
   edge_program = exir.to_edge(aten_program)
   executorch_program = edge_program.to_executorch()
   return executorch_program
@@ -278,34 +253,18 @@ def closed_jaxpr_to_exir(
 if __name__ == "__main__":
   from flax import linen as nn
 
-
-  def f(x, y):
-    z = jax.nn.softmax(x) + y
-    return z @ z.T
-
-
-  def g(q, rng):
-    attn = nn.SelfAttention(
-        num_heads=8,
-        qkv_features=16,
-        kernel_init=nn.initializers.ones,
-        bias_init=nn.initializers.zeros,
-        deterministic=True,
-    )
-    y, _ = attn.init_with_output(rng, q)
-    return y
-
-
-  # x = jnp.ones([4, 2])
-  # print(f(x, x))
-  # closed_jaxpr = jax.make_jaxpr(f)(x, x)
-  # p = closed_jaxpr_to_exir(closed_jaxpr, x, x)
-
+  attn = nn.SelfAttention(
+      num_heads=8,
+      qkv_features=16,
+      kernel_init=nn.initializers.ones,
+      bias_init=nn.initializers.zeros,
+      deterministic=True,
+  )
   q = jnp.ones((4, 2, 3, 5))
-  rng = jax.random.key(1)
-  print(g(q, rng))
-  closed_jaxpr = jax.make_jaxpr(g)(q, rng)
-  p = closed_jaxpr_to_exir(closed_jaxpr, q, rng)
+  params = attn.init(jax.random.key(1), q)
+  print(attn.apply(params, q))
+  closed_jaxpr = jax.make_jaxpr(attn.apply)(params, q)
+  p = closed_jaxpr_to_exir(closed_jaxpr, params, q)
 
   with open("/tmp/model.pte", "wb") as file:
     file.write(p.buffer)
