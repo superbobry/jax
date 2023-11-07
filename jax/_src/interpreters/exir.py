@@ -37,6 +37,13 @@ from jax._src import prng
 from jax._src.lax import lax
 from jax._src.typing import ArrayLike, DTypeLike
 
+
+@dataclasses.dataclass(frozen=True, slots=True)
+class Context:
+  in_avals: Sequence[core.ShapedArray]
+  out_avals: Sequence[core.ShapedArray]
+
+
 torch_impl = {}
 
 
@@ -44,23 +51,10 @@ def register_torch_impl(prim: core.Primitive) -> Callable[[Any], None]:
   return partial(torch_impl.__setitem__, prim)
 
 
-torch_impl_with_avals = {}
-
-
-def register_torch_impl_with_avals(prim: core.Primitive) -> Callable[[Any], None]:
-  return partial(torch_impl_with_avals.__setitem__, prim)
-
-
-def find_torch_impl(prim: core.Primitive) -> tuple[Callable[..., Any], bool]:
-  try:
-    return torch_impl[prim], False
-  except KeyError:
-    return torch_impl_with_avals[prim], True
-
-
 def forward_to_torch(prim: core.Primitive, torch_fn: Callable[..., Any]) -> None:
-  torch_impl[prim] = lambda g, *in_vals, **params: g.call_function(
-      torch_fn, in_vals, params
+  torch_impl[prim] = lambda ctx, *in_vals, **params: torch_fn(
+      *in_vals,
+      **params,
   )
 
 
@@ -77,67 +71,62 @@ forward_to_torch(lax.expm1_p, torch.expm1)
 
 
 @register_torch_impl(lax.reduce_max_p)
-def _reduce_max_torch_impl(g: fx.Graph, *in_vals: fx.node.Node, axes):
-  return g.call_function(torch.amax, in_vals, dict(axis=axes))
+def _reduce_max_torch_impl(ctx: Context, in_val: torch.Tensor, axes):
+  return torch.amax(in_val, dim=axes)
 
 
 @register_torch_impl(lax.reduce_sum_p)
-def _reduce_max_torch_impl(g: fx.Graph, *in_vals: fx.node.Node, axes):
-  return g.call_function(torch.sum, in_vals, dict(axis=axes))
+def _reduce_max_torch_impl(ctx: Context, in_val: torch.Tensor, axes):
+  return torch.sum(in_val, dim=axes)
 
 
 @register_torch_impl(lax.transpose_p)
-def _transpose_torch_impl(g: fx.Graph, in_val: fx.node.Node, *, permutation):
-  return g.call_function(torch.permute, (in_val, permutation))
+def _transpose_torch_impl(ctx: Context, in_val: torch.Tensor, *, permutation):
+  return torch.permute(in_val, permutation)
 
 
 @register_torch_impl(lax.reshape_p)
 def _reshape_torch_impl(
-    g: fx.Graph,
-    in_val: fx.node.Node,
+    ctx: Context,
+    in_val: torch.Tensor,
     *,
     new_sizes,
     dimensions,
-) -> fx.node.Node:
+) -> torch.Tensor:
   if dimensions is not None:
-    in_val = g.call_function(torch.permute, (in_val, dimensions))
-  return g.call_function(torch.reshape, (in_val, new_sizes))
+    in_val = torch.permute(in_val, dimensions)
+  return torch.reshape(in_val, new_sizes)
 
 
-@register_torch_impl_with_avals(lax.broadcast_in_dim_p)
+@register_torch_impl(lax.broadcast_in_dim_p)
 def _broadcast_in_dim_torch_impl(
-    g: fx.Graph,
-    in_val: fx.node.Node,
+    ctx: Context,
+    in_val: torch.Tensor,
     *,
     shape,
     broadcast_dimensions,
-    _in_avals: Sequence[core.ShapedArray],
-    _out_avals: Sequence[core.ShapedArray],
-) -> fx.node.Node:
-  del _out_avals  # Unused.
+) -> torch.Tensor:
   with_1s_shape = [1] * len(shape)
   for i, dim in enumerate(broadcast_dimensions):
-    with_1s_shape[dim] = _in_avals[0].shape[i]
-  with_1s = g.call_function(torch.reshape, (in_val, with_1s_shape))
-  return g.call_function(torch.broadcast_to, (with_1s, shape))
+    with_1s_shape[dim] = ctx.in_avals[0].shape[i]
+  with_1s = torch.reshape(in_val, with_1s_shape)
+  # ExecuTorch does not support 0-strided tensors.
+  return torch.broadcast_to(with_1s, shape).contiguous()
 
 
-@register_torch_impl_with_avals(lax.dot_general_p)
+@register_torch_impl(lax.dot_general_p)
 def _dot_general_torch_impl(
-    g: fx.Graph,
-    lhs: fx.node.Node,
-    rhs: fx.node.Node,
+    ctx: Context,
+    lhs: torch.Tensor,
+    rhs: torch.Tensor,
     *,
     dimension_numbers: lax.DotDimensionNumbers,
     precision: lax.Precision,
     preferred_element_type: Optional[DTypeLike],
-    _in_avals: Sequence[core.ShapedArray],
-    _out_avals: Sequence[core.ShapedArray],
-) -> fx.node.Node:
+) -> torch.Tensor:
   # This implementation trick was borrowed from jax2tf.
-
-  del precision, preferred_element_type, _out_avals  # Unused.
-  lhs_aval, rhs_aval = _in_avals
+  del precision, preferred_element_type  # Unused.
+  lhs_aval, rhs_aval = ctx.in_avals
   (lhs_contracting, rhs_contracting), (lhs_batch, rhs_batch) = dimension_numbers
 
   next_id = iter(string.ascii_letters).__next__
@@ -166,47 +155,34 @@ def _dot_general_torch_impl(
   spec = "{},{}->{}".format("".join(lhs_axis_ids),
                             "".join(rhs_axis_ids),
                             "".join(out_axis_ids))
-  return g.call_function(torch.einsum, (spec, lhs, rhs))
+  return torch.einsum(spec, lhs, rhs)
 
 
 @register_torch_impl(prng.random_wrap_p)
-def _random_wrap_torch_impl(g: fx.Graph, in_val, *, impl):
+def _random_wrap_torch_impl(ctx: Context, in_val, *, impl):
   del g, impl  # Unused.
   return in_val
 
 
 @register_torch_impl(prng.random_unwrap_p)
-def _random_wrap_torch_impl(g: fx.Graph, in_val):
+def _random_wrap_torch_impl(ctx: Context, in_val):
   del g  # Unused.
   return in_val
 
 
-@register_torch_impl_with_avals(prng.random_fold_in_p)
+@register_torch_impl(prng.random_fold_in_p)
 def _random_fold_in_torch_impl(
-    g: fx.Graph,
-    keys: fx.node.Node,
-    msgs: fx.node.Node,
-    *,
-    _in_avals: Sequence[core.ShapedArray],
-    _out_avals: Sequence[core.ShapedArray]
-) -> fx.node.Node:
+    ctx: Context,
+    keys: torch.Tensor,
+    msgs: torch.Tensor,
+) -> torch.Tensor:
   # TODO(slebedev): How to call into prng.random_fold_in_impl_base here?
   return keys
 
 
 @register_torch_impl(ad_util.stop_gradient_p)
-def _stop_gradient_torch_impl(g: fx.Graph, in_val: fx.node.Node):
-  return g.call_method("detach", (in_val,))
-
-
-@register_torch_impl(lax.convert_element_type_p)
-def _convert_element_type_torch_impl(g: fx.Graph, in_val, new_dtype, weak_type):
-  assert not weak_type
-  return g.call_method(
-      "to",
-      (in_val,),
-      dict(dtype=jax_to_torch_dtype[new_dtype]),
-  )
+def _stop_gradient_torch_impl(ctx: Context, in_val: torch.Tensor):
+  return in_val.detach()
 
 
 jax_to_torch_dtype = {
@@ -216,17 +192,25 @@ jax_to_torch_dtype = {
 }
 
 
-def as_torch_tensor(x: ArrayLike) -> torch.Tensor:
+@register_torch_impl(lax.convert_element_type_p)
+def _convert_element_type_torch_impl(ctx: Context, in_val, new_dtype, weak_type):
+  assert not weak_type
+  return in_val.to(jax_to_torch_dtype[new_dtype])
+
+
+def to_torch_tensor(x: ArrayLike) -> torch.Tensor:
   arr = jnp.asarray(x)
   if dtypes.issubdtype(arr.dtype, dtypes.prng_key):
-    return as_torch_tensor(jax.random.key_data(arr))
+    return to_torch_tensor(jax.random.key_data(arr))
   elif arr.dtype == jnp.uint16:
     arr = arr.astype(jnp.int32)
   elif arr.dtype == jnp.uint32:
     arr = arr.astype(jnp.int64)
   else:
     assert arr.dtype != jnp.uint64
-  return torch_dlpack.from_dlpack(jax_dlpack.to_dlpack(arr))
+  t = torch_dlpack.from_dlpack(jax_dlpack.to_dlpack(arr))
+  # ExecuTorch does not support 0-strided tensors.
+  return t.contiguous()
 
 
 @dataclasses.dataclass
@@ -235,7 +219,7 @@ class Env:
 
   def read(self, v: core.Atom) -> Any:
     if type(v) is core.Literal:
-      return as_torch_tensor(v.val)
+      return to_torch_tensor(v.val)
     assert isinstance(v, core.Var)
     return self.data[v]
 
@@ -243,63 +227,50 @@ class Env:
     self.data[v] = val
 
 
-def jaxpr_into_fx_graph(
-    jaxpr: core.Jaxpr,
-    consts: Sequence[Any],
-    g: fx.Graph,
-) -> fx.Graph:
-  env = Env({})
-  for v in jaxpr.invars:
-    env.write(v, g.placeholder(str(v)))
-  for v, val in zip(jaxpr.constvars, consts):
-    env.write(v, as_torch_tensor(val))
+def interpret_closed_jaxpr(
+    closed_jaxpr: core.ClosedJaxpr,
+) -> Callable[..., Sequence[Any]]:
+  jaxpr = closed_jaxpr.jaxpr
+  consts = closed_jaxpr.consts
 
-  for eqn in jaxpr.eqns:
-    in_vals = [env.read(var) for var in eqn.invars]
-    impl, needs_avals = find_torch_impl(eqn.primitive)
-    if needs_avals:
-      in_avals = [v.aval for v in eqn.invars]
-      out_avals = [v.aval for v in eqn.outvars]
-      out = impl(
-          g,
-          *in_vals,
-          **eqn.params,
-          _in_avals=in_avals,
-          _out_avals=out_avals,
-      )
-    else:
-      out = impl(g, *in_vals, **eqn.params)
-    if not eqn.primitive.multiple_results:
-      out = [out]
-    for v, val in zip(eqn.outvars, out):
+  def inner(*args: Any):
+    # torch.fx.Proxy does not support iteration, so we need to recreate
+    # the args via manual indexing.
+    args = [args[i] for i in range(len(jaxpr.invars))]
+
+    env = Env({})
+    for v, val in zip(jaxpr.invars, args):
       env.write(v, val)
+    for v, val in zip(jaxpr.constvars, consts):
+      env.write(v, to_torch_tensor(val))
 
-  for v in jaxpr.outvars:
-    g.output(env.read(v))
-  return g
+    for eqn in jaxpr.eqns:
+      ctx = Context(
+          in_avals=[v.aval for v in eqn.invars],
+          out_avals=[v.aval for v in eqn.outvars],
+      )
+      out = torch_impl[eqn.primitive](
+          ctx,
+          *(env.read(var) for var in eqn.invars),
+          **eqn.params,
+      )
+      if not eqn.primitive.multiple_results:
+        out = [out]
+      for v, val in zip(eqn.outvars, out):
+        env.write(v, val)
 
+    return [env.read(v) for v in jaxpr.outvars]
 
-class JaxprModule(torch.nn.Module):
-  pass
-
-
-def closed_jaxpr_as_torch_fn(closed_jaxpr: core.ClosedJaxpr) -> Callable[..., Any]:
-  g = fx.Graph()
-  jaxpr_into_fx_graph(closed_jaxpr.jaxpr, closed_jaxpr.consts, g)
-  g.lint()
-  code = g.python_code("")
-  ns = {**code.globals, "tensor": torch.tensor}
-  exec(code.src, ns)
-  return ns["forward"].__get__(JaxprModule())
+  return inner
 
 
 def closed_jaxpr_to_exir(
     closed_jaxpr: core.ClosedJaxpr,
     *args: jax.Array,
 ) -> exir.ExecutorchProgramManager:
-  forward_fn = closed_jaxpr_as_torch_fn(closed_jaxpr)
-  torch_args = tuple(as_torch_tensor(jnp.ones_like(arg)) for arg in args)
-  aten_program = export.export(forward_fn, torch_args)
+  gm = torch.fx.symbolic_trace(interpret_closed_jaxpr(closed_jaxpr))
+  torch_args = tuple(to_torch_tensor(jnp.ones_like(arg)) for arg in args)
+  aten_program = export.export(gm, torch_args)
   edge_program = exir.to_edge(aten_program)
   executorch_program = edge_program.to_executorch()
   return executorch_program
