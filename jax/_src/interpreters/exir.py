@@ -30,7 +30,7 @@ from torch.utils import dlpack as torch_dlpack
 
 import jax
 import jax.numpy as jnp
-from jax._src import ad_util
+from jax._src import ad_util, pjit
 from jax._src import core
 from jax._src import dlpack as jax_dlpack
 from jax._src.lax import lax
@@ -158,8 +158,19 @@ def _dot_general_torch_impl(
 
 
 @register_torch_impl(ad_util.stop_gradient_p)
-def _stop_gradient_torch_impl(ctx: Context, in_val: torch.Tensor):
+def _stop_gradient_torch_impl(ctx: Context, in_val: torch.Tensor) -> torch.Tensor:
   return in_val.detach()
+
+
+@register_torch_impl(pjit.pjit_p)
+def _pjit_torch_impl(
+    ctx: Context,
+    *in_vals: torch.Tensor,
+    jaxpr: core.ClosedJaxpr,
+    **params: Any,
+) -> Sequence[torch.Tensor]:
+  del params  # Unused.
+  return interpret_closed_jaxpr(jaxpr)(*in_vals)
 
 
 jax_to_torch_dtype = {
@@ -202,7 +213,7 @@ class Env:
 
 def interpret_closed_jaxpr(
     closed_jaxpr: core.ClosedJaxpr,
-) -> Callable[..., Sequence[Any]]:
+) -> Callable[..., Sequence[torch.Tensor]]:
   jaxpr = closed_jaxpr.jaxpr
   consts = closed_jaxpr.consts
 
@@ -262,8 +273,9 @@ if __name__ == "__main__":
   )
   q = jnp.ones((4, 2, 3, 5))
   params = attn.init(jax.random.key(1), q)
-  print(attn.apply(params, q))
-  closed_jaxpr = jax.make_jaxpr(attn.apply)(params, q)
+  fn = jax.jit(attn.apply)
+  print(fn(params, q))
+  closed_jaxpr = jax.make_jaxpr(fn)(params, q)
   p = closed_jaxpr_to_exir(closed_jaxpr, params, q)
 
   with open("/tmp/model.pte", "wb") as file:
