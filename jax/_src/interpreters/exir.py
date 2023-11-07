@@ -201,13 +201,12 @@ def _convert_element_type_torch_impl(ctx: Context, in_val, new_dtype, weak_type)
 def to_torch_tensor(x: ArrayLike) -> torch.Tensor:
   arr = jnp.asarray(x)
   if dtypes.issubdtype(arr.dtype, dtypes.prng_key):
-    return to_torch_tensor(jax.random.key_data(arr))
-  elif arr.dtype == jnp.uint16:
-    arr = arr.astype(jnp.int32)
-  elif arr.dtype == jnp.uint32:
-    arr = arr.astype(jnp.int64)
-  else:
-    assert arr.dtype != jnp.uint64
+    # TODO(slebedev): Find a way to support PRNG keys.
+    return torch.tensor(0xDEADC0DE)
+  elif not arr.shape:
+    # Let PyTorch choose the dtype for scalars.
+    # See https://github.com/pytorch/pytorch/issues/58734.
+    return torch.as_tensor(arr.item())
   t = torch_dlpack.from_dlpack(jax_dlpack.to_dlpack(arr))
   # ExecuTorch does not support 0-strided tensors.
   return t.contiguous()
