@@ -188,19 +188,14 @@ def _pallas_call_impl(*args, jaxpr, name, out_shapes, which_linear,
     if debug:
       print(discharged_jaxpr)
     out = _initialize_output_vals(out_shapes, args, input_output_aliases)
-    scalars, args = split_list(args, [grid_mapping.num_index_operands])  # type: ignore
+    scalars, constargs, args = split_list(args, [  # type: ignore
+        grid_mapping.num_index_operands, grid_mapping.num_constant_operands
+    ])
     # invars: [*scalar_prefetch, *inputs, *outputs, *scratch]
-    num_invars = len(jaxpr.invars)
-    num_inputs_outputs = (
-        num_invars
-        - grid_mapping.num_index_operands
-        - grid_mapping.num_scratch_operands
-    )
-    _, _, scratch_invars = split_list(
-        jaxpr.invars, [grid_mapping.num_index_operands, num_inputs_outputs]
-    )
-    scratch_avals = [v.aval for v in scratch_invars]
-    scratch_values = _initialize_scratch_vals(scratch_avals)
+    scratch_invars = jaxpr.invars[
+      len(jaxpr.invars)-grid_mapping.num_scratch_operands:
+    ]
+    scratch_values = _initialize_scratch_vals(v.aval for v in scratch_invars)
 
     carry = []
     for x, bm in zip(itertools.chain(args, out), grid_mapping.block_mappings):
@@ -259,7 +254,7 @@ def _pallas_call_impl(*args, jaxpr, name, out_shapes, which_linear,
       blocks = map(_maybe_dynamic_slice, start_indices, block_shapes, carry,
                    is_indexing_dim)
       with pallas_core.grid_env(local_grid_env):
-        assert len(discharged_jaxpr.invars) == len(scalars) + len(blocks) + len(
+        assert len(discharged_jaxpr.invars) == len(scalars) + len(constargs) + len(blocks) + len(
             scratch_values
         ), (
             len(discharged_jaxpr.invars),
@@ -267,7 +262,7 @@ def _pallas_call_impl(*args, jaxpr, name, out_shapes, which_linear,
             len(blocks),
             len(scratch_values),
         )
-        blocks = jax.core.eval_jaxpr(discharged_jaxpr, consts, *scalars,
+        blocks = jax.core.eval_jaxpr(discharged_jaxpr, consts, *scalars, *constargs,
                                      *blocks, *scratch)
       blocks = blocks[grid_mapping.num_index_operands:]
       blocks, out_scratch = split_list(blocks, [num_inout])
@@ -913,10 +908,7 @@ def _trace_to_jaxpr(fun: Callable, grid_spec: GridSpec, flat_in_avals,
     if consts:
       jaxpr = _hoist_consts_to_refs(jaxpr)
       # Pad ``block_mappings`` to account for the hoisted constants.
-      grid_mapping = grid_mapping.replace(
-          block_mappings=(*grid_mapping.block_mappings, *[None] * len(consts)),
-          num_constant_operands=len(consts),
-      )
+      grid_mapping = grid_mapping.replace(num_constant_operands=len(consts))
   return grid_mapping, jaxpr, consts, out_tree_thunk()
 
 def _extract_function_name(f: Callable, name: str | None) -> str:
