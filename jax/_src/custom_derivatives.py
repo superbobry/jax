@@ -19,6 +19,7 @@ import dataclasses
 from functools import update_wrapper, reduce, partial, wraps
 from typing import Any, Generic, TypeVar
 
+from jax._src import api_util
 from jax._src import config
 from jax._src import core
 from jax._src import custom_api_util
@@ -126,18 +127,28 @@ class custom_jvp(Generic[ReturnValue]):
 
   .. _tutorial: https://jax.readthedocs.io/en/latest/notebooks/Custom_derivative_rules_for_Python_code.html
   """
-  fun: Callable[..., ReturnValue]
-  nondiff_argnums: Sequence[int]
   jvp: Callable[..., tuple[ReturnValue, ReturnValue]] | None = None
   symbolic_zeros: bool = False
 
   def __init__(self,
                fun: Callable[..., ReturnValue],
+               *,
                nondiff_argnums: Sequence[int] = (),
-               ):
+               nondiff_argnames: Sequence[str] = ()) -> None:
+    if fun_signature := api_util.fun_signature(fun):
+      nondiff_argnums, nondiff_argnames = api_util.infer_argnums_and_argnames(
+          fun_signature, nondiff_argnums, nondiff_argnames
+      )
+    elif nondiff_argnames:
+      raise ValueError(
+          f"Cannot process ``nondiff_argnames``, because {fun} has no "
+          "signature. Use ``nondiff_argnums`` instead."
+      )
+
     update_wrapper(self, fun)
     self.fun = fun
     self.nondiff_argnums = nondiff_argnums
+    self.nondiff_argnames = nondiff_argnames
 
   __getattr__ = custom_api_util.forward_attr
 
@@ -476,16 +487,29 @@ class custom_vjp(Generic[ReturnValue]):
   .. _tutorial: https://jax.readthedocs.io/en/latest/notebooks/Custom_derivative_rules_for_Python_code.html
   """
 
+  fwd: Callable[..., tuple[ReturnValue, Any]] | None = None
+  bwd: Callable[..., tuple[Any, ...]] | None = None
+  symbolic_zeros = False
+  optimize_remat = False
+
   def __init__(self,
                fun: Callable[..., ReturnValue],
-               nondiff_argnums: Sequence[int] = ()):
+               nondiff_argnums: Sequence[int] = (),
+               nondiff_argnames: Sequence[str] = ()) -> None:
+    if fun_signature := api_util.fun_signature(fun):
+      nondiff_argnums, nondiff_argnames = api_util.infer_argnums_and_argnames(
+          fun_signature, nondiff_argnums, nondiff_argnames
+      )
+    elif nondiff_argnames:
+      raise ValueError(
+          f"Cannot process ``nondiff_argnames``, because {fun} has no "
+          "signature. Use ``nondiff_argnums`` instead."
+      )
+
     update_wrapper(self, fun)
     self.fun = fun
     self.nondiff_argnums = nondiff_argnums
-    self.fwd: Callable[..., tuple[ReturnValue, Any]] | None = None
-    self.bwd: Callable[..., tuple[Any, ...]] | None = None
-    self.symbolic_zeros = False
-    self.optimize_remat = False
+    self.nondiff_argnames = nondiff_argnames
 
   __getattr__ = custom_api_util.forward_attr
 
@@ -499,22 +523,22 @@ class custom_vjp(Generic[ReturnValue]):
 
     Args:
       fwd: a Python callable representing the forward pass of the custom VJP
-        rule. When there are no ``nondiff_argnums``, the ``fwd`` function has
-        the same input signature as the underlying primal function. It should
-        return as output a pair, where the first element represents the primal
-        output and the second element represents any "residual" values to store
-        from the forward pass for use on the backward pass by the function
-        ``bwd``. Input arguments and elements of the output pair may be arrays
-        or nested tuples/lists/dicts thereof.
+        rule. When there are no ``nondiff_argnums`` nor ``nondiff_argnames``,
+        the ``fwd`` function has the same input signature as the underlying
+        primal function. It should return as output a pair, where the first
+        element represents the primal output and the second element represents
+        any "residual" values to store from the forward pass for use on the
+        backward pass by the function ``bwd``. Input arguments and elements
+        of the output pair may be arrays or nested tuples/lists/dicts thereof.
       bwd: a Python callable representing the backward pass of the custom VJP
-        rule. When there are no ``nondiff_argnums``, the ``bwd`` function takes
-        two arguments, where the first is the "residual" values produced on the
-        forward pass by ``fwd``, and the second is the output cotangent with the
-        same structure as the primal function output. The output of ``bwd`` must
-        be a tuple of length equal to the number of arguments of the primal
-        function, and the tuple elements may be arrays or nested
-        tuples/lists/dicts thereof so as to match the structure of the primal
-        input arguments.
+        rule. When there are no ``nondiff_argnums`` nor ``nondiff_argnames``,
+        the ``bwd`` function takes two arguments, where the first is the
+        "residual" values produced on the forward pass by ``fwd``, and the
+        second is the output cotangent with the same structure as the primal
+        function output. The output of ``bwd`` must be a tuple of length equal
+        to the number of arguments of the primal function, and the tuple
+        elements may be arrays or nested tuples/lists/dicts thereof so as to
+        match the structure of the primal input arguments.
       symbolic_zeros: boolean, determining whether to indicate symbolic zeros
         to the ``fwd`` and ``bwd`` rules. Enabling this option allows custom
         derivative rules to detect when certain inputs, and when certain
@@ -596,11 +620,13 @@ class custom_vjp(Generic[ReturnValue]):
     else:
       fwd = self.fwd
     if config.enable_custom_vjp_by_custom_transpose.value:
-      if self.nondiff_argnums:
+      if self.nondiff_argnums or self.nondiff_argnames:
         raise NotImplementedError(
-            'nondiff_argnums not implemented for new custom_vjp')
+            "``nondiff_argnums`` and ``nondiff_argnames`` are not implemented"
+            " for new custom_vjp")
       return custom_vjp_by_custom_transpose(self.fun, self.fwd, self.bwd)(*args)
     else:
+      # DNS: update
       if self.nondiff_argnums:
         for i in self.nondiff_argnums: _check_for_tracers(args[i])
         nondiff_argnums = set(self.nondiff_argnums)
