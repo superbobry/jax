@@ -397,6 +397,50 @@ def _issubdtype_cached(a: type | np.dtype | ExtendedDType,
   # Otherwise, fall back to numpy.issubdtype
   return np.issubdtype(a_sctype, b_sctype)
 
+
+Casting = Literal['no', 'equiv', 'safe', 'same_kind', 'unsafe']
+
+
+def can_cast(
+    from_: Any,
+    to: DTypeLike,
+    casting: Casting | None = None,
+) -> bool:
+  """Returns True if cast between data types can occur.
+
+  This is a JAX version of :func:`numpy.can_cast`.
+
+  Args:
+    from_: the dtype, scalar, or array to cast from.
+    to: the dtyp to cast to.
+    casting: controls what kind of data casting may occur. The following
+      options are available:
+
+      - ``'no'``: data type should not be cast at all.
+      - ``'equiv'``: only byte order changes are allowed.
+      - ``'safe'``: only casts which can preserve values are allowed.
+      - ``'same_kind'``: only safe casts or casts within a kind, e.g.
+        ``float64`` to ``float32``, are allowed.
+      - ``'unsafe'``: any cast is allowed.
+
+      Defaults to ``'safe'``.
+  """
+  if casting is None:
+    casting = 'safe'
+  return _can_cast(dtype(from_), dtype(to), casting)
+
+
+def _can_cast(from_: DType, to: DType, casting: Casting) -> bool:
+  match casting:
+    case 'no':
+      return from_ == to
+    case 'equiv':
+      return from_.descr
+    case 'safe': ...
+    case 'same_kind': ...
+    case 'unsafe': ...
+
+
 can_cast = np.can_cast
 
 JAXType = Union[type, DType]
